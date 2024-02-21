@@ -1,0 +1,156 @@
+{
+  "title": "Elden Ring",
+  "platforms": {
+    "playstation5": {
+      "modes": [
+        {
+          "name": "Prioritize Quality",
+          "120hz": {
+            "off": {
+              "rt": {
+                "on": {
+                  "resolution": {
+                    "value": "2160",
+                    "dynamic": false,
+                    "checkerboard": false
+                  },
+                  "framerate": 30
+                },
+                "off": {
+                  "on": {
+                    "resolution": {
+                      "value": "2160",
+                      "dynamic": false,
+                      "checkerboard": false
+                    },
+                    "framerate": 30
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Prioritize Frame-Rate",
+          "120hz": {
+            "off": {
+              "rt": {
+                "off": {
+                  "on": {
+                    "resolution": {
+                      "value": "2160",
+                      "dynamic": true,
+                      "checkerboard": false
+                    },
+                    "framerate": 60
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "vrrOfficial": false,
+      "vrrForced": true,
+      "hdr": true
+    },
+    "seriesx": {
+      "modes": [
+        {
+          "name": "Prioritize Quality",
+          "120hz": {
+            "off": {
+              "rt": {
+                "on": {
+                  "resolution": {
+                    "value": "2160",
+                    "dynamic": false,
+                    "checkerboard": false
+                  },
+                  "framerate": 30
+                },
+                "off": {
+                  "on": {
+                    "resolution": {
+                      "value": "2160",
+                      "dynamic": false,
+                      "checkerboard": false
+                    },
+                    "framerate": 30
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Prioritize Frame-Rate",
+          "120hz": {
+            "off": {
+              "rt": {
+                "off": {
+                  "on": {
+                    "resolution": {
+                      "value": "2160",
+                      "dynamic": true,
+                      "checkerboard": false
+                    },
+                    "framerate": 60
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "vrrOfficial": false,
+      "vrrForced": true,
+      "hdr": true
+    },
+    "seriess": {
+      "modes": [
+        {
+          "name": "Prioritize Quality",
+          "120hz": {
+            "off": {
+              "rt": {
+                "off": {
+                  "on": {
+                    "resolution": {
+                      "value": "1440",
+                      "dynamic": false,
+                      "checkerboard": false
+                    },
+                    "framerate": 30
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Prioritize Frame-Rate",
+          "120hz": {
+            "off": {
+              "rt": {
+                "off": {
+                  "on": {
+                    "resolution": {
+                      "value": "2160",
+                      "dynamic": true,
+                      "checkerboard": false
+                    },
+                    "framerate": 60
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "vrrOfficial": false,
+      "vrrForced": true,
+      "hdr": true
+    }
+  }
+}
