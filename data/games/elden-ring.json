@@ -17,14 +17,12 @@
                   "framerate": 30
                 },
                 "off": {
-                  "on": {
-                    "resolution": {
-                      "value": "2160",
-                      "dynamic": false,
-                      "checkerboard": false
-                    },
-                    "framerate": 30
-                  }
+                  "resolution": {
+                    "value": "2160",
+                    "dynamic": false,
+                    "checkerboard": false
+                  },
+                  "framerate": 30
                 }
               }
             }
@@ -36,14 +34,12 @@
             "off": {
               "rt": {
                 "off": {
-                  "on": {
-                    "resolution": {
-                      "value": "2160",
-                      "dynamic": true,
-                      "checkerboard": false
-                    },
-                    "framerate": 60
-                  }
+                  "resolution": {
+                    "value": "2160",
+                    "dynamic": true,
+                    "checkerboard": false
+                  },
+                  "framerate": 60
                 }
               }
             }
@@ -115,14 +111,12 @@
             "off": {
               "rt": {
                 "off": {
-                  "on": {
-                    "resolution": {
-                      "value": "1440",
-                      "dynamic": false,
-                      "checkerboard": false
-                    },
-                    "framerate": 30
-                  }
+                  "resolution": {
+                    "value": "1440",
+                    "dynamic": false,
+                    "checkerboard": false
+                  },
+                  "framerate": 30
                 }
               }
             }
@@ -134,14 +128,12 @@
             "off": {
               "rt": {
                 "off": {
-                  "on": {
-                    "resolution": {
-                      "value": "2160",
-                      "dynamic": true,
-                      "checkerboard": false
-                    },
-                    "framerate": 60
-                  }
+                  "resolution": {
+                    "value": "1440",
+                    "dynamic": true,
+                    "checkerboard": false
+                  },
+                  "framerate": 60
                 }
               }
             }
