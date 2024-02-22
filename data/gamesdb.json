@@ -1,0 +1,36 @@
+[
+  {
+    "title": "God of War Ragnarök",
+    "settings": [
+      {
+        "name": "Graphics Mode",
+        "options": ["Favour Performance", "Favour Quality"]
+      },
+      {
+        "name": "High Frame Rate Mode",
+        "options": ["on", "off"]
+      }
+    ],
+    "performanceRecord": [
+      {
+        "performanceContext": {
+          "platform": 2,
+          "settings": [
+            "Favour Performance"
+          ]
+        },
+        "fps": {
+          "target": 60,
+          "vrr": false,
+          "note": "small paragraph"
+        },
+        "resolution": {
+          "target": "4k",
+          "dynamic": true,
+          "checkerboard": false,
+          "note": "small paragraph"
+        }
+      }
+    ]
+  }
+]
