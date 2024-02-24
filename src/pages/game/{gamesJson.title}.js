@@ -1,19 +1,10 @@
 import * as React from "react"
 import { Link, useStaticQuery, graphql } from "gatsby"
+import GameLayout from "../../components/game-layout"
 
-function GamePage({ params, data, pageContext }) {
-  console.log(data.allGamesJson.nodes)
+function GamePage({ data }) {
   return (
-    <div className="wrapper">
-      <header>
-        <Link to="/">Go back to "Home"</Link>
-      </header>
-      <main>
-        <p>
-          poop
-        </p>
-      </main>
-    </div>
+    <GameLayout data={data} />
   )
 }
 
@@ -23,22 +14,16 @@ export const query = graphql`
 query ($id: String) {
   allGamesJson(filter: {id: {eq: $id}}) {
     nodes {
-      performanceRecord {
-        fps {
-          raw
-        }
-        performanceContext {
-          settings {
-            performance
-          }
-          platform
-        }
-        resolution {
-          raw
+      imageCover {
+        childImageSharp {
+          gatsbyImageData
         }
       }
-      id
-      title
+      imageBackground {
+        childImageSharp {
+          gatsbyImageData
+        }
+      }
     }
   }
 }
