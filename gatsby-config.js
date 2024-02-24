@@ -7,25 +7,24 @@ module.exports = {
     siteUrl: `https://www.yourdomain.tld`
   },
   plugins: [
-    "gatsby-plugin-image",
-    "gatsby-plugin-sharp",
-    "gatsby-transformer-sharp",
+    `gatsby-plugin-image`,
+    `gatsby-plugin-sharp`,
+    `gatsby-transformer-sharp`,
     `gatsby-transformer-json`,
     `gatsby-plugin-sitemap`,
     {
-      resolve: 'gatsby-source-filesystem',
+      resolve: `gatsby-source-filesystem`,
       options: {
-        "name": "images",
-        "path": "./src/images/"
-      },
-      __key: "images"
+        name: "images",
+        path: "./src/images/"
+      }
     },
     {
-      resolve: 'gatsby-source-filesystem',
+      resolve: `gatsby-source-filesystem`,
       options: {
-        path: `./data/games`,
-        name: `games`
+        name: `games`,
+        path: `./data/games`
       }
     }
   ]
-};
+}
