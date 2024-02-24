@@ -13,19 +13,18 @@ module.exports = {
     `gatsby-transformer-json`,
     `gatsby-plugin-sitemap`,
     {
-      resolve: 'gatsby-source-filesystem',
+      resolve: `gatsby-source-filesystem`,
       options: {
-        "name": "images",
-        "path": "./src/images/"
-      },
-      __key: "images"
+        name: "images",
+        path: "./src/images/"
+      }
     },
     {
-      resolve: 'gatsby-source-filesystem',
+      resolve: `gatsby-source-filesystem`,
       options: {
-        path: `${__dirname}/data/`,
-        name: `data`
+        name: `games`,
+        path: `./data/games`
       }
     }
   ]
-};
+}
