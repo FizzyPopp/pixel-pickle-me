@@ -32,6 +32,19 @@ module.exports = {
         name: `data`,
         path: `./data/`
       }
-    }
+    },
+    {
+      resolve: `gatsby-omni-font-loader`,
+      options: {
+        enableListener: true,
+        preconnect: [`https://fonts.googleapis.com`, `https://fonts.gstatic.com`],
+        web: [
+          {
+            name: `Inter`,
+            file: `https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap`,
+          },
+        ],
+      },
+    },
   ]
 }
