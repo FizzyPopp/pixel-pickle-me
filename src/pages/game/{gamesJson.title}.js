@@ -28,6 +28,32 @@ query ($id: String) {
         }
       }
       title
+      id
+      performanceRecordList {
+        context {
+          inGameSettingsSet {
+            name
+            setOption
+          }
+          platform
+          rt
+        }
+        fps {
+          note
+          target
+        }
+        resolution {
+          checkerboard
+          dynamic
+          note
+          target
+        }
+      }
+      platforms
+      inGameSettingsAvailable {
+        name
+        options
+      }
     }
   }
 }
