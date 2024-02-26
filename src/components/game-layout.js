@@ -5,8 +5,8 @@ const GameLayout = ({ data }) => {
   return (
     <main>
       <GameHeader 
-      imageCover={data.allGamesJson.nodes[0].imageCover} 
-      imageBackground={data.allGamesJson.nodes[0].imageBackground}/>
+      cover={data.allGamesJson.nodes[0].image.cover} 
+      background={data.allGamesJson.nodes[0].image.background}/>
       <h1>The Layout</h1>
     </main>
   )
