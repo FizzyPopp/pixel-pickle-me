@@ -25,6 +25,13 @@ module.exports = {
         name: `games`,
         path: `./data/games`
       }
+    },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `data`,
+        path: `./data/`
+      }
     }
   ]
 }

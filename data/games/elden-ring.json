@@ -1,5 +1,169 @@
-{
-  "title": "Elden Ring",
-  "imageCover": "../../src/images/covers/cover-elden-ring.jpg",
-  "imageBackground": "../../src/images/backgrounds/background-elden-ring.jpg"
-}
+  {
+    "title": "Elden Ring",
+    "platforms": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "image": {
+      "cover": "../../src/images/covers/cover-elden-ring.jpg",
+      "background": "../../src/images/backgrounds/background-elden-ring.jpg"
+    },
+    "inGameSettingsAvailable": [
+      {
+        "name": "Graphics Mode",
+        "options": [
+          "Prioritize Quality",
+          "Prioritize Frame-Rate"
+        ]
+      },
+      {
+        "name": "Ray Tracing",
+        "options": [
+          "on",
+          "off"
+        ]
+      }
+    ],
+    "performanceRecordList": [
+      {
+        "context": {
+          "platform": 2,
+          "rt": false,
+          "inGameSettingsSet": [
+            {
+              "name": "Graphics Mode",
+              "setOption": "Prioritize Quality"
+            },
+            {
+              "name": "Ray Tracing",
+              "setOption": "off"
+            }
+          ]
+        },
+        "fps": {
+          "target": 30
+        },
+        "resolution": {
+          "target": 2160,
+          "dynamic": false,
+          "checkerboard": false
+        }
+      },
+      {
+        "context": {
+          "platform": 2,
+          "rt": true,
+          "inGameSettingsSet": [
+            {
+              "name": "Graphics Mode",
+              "setOption": "Prioritize Quality"
+            },
+            {
+              "name": "Ray Tracing",
+              "setOption": "on"
+            }
+          ]
+        },
+        "fps": {
+          "target": 30
+        },
+        "resolution": {
+          "target": 2160,
+          "dynamic": false,
+          "checkerboard": false
+        }
+      },
+      {
+        "context": {
+          "platform": 2,
+          "rt": false,
+          "inGameSettingsSet": [
+            {
+              "name": "Graphics Mode",
+              "setOption": "Prioritize Frame-Rate"
+            }
+          ]
+        },
+        "fps": {
+          "target": 60
+        },
+        "resolution": {
+          "target": 2160,
+          "dynamic": true,
+          "checkerboard": false
+        }
+      },
+      {
+        "context": {
+          "platform": 4,
+          "rt": false,
+          "inGameSettingsSet": [
+            {
+              "name": "Graphics Mode",
+              "setOption": "Prioritize Quality"
+            },
+            {
+              "name": "Ray Tracing",
+              "setOption": "off"
+            }
+          ]
+        },
+        "fps": {
+          "target": 30
+        },
+        "resolution": {
+          "target": 2160,
+          "dynamic": false,
+          "checkerboard": false
+        }
+      },
+      {
+        "context": {
+          "platform": 4,
+          "rt": true,
+          "inGameSettingsSet": [
+            {
+              "name": "Graphics Mode",
+              "setOption": "Prioritize Quality"
+            },
+            {
+              "name": "Ray Tracing",
+              "setOption": "on"
+            }
+          ]
+        },
+        "fps": {
+          "target": 30
+        },
+        "resolution": {
+          "target": 2160,
+          "dynamic": false,
+          "checkerboard": false
+        }
+      },
+      {
+        "context": {
+          "platform": 4,
+          "rt": false,
+          "inGameSettingsSet": [
+            {
+              "name": "Graphics Mode",
+              "setOption": "Prioritize Frame-Rate"
+            }
+          ]
+        },
+        "fps": {
+          "target": 60,
+          "note": "small paragraph"
+        },
+        "resolution": {
+          "target": 2160,
+          "dynamic": true,
+          "checkerboard": false,
+          "note": "small paragraph"
+        }
+      }
+    ]
+  }

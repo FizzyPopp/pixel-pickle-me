@@ -14,16 +14,19 @@ export const query = graphql`
 query ($id: String) {
   allGamesJson(filter: {id: {eq: $id}}) {
     nodes {
-      imageCover {
-        childImageSharp {
-          gatsbyImageData
+      image {
+        background {
+          childImageSharp {
+            gatsbyImageData
+          }
+        }
+        cover {
+          childImageSharp {
+            gatsbyImageData
+          }
         }
       }
-      imageBackground {
-        childImageSharp {
-          gatsbyImageData
-        }
-      }
+      title
     }
   }
 }
