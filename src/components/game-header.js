@@ -1,6 +1,11 @@
-import { GatsbyImage, getImage } from 'gatsby-plugin-image'
 import * as React from 'react'
+import * as Logos from './logos'
+
 import * as Style from './game-header.module.css'
+
+import { FaBeer } from 'react-icons/fa';
+
+import { GatsbyImage, getImage } from 'gatsby-plugin-image'
 
 const GameHeader = ({ cover, background }) => {
   const imageCover = getImage(cover)
@@ -18,7 +23,12 @@ const GameHeader = ({ cover, background }) => {
             <div className={Style.gameDate}>Released Feb 24, 2022</div>
             <div className={Style.gameTitle}>Elden Ring</div>
           </div>
-          <div className={Style.availabilityContainer}>Available on</div>
+          <div className={Style.availabilityContainer}>
+            Available on
+            <FaBeer />
+            <Logos.Psfive />
+            <Logos.Seriesxs />
+            </div>
         </div>
       </div>
     </header>
