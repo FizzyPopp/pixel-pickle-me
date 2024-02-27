@@ -1,7 +1,7 @@
-import * as React from 'react'
-import * as Style from './game-header.module.css'
+import * as React from "react"
+import * as Style from "./game-header.module.css"
 
-import { GatsbyImage, getImage } from 'gatsby-plugin-image'
+import { GatsbyImage, getImage } from "gatsby-plugin-image"
 
 import { IoLogoPlaystation, IoLogoXbox } from "react-icons/io5";
 
