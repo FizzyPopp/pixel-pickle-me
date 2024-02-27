@@ -1,11 +1,9 @@
 import * as React from 'react'
-import * as Logos from './logos'
-
 import * as Style from './game-header.module.css'
 
-import { FaBeer } from 'react-icons/fa';
-
 import { GatsbyImage, getImage } from 'gatsby-plugin-image'
+
+import { IoLogoPlaystation, IoLogoXbox } from "react-icons/io5";
 
 const GameHeader = ({ cover, background }) => {
   const imageCover = getImage(cover)
@@ -25,10 +23,11 @@ const GameHeader = ({ cover, background }) => {
           </div>
           <div className={Style.availabilityContainer}>
             Available on
-            <FaBeer />
-            <Logos.Psfive />
-            <Logos.Seriesxs />
+            <div className={Style.availabilityIconsContainer}>
+              <IoLogoPlaystation size={24}/>
+              <IoLogoXbox size={22}/>
             </div>
+          </div>
         </div>
       </div>
     </header>
