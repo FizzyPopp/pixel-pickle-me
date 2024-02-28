@@ -13,14 +13,14 @@ export function PsFive({ size=64 }) {
 
 export function SeriesX({ size=64 }) {
   return <img 
-  src={logoSeriesX} 
-  alt="Series X logo"
-  height={size} />
+    src={logoSeriesX} 
+    alt="Series X logo"
+    height={size} />
 }
 
 export function SeriesS({ size=64 }) {
   return <img 
-  src={logoSeriesS} 
-  alt="Series S logo"
-  height={size} />
+    src={logoSeriesS} 
+    alt="Series S logo"
+    height={size} />
 }
