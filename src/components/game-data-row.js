@@ -1,15 +1,9 @@
 import * as React from "react"
 import * as Style from "./game-data-row.module.css"
 
-import GameDataCard from "./game-data-card"
-
 const GameDataRow = ({ children, title, isDivided=false, height }) => {
   const items = children.map((item) => 
-    item.card
-    ?
-    <GameDataCard key={item.id}> {item.content} </GameDataCard>
-    :
-    <div key={item.id} className={Style.gameDataContainer}> {item.content} </div>
+    <div key={item.id} className={Style.gameDataContainer}>{item.content}</div>
   )
 
   let dividers = [];

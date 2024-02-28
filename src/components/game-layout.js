@@ -4,6 +4,7 @@ import * as Logos from "./logos"
 
 import GameHeader from "./game-header"
 import GameDataRow from "./game-data-row"
+import GameDataCard from "./game-data-card"
 
 const GameLayout = ({ data }) => {
   const platforms = [
@@ -27,18 +28,15 @@ const GameLayout = ({ data }) => {
   const cards = [
     {
       id: 0,
-      content: <div>Card One</div>,
-      card: true
+      content: <GameDataCard/>,
     },
     {
       id: 1,
-      content: <div>Card Two</div>,
-      card: true
+      content: <GameDataCard/>
     },
     {
       id: 2,
-      content: <div>Card Three</div>,
-      card: true
+      content: <GameDataCard/>,
     }
   ]
 
