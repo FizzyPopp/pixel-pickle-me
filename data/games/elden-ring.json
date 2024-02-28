@@ -10,7 +10,7 @@
       "cover": "../../src/images/covers/cover-elden-ring.jpg",
       "background": "../../src/images/backgrounds/background-elden-ring.jpg"
     },
-    "inGameSettingsAvailable": [
+    "gfxOptions": [
       {
         "name": "Graphics Mode",
         "options": [
@@ -31,7 +31,7 @@
         "context": {
           "platform": 2,
           "rt": false,
-          "inGameSettingsSet": [
+          "gfxOptionsSet": [
             {
               "name": "Graphics Mode",
               "setOption": "Prioritize Quality"
@@ -55,7 +55,7 @@
         "context": {
           "platform": 2,
           "rt": true,
-          "inGameSettingsSet": [
+          "gfxOptionsSet": [
             {
               "name": "Graphics Mode",
               "setOption": "Prioritize Quality"
@@ -79,7 +79,7 @@
         "context": {
           "platform": 2,
           "rt": false,
-          "inGameSettingsSet": [
+          "gfxOptionsSet": [
             {
               "name": "Graphics Mode",
               "setOption": "Prioritize Frame-Rate"
@@ -99,7 +99,7 @@
         "context": {
           "platform": 4,
           "rt": false,
-          "inGameSettingsSet": [
+          "gfxOptionsSet": [
             {
               "name": "Graphics Mode",
               "setOption": "Prioritize Quality"
@@ -123,7 +123,7 @@
         "context": {
           "platform": 4,
           "rt": true,
-          "inGameSettingsSet": [
+          "gfxOptionsSet": [
             {
               "name": "Graphics Mode",
               "setOption": "Prioritize Quality"
@@ -147,7 +147,7 @@
         "context": {
           "platform": 4,
           "rt": false,
-          "inGameSettingsSet": [
+          "gfxOptionsSet": [
             {
               "name": "Graphics Mode",
               "setOption": "Prioritize Frame-Rate"
