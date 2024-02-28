@@ -4,14 +4,13 @@ import * as Logos from "./logos"
 
 import GameHeader from "./game-header"
 import GameDataRow from "./game-data-row"
-import GameDataCard from "./game-data-card"
 
 const GameLayout = ({ data }) => {
   const cards = [
     {
       id: 0,
       content: <div>Card One</div>,
-      card: true
+      card: false
     },
     {
       id: 1,
@@ -22,7 +21,7 @@ const GameLayout = ({ data }) => {
       id: 2,
       content: <div>Cardless Three</div>,
       card: false
-    },
+    }
   ]
 
   return (
@@ -36,7 +35,7 @@ const GameLayout = ({ data }) => {
           <Logos.SeriesX/>
           <Logos.SeriesS/>
         </div>
-        <GameDataRow array={cards} />
+        <GameDataRow children={cards} isDivided={false} />
       </div>
     </main>
   )
