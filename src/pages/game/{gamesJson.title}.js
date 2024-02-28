@@ -1,7 +1,9 @@
 import * as React from "react"
 import { Link, useStaticQuery, graphql } from "gatsby"
-import GameLayout from "../../components/game-layout"
+
 import "../../styles/common.css"
+
+import GameLayout from "../../components/game-layout"
 
 function GamePage({ data }) {
   return (
@@ -31,7 +33,7 @@ query ($id: String) {
       id
       performanceRecordList {
         context {
-          inGameSettingsSet {
+          gfxOptionsSet {
             name
             setOption
           }
@@ -50,7 +52,7 @@ query ($id: String) {
         }
       }
       platforms
-      inGameSettingsAvailable {
+      gfxOptions {
         name
         options
       }
