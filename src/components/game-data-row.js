@@ -15,7 +15,7 @@ const GameDataRow = ({ children, title, isDivided=false, height }) => {
   let dividers = [];
 
   if (isDivided) {
-    for (let i = 0; i < title.length - 1; i++) {
+    for (let i = 0; i < children.length - 1; i++) {
       dividers.push(<div key={i} className={Style.divider}/>)
     }
 
