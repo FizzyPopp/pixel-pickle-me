@@ -6,11 +6,29 @@ import GameHeader from "./game-header"
 import GameDataRow from "./game-data-row"
 
 const GameLayout = ({ data }) => {
+  const platforms = [
+    {
+      id: 0,
+      content: <Logos.PsFive/>,
+      card: false
+    },
+    {
+      id: 1,
+      content: <Logos.SeriesX/>,
+      card: false
+    },
+    {
+      id: 2,
+      content: <Logos.SeriesS/>,
+      card: false
+    }
+  ]
+
   const cards = [
     {
       id: 0,
       content: <div>Card One</div>,
-      card: false
+      card: true
     },
     {
       id: 1,
@@ -19,8 +37,8 @@ const GameLayout = ({ data }) => {
     },
     {
       id: 2,
-      content: <div>Cardless Three</div>,
-      card: false
+      content: <div>Card Three</div>,
+      card: true
     }
   ]
 
@@ -30,11 +48,9 @@ const GameLayout = ({ data }) => {
       cover={data.allGamesJson.nodes[0].image.cover} 
       background={data.allGamesJson.nodes[0].image.background}/>
       <div className={Style.gameLayout}> {/* Game Data Section */}
-        <div> {/* Logo row */}
-          <Logos.PsFive/>
-          <Logos.SeriesX/>
-          <Logos.SeriesS/>
-        </div>
+        <GameDataRow children={platforms} isDivided={true} /> 
+        <br/>
+        <br/>
         <GameDataRow children={cards} isDivided={false} />
       </div>
     </main>
