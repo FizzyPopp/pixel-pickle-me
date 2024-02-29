@@ -1,9 +1,6 @@
 .game-data-card {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
   height: 120px;
   width: 120px;
   border-radius: 8px;
@@ -11,4 +8,22 @@
   background-color: #fff;
   text-align: center;
   font-size: 0.75rem;
+  overflow: hidden;
+}
+
+.game-data-card-main {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.game-data-card-banner {
+  justify-self: start;
+  color: #fff;
+  background-color: #272727;
+  font-size: 0.625rem;
+  padding: 4px 0;
 }

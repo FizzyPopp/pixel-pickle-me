@@ -28,15 +28,53 @@ const GameLayout = ({ data }) => {
   const cards = [
     {
       id: 0,
-      content: <GameDataCard/>,
+      content: <GameDataCard
+      resolutionData={
+        {
+          value: 9000,
+          type: "dynamic"
+        }
+      }
+      fpsData={
+        {
+          value: 30,
+          type: "unlocked"
+        }
+      }
+      rayTracing={true} />,
     },
     {
       id: 1,
-      content: <GameDataCard/>
+      content: <GameDataCard
+      resolutionData={
+        {
+          value: 9000,
+          type: "dynamic"
+        }
+      }
+      fpsData={
+        {
+          value: 30,
+          type: "unlocked",
+        }
+      }
+      rayTracing={true} />
     },
     {
       id: 2,
-      content: <GameDataCard/>,
+      content: <GameDataCard
+      resolutionData={
+        {
+          value: 9000,
+          type: "dynamic"
+        }
+      }
+      fpsData={
+        {
+          value: 30,
+          type: "unlocked"
+        }
+      } />,
     }
   ]
 
