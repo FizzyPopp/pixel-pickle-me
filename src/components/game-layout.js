@@ -81,8 +81,8 @@ const GameLayout = ({ data }) => {
   return (
     <main>
       <GameHeader 
-      cover={data.allGamesJson.nodes[0].image.cover} 
-      background={data.allGamesJson.nodes[0].image.background}/>
+      cover={data.image.cover}
+      background={data.image.background}/>
       <div className={Style.gameLayout}> {/* Game Data Section */}
         <GameDataRow children={platforms} isDivided={true} /> 
         <br/>
@@ -92,7 +92,5 @@ const GameLayout = ({ data }) => {
     </main>
   )
 }
-
-export const Head = () => <title>Game Page</title>
 
 export default GameLayout
