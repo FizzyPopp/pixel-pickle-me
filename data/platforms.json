@@ -5,12 +5,12 @@
       "logo": "../src/images/logos/logo-psfive.svg"
     },
     {
-      "name": "Xbox Series S",
-      "logo": "../src/images/logos/logo-seriess.svg"
-    },
-    {
       "name": "Xbox Series X",
       "logo": "../src/images/logos/logo-seriesx.svg"
+    },
+    {
+      "name": "Xbox Series S",
+      "logo": "../src/images/logos/logo-seriess.svg"
     }
   ]
 }
