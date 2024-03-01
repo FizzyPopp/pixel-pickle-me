@@ -1,10 +1,10 @@
 import * as React from "react"
 import * as Style from "./game-layout.module.css"
-import * as Logos from "./logos"
 
 import GameHeader from "./game-header"
 import GameDataRow from "./game-data-row"
 import GameDataCard from "./game-data-card"
+
 import { usePlatformMetadata } from "../hooks/use-platform-metadata"
 
 
