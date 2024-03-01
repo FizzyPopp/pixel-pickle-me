@@ -29,7 +29,7 @@
     "performanceRecordList": [
       {
         "context": {
-          "platform": 2,
+          "platform": 0,
           "rt": false,
           "gfxOptionsSet": [
             {
@@ -43,7 +43,8 @@
           ]
         },
         "fps": {
-          "target": 30
+          "target": 30,
+          "isUnlocked": true
         },
         "resolution": {
           "target": 2160,
@@ -53,7 +54,7 @@
       },
       {
         "context": {
-          "platform": 2,
+          "platform": 0,
           "rt": true,
           "gfxOptionsSet": [
             {
@@ -67,7 +68,8 @@
           ]
         },
         "fps": {
-          "target": 30
+          "target": 30,
+          "isUnlocked": true
         },
         "resolution": {
           "target": 2160,
@@ -77,75 +79,7 @@
       },
       {
         "context": {
-          "platform": 2,
-          "rt": false,
-          "gfxOptionsSet": [
-            {
-              "name": "Graphics Mode",
-              "setOption": "Prioritize Frame-Rate"
-            }
-          ]
-        },
-        "fps": {
-          "target": 60
-        },
-        "resolution": {
-          "target": 2160,
-          "dynamic": true,
-          "checkerboard": false
-        }
-      },
-      {
-        "context": {
-          "platform": 4,
-          "rt": false,
-          "gfxOptionsSet": [
-            {
-              "name": "Graphics Mode",
-              "setOption": "Prioritize Quality"
-            },
-            {
-              "name": "Ray Tracing",
-              "setOption": "off"
-            }
-          ]
-        },
-        "fps": {
-          "target": 30
-        },
-        "resolution": {
-          "target": 2160,
-          "dynamic": false,
-          "checkerboard": false
-        }
-      },
-      {
-        "context": {
-          "platform": 4,
-          "rt": true,
-          "gfxOptionsSet": [
-            {
-              "name": "Graphics Mode",
-              "setOption": "Prioritize Quality"
-            },
-            {
-              "name": "Ray Tracing",
-              "setOption": "on"
-            }
-          ]
-        },
-        "fps": {
-          "target": 30
-        },
-        "resolution": {
-          "target": 2160,
-          "dynamic": false,
-          "checkerboard": false
-        }
-      },
-      {
-        "context": {
-          "platform": 4,
+          "platform": 0,
           "rt": false,
           "gfxOptionsSet": [
             {
@@ -156,11 +90,131 @@
         },
         "fps": {
           "target": 60,
+          "isUnlocked": true
+        },
+        "resolution": {
+          "target": 2160,
+          "dynamic": true,
+          "checkerboard": false
+        }
+      },
+      {
+        "context": {
+          "platform": 1,
+          "rt": false,
+          "gfxOptionsSet": [
+            {
+              "name": "Graphics Mode",
+              "setOption": "Prioritize Quality"
+            },
+            {
+              "name": "Ray Tracing",
+              "setOption": "off"
+            }
+          ]
+        },
+        "fps": {
+          "target": 30,
+          "isUnlocked": true
+        },
+        "resolution": {
+          "target": 2160,
+          "dynamic": false,
+          "checkerboard": false
+        }
+      },
+      {
+        "context": {
+          "platform": 1,
+          "rt": true,
+          "gfxOptionsSet": [
+            {
+              "name": "Graphics Mode",
+              "setOption": "Prioritize Quality"
+            },
+            {
+              "name": "Ray Tracing",
+              "setOption": "on"
+            }
+          ]
+        },
+        "fps": {
+          "target": 30,
+          "isUnlocked": true
+        },
+        "resolution": {
+          "target": 2160,
+          "dynamic": false,
+          "checkerboard": false
+        }
+      },
+      {
+        "context": {
+          "platform": 1,
+          "rt": false,
+          "gfxOptionsSet": [
+            {
+              "name": "Graphics Mode",
+              "setOption": "Prioritize Frame-Rate"
+            }
+          ]
+        },
+        "fps": {
+          "target": 60,
+          "isUnlocked": true,
           "note": "small paragraph"
         },
         "resolution": {
           "target": 2160,
           "dynamic": true,
+          "checkerboard": false,
+          "note": "small paragraph"
+        }
+      },
+      {
+        "context": {
+          "platform": 2,
+          "rt": false,
+          "gfxOptionsSet": [
+            {
+              "name": "Graphics Mode",
+              "setOption": "Prioritize Quality"
+            },
+            {
+              "name": "Ray Tracing",
+              "setOption": "off"
+            }
+          ]
+        },
+        "fps": {
+          "target": 30,
+          "isUnlocked": true
+        },
+        "resolution": {
+          "target": 1440,
+          "dynamic": true,
+          "checkerboard": false
+        }
+      },
+      {
+        "context": {
+          "platform": 2,
+          "rt": false,
+          "gfxOptionsSet": [
+            {
+              "name": "Graphics Mode",
+              "setOption": "Prioritize Frame-Rate"
+            }
+          ]
+        },
+        "fps": {
+          "target": 30,
+          "isUnlocked": true,
+          "note": "small paragraph"
+        },
+        "resolution": {
+          "target": 1440,
+          "dynamic": false,
           "checkerboard": false,
           "note": "small paragraph"
         }

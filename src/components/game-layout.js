@@ -9,8 +9,6 @@ import { usePlatformMetadata } from "../hooks/use-platform-metadata"
 
 
 const GameLayout = ({ data }) => {
-  console.log(`poop`)
-  console.log(data)
 
   const platforms = usePlatformMetadata().map((node) => {
     return {
@@ -77,6 +75,15 @@ const GameLayout = ({ data }) => {
     }
   ]
 
+  const majorGroups = data.performanceRecordTree.map((branch) => {return (
+    <section>
+      <h2>
+        {branch.title}
+      </h2>
+    {branch.list.map((subBranch) => rowFromData(subBranch))}
+    </section>)
+  })
+
   return (
     <main>
       <GameHeader 
@@ -85,14 +92,46 @@ const GameLayout = ({ data }) => {
       <div className={Style.gameLayout}> {/* Game Data Section */}
         <GameDataRow children={platforms} isDivided={true} />
         <br/>
+        {majorGroups}
         <br/>
-        <GameDataRow 
-          title={"Ray-Tracing Off"}
-          children={cards} 
-          isDivided={false} />
       </div>
     </main>
   )
 }
 
 export default GameLayout
+
+function rowFromData(rowData) {
+  let idx = 0
+  const childCards = rowData.list.map((record) => {
+    return {
+      id: idx++,
+      content: cardFromRecord(record)
+    }
+  })
+
+  return (
+    <section>
+      {rowData.title !== "" ? <h3>{rowData.title}</h3> : ''}
+      <GameDataRow children={childCards} />
+    </section>
+  )
+}
+
+function cardFromRecord(record) {
+  return (<GameDataCard
+    resolutionData={
+      {
+        value: record.resolutionData.target,
+        type: record.resolutionData.dynamic ? "dynamic" : "full"
+      }
+    }
+    fpsData={
+      {
+        value: record.fpsData.target,
+        type: record.fpsData.isUnlocked ? "unlocked" : "fixed"
+      }
+    }
+    rayTracing={record.isRayTraced}
+  />)
+}

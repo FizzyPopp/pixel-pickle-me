@@ -48,6 +48,7 @@ query ($id: String) {
         }
         fps {
           note
+          isUnlocked
           target
         }
         resolution {
