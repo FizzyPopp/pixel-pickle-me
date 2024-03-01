@@ -8,7 +8,7 @@ const GameDataCard = ({ resolutionData, fpsData, rayTracing=false }) => {
       <Banner rayTracing={rayTracing} />
       <div className={Style.gameDataCardMain}>
         <div>
-          <b>{resolutionData.value}</b><br />
+          <b>{resolutionData.value}p</b><br />
           {resolutionData.type}
         </div>
         <div>
