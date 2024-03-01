@@ -6,11 +6,24 @@ export const usePlatformMetadata = () => {
       query PlatformMetadata {
         allDataJson {
           nodes {
-            PlatformEnum
+            PlatformEnum {
+              logo {
+                publicURL
+              }
+              name
+            }
           }
         }
       }
     `
   )
-  return allDataJson.nodes[0]
+  const PlatformEnum = allDataJson.nodes[0].PlatformEnum
+  let idCount = 0
+  return PlatformEnum.map((node) => {
+    return{
+      id: idCount++,
+      name: node.name,
+      url: node.logo.publicURL,
+    }
+  })
 }
