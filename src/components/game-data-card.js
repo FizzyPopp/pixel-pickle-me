@@ -2,15 +2,6 @@ import * as React from "react"
 
 import * as Style from "./game-data-card.module.css"
 
-function Banner({ rayTracing }) {
-  if (rayTracing) {
-    return <div className={Style.gameDataCardBanner}>
-      Ray-Tracing
-    </div>
-  }
-  return
-}
-
 const GameDataCard = ({ resolutionData, fpsData, rayTracing=false }) => {
   return (
     <div className={Style.gameDataCard}>
@@ -27,6 +18,15 @@ const GameDataCard = ({ resolutionData, fpsData, rayTracing=false }) => {
       </div>
     </div>
   )
+}
+
+function Banner({ rayTracing }) {
+  if (rayTracing) {
+    return <div className={Style.gameDataCardBanner}>
+      Ray-Tracing
+    </div>
+  }
+  return
 }
 
 export default GameDataCard
