@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from "react"
 
 import logoPsFive from "../images/logos/logo-psfive.svg"
 import logoSeriesX from "../images/logos/logo-seriesx.svg"
