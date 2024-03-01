@@ -10,6 +10,8 @@ function GamePage({ data }) {
   const parsedDataTree = generateDataTree(gameData.performanceRecordList, gameData.gfxOptions)
   gameData.performanceRecordTree = parsedDataTree
   delete gameData.performanceRecordList
+
+  console.log(gameData)
   return (
     <GameLayout data={gameData} />
   )
@@ -135,7 +137,7 @@ function generateDataTree(r, gfxOptions) {
         list: matchedRecords.map((record) => {
           return {
             platform: record.context.platform,
-            raytracing: record.context.rt,
+            isRayTraced: record.context.rt,
             fpsData: record.fps,
             resolutionData: record.resolution
           }})
