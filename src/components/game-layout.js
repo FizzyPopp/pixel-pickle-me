@@ -87,7 +87,10 @@ const GameLayout = ({ data }) => {
         <GameDataRow children={platforms} isDivided={true} /> 
         <br/>
         <br/>
-        <GameDataRow children={cards} isDivided={false} />
+        <GameDataRow 
+          title={"Ray-Tracing Off"}
+          children={cards} 
+          isDivided={false} />
       </div>
     </main>
   )

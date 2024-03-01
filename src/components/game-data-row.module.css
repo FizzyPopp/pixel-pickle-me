@@ -1,3 +1,8 @@
+h3 {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
 .game-data-row {
   position: relative;
   display: flex;
@@ -6,7 +11,7 @@
   gap: 16px;
 }
 
-.game-data-container {
+.game-data-content {
   display: flex;
   flex-direction: column;
   align-items: center;

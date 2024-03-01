@@ -1,50 +1,58 @@
 import * as React from "react"
+
 import * as Style from "./game-data-row.module.css"
 
 const GameDataRow = ({ children, title, isDivided=false, height }) => {
   const items = children.map((item) => 
-    <div key={item.id} className={Style.gameDataContainer}>{item.content}</div>
+    <div key={item.id} className={Style.gameDataContent}>{item.content}</div>
   )
 
-  let dividers = [];
+  return (
+    <div>
+      <GameDataRowTitle title={title}/>
+      <GameDataRowContent>
+        <DividerContainer isDivided={isDivided} length={children.length}/>
+        {items}
+      </GameDataRowContent>
+    </div>
+  )
+}
 
+function DividerContainer ({ length, isDivided }) {
   if (isDivided) {
-    for (let i = 0; i < children.length - 1; i++) {
+    let dividers = [];
+
+    for (let i = 0; i < length - 1; i++) {
       dividers.push(<div key={i} className={Style.divider}/>)
     }
 
-    if (typeof(height) === "undefined") {
-      return (
-        <div className={Style.gameDataRow} >
-          <div className={Style.dividerContainer}>
-            {dividers}
-          </div>
-          {items}
-        </div>
-      )
-    }
+    return <div className={Style.dividerContainer}>
+      {dividers}
+    </div>
+  }
+  return
+}
 
-    return (
-      <div className={Style.gameDataRow} style={{height: height}}>
-        <div className={Style.dividerContainer}>
-          {dividers}
-        </div>
-        {items}
-      </div>
-    )
+function GameDataRowTitle ({ title }) {
+  if (typeof(title) === "undefined") {
+    return
   }
 
+  return <h3>{title}</h3>
+}
+
+function GameDataRowContent ({ children, height }) {
   if (typeof(height) === "undefined") {
     return (
       <div className={Style.gameDataRow}>
-        {items}
+        {children}
       </div>
     )
   }
 
   return (
     <div className={Style.gameDataRow} style={{height: height}}>
-      {items}
+      {children}
     </div>
   )
 }
