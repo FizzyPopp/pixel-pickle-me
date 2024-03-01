@@ -5,25 +5,24 @@ import * as Logos from "./logos"
 import GameHeader from "./game-header"
 import GameDataRow from "./game-data-row"
 import GameDataCard from "./game-data-card"
+import { usePlatformMetadata } from "../hooks/use-platform-metadata"
+
 
 const GameLayout = ({ data }) => {
-  const platforms = [
-    {
-      id: 0,
-      content: <Logos.PsFive/>,
-      card: false
-    },
-    {
-      id: 1,
-      content: <Logos.SeriesX/>,
-      card: false
-    },
-    {
-      id: 2,
-      content: <Logos.SeriesS/>,
-      card: false
+  console.log(`poop`)
+  console.log(data)
+
+  const platforms = usePlatformMetadata().map((node) => {
+    return {
+      id: node.id,
+      content: <img
+             src={node.url}
+             alt={node.name + " logo"}
+             height={64}
+           />,
+      cards: false
     }
-  ]
+  })
 
   const cards = [
     {
@@ -84,7 +83,7 @@ const GameLayout = ({ data }) => {
       cover={data.image.cover}
       background={data.image.background}/>
       <div className={Style.gameLayout}> {/* Game Data Section */}
-        <GameDataRow children={platforms} isDivided={true} /> 
+        <GameDataRow children={platforms} isDivided={true} />
         <br/>
         <br/>
         <GameDataRow children={cards} isDivided={false} />

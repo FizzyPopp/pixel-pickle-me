@@ -1,9 +1,16 @@
 {
-  "PlatformEnum":[
-    "Nintendo Switch",
-    "PC",
-    "PlayStation 5",
-    "Xbox Series S",
-    "Xbox Series X"
+  "PlatformEnum": [
+    {
+      "name": "PlayStation 5",
+      "logo": "../src/images/logos/logo-psfive.svg"
+    },
+    {
+      "name": "Xbox Series S",
+      "logo": "../src/images/logos/logo-seriess.svg"
+    },
+    {
+      "name": "Xbox Series X",
+      "logo": "../src/images/logos/logo-seriesx.svg"
+    }
   ]
 }
