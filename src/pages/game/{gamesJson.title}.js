@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Link, useStaticQuery, graphql } from "gatsby"
+import { graphql } from "gatsby"
 
 import "../../styles/common.css"
 
