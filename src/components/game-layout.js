@@ -4,6 +4,7 @@ import * as Style from "./game-layout.module.css"
 import GameHeader from "./game-header"
 import GameDataRow from "./game-data-row"
 import GameDataCard from "./game-data-card"
+import CollapsableSection from "./collapsable-section"
 
 import { usePlatformMetadata } from "../hooks/use-platform-metadata"
 
@@ -22,78 +23,21 @@ const GameLayout = ({ data }) => {
     }
   })
 
-  const cards = [
-    {
-      id: 0,
-      content: <GameDataCard
-      resolutionData={
-        {
-          value: 9000,
-          type: "dynamic"
-        }
-      }
-      fpsData={
-        {
-          value: 30,
-          type: "unlocked"
-        }
-      }
-      rayTracing={true} />,
-    },
-    {
-      id: 1,
-      content: <GameDataCard
-      resolutionData={
-        {
-          value: 9000,
-          type: "dynamic"
-        }
-      }
-      fpsData={
-        {
-          value: 30,
-          type: "unlocked",
-        }
-      }
-      rayTracing={true} />
-    },
-    {
-      id: 2,
-      content: <GameDataCard
-      resolutionData={
-        {
-          value: 9000,
-          type: "dynamic"
-        }
-      }
-      fpsData={
-        {
-          value: 30,
-          type: "unlocked"
-        }
-      } />,
-    }
-  ]
-
   const majorGroups = data.performanceRecordTree.map((branch) => {return (
-    <section>
-      <h2>
-        {branch.title}
-      </h2>
+    <CollapsableSection title={branch.title}>
     {branch.list.map((subBranch) => rowFromData(subBranch))}
-    </section>)
+    </CollapsableSection>)
   })
 
   return (
     <main>
       <GameHeader 
-      cover={data.image.cover}
-      background={data.image.background}/>
+        cover={data.image.cover}
+        background={data.image.background}/>
       <div className={Style.gameLayout}> {/* Game Data Section */}
         <GameDataRow children={platforms} isDivided={true} />
         <br/>
         {majorGroups}
-        <br/>
       </div>
     </main>
   )
