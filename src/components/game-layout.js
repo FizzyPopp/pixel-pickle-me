@@ -15,28 +15,30 @@ const GameLayout = ({ data }) => {
     return {
       id: node.id,
       content: <img
-             src={node.url}
-             alt={node.name + " logo"}
-             height={64}
-           />,
+        key={keyify(node.name) + "-logo"}
+        src={node.url}
+        alt={node.name + " logo"}
+        height={64}
+      />,
       cards: false
     }
   })
 
-  const majorGroups = data.performanceRecordTree.map((branch) => {return (
-    <CollapsableSection title={branch.title}>
-      {branch.list.map((subBranch) => rowFromData(subBranch))}
-    </CollapsableSection>)
+  const majorGroups = data.performanceRecordTree.map((branch) => {
+    return (
+      <CollapsableSection title={branch.title} key={keyify(branch.title) + "-section"}>
+        {branch.list.map((subBranch) => rowFromData(subBranch))}
+      </CollapsableSection>)
   })
 
   return (
     <main>
-      <GameHeader 
+      <GameHeader
         cover={data.image.cover}
-        background={data.image.background}/>
+        background={data.image.background} />
       <div className={Style.gameLayout}> {/* Game Data Section */}
         <GameDataRow children={platforms} isDivided={true} />
-        <br/>
+        <br />
         {majorGroups}
       </div>
     </main>
@@ -47,35 +49,38 @@ export default GameLayout
 
 function rowFromData(rowData) {
   let idx = 0
+  console.log(rowData)
   const childCards = rowData.list.map((record) => {
     return {
-      id: idx++,
-      content: cardFromRecord(record)
+      id: idx,
+      content: <GameDataCard
+        key={idx++}
+        resolutionData={
+          {
+            value: record.resolutionData.target,
+            type: record.resolutionData.dynamic ? "dynamic" : "full"
+          }
+        }
+        fpsData={
+          {
+            value: record.fpsData.target,
+            type: record.fpsData.isUnlocked ? "unlocked" : "fixed"
+          }
+        }
+        rayTracing={record.isRayTraced}
+      />
     }
   })
 
   return (
-    <section>
+    <section key={keyify(rowData.title)}>
       {rowData.title !== "" ? <h3>{rowData.title}</h3> : ''}
       <GameDataRow children={childCards} />
     </section>
   )
 }
 
-function cardFromRecord(record) {
-  return (<GameDataCard
-    resolutionData={
-      {
-        value: record.resolutionData.target,
-        type: record.resolutionData.dynamic ? "dynamic" : "full"
-      }
-    }
-    fpsData={
-      {
-        value: record.fpsData.target,
-        type: record.fpsData.isUnlocked ? "unlocked" : "fixed"
-      }
-    }
-    rayTracing={record.isRayTraced}
-  />)
+
+function keyify(str){
+  return str.toLowerCase().split(' ').join('-')
 }
