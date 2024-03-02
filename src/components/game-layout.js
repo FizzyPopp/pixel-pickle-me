@@ -52,7 +52,7 @@ function rowFromData(rowData) {
   console.log(rowData)
   const childCards = rowData.list.map((record) => {
     return {
-      id: idx,
+      id: record.platform,
       content: <GameDataCard
         key={idx++}
         resolutionData={
@@ -71,6 +71,7 @@ function rowFromData(rowData) {
       />
     }
   })
+  childCards.sort((cardA, cardB) => { return cardA.id > cardB.id })
 
   return (
     <section key={keyify(rowData.title)}>
