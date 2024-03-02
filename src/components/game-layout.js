@@ -49,7 +49,7 @@ export default GameLayout
 
 function rowFromData(rowData) {
   let idx = 0
-  console.log(rowData)
+  // console.log(rowData)
   const childCards = rowData.list.map((record) => {
     return {
       id: record.platform,
