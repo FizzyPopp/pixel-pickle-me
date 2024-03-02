@@ -25,7 +25,7 @@ const GameLayout = ({ data }) => {
 
   const majorGroups = data.performanceRecordTree.map((branch) => {return (
     <CollapsableSection title={branch.title}>
-    {branch.list.map((subBranch) => rowFromData(subBranch))}
+      {branch.list.map((subBranch) => rowFromData(subBranch))}
     </CollapsableSection>)
   })
 
