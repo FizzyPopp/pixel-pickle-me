@@ -1,9 +1,10 @@
 import * as React from "react"
-import { Link, useStaticQuery, graphql } from "gatsby"
-
-import "../../styles/common.css"
 
 import GameLayout from "../../components/game-layout"
+
+import { graphql } from "gatsby"
+
+import "../../styles/common.css"
 
 function GamePage({ data }) {
   const gameData = data.allGamesJson.nodes[0]
