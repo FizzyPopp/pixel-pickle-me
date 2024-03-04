@@ -8,7 +8,7 @@ const GameDataRow = ({ children, title, isDivided=false, height }) => {
   )
 
   return (
-    <div>
+    <div className={Style.gameDataRowContainer}>
       {typeof(title) !== "undefined" && <h3>{title}</h3>}
       <GameDataRowContent>
         <DividerContainer isDivided={isDivided} length={children.length}/>
