@@ -1,6 +1,22 @@
-.section-header {
+h2 {
+  font-size: 1rem;
+  margin: 0;
+}
+
+.collapsable-section {
+  margin: 16px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.collapsable-section-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  align-self: stretch;
   cursor: pointer;
+  border: none;
+  border-bottom: 1px solid #DADADA;
+  background-color: transparent;
+  padding: 8px 0;
 }
