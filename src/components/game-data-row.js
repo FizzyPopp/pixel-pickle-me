@@ -9,7 +9,7 @@ const GameDataRow = ({ children, title, isDivided=false, height }) => {
 
   return (
     <div>
-      <GameDataRowTitle title={title}/>
+      {typeof(title) !== "undefined" && <h3>{title}</h3>}
       <GameDataRowContent>
         <DividerContainer isDivided={isDivided} length={children.length}/>
         {items}
@@ -31,14 +31,6 @@ function DividerContainer ({ length, isDivided }) {
     </div>
   }
   return
-}
-
-function GameDataRowTitle ({ title }) {
-  if (typeof(title) === "undefined") {
-    return
-  }
-
-  return <h3>{title}</h3>
 }
 
 function GameDataRowContent ({ children, height }) {
