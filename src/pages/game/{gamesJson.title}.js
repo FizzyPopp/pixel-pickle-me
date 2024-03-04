@@ -12,7 +12,7 @@ function GamePage({ data }) {
   gameData.performanceRecordTree = parsedDataTree
   delete gameData.performanceRecordList
 
-  console.log(gameData)
+  // console.log(gameData)
   return (
     <GameLayout data={gameData} />
   )
