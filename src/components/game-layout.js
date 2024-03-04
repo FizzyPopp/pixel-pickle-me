@@ -74,10 +74,10 @@ function rowFromData(rowData) {
   childCards.sort((cardA, cardB) => { return cardA.id > cardB.id })
 
   return (
-    <section key={keyify(rowData.title)}>
-      {rowData.title !== "" ? <h3>{rowData.title}</h3> : ''}
-      <GameDataRow children={childCards} />
-    </section>
+    <GameDataRow 
+      key={keyify(rowData.title)} 
+      title={rowData.title}
+      children={childCards} />
   )
 }
 
