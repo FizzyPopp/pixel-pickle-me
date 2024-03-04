@@ -85,6 +85,10 @@
             {
               "name": "Graphics Mode",
               "setOption": "Prioritize Frame-Rate"
+            },
+            {
+              "name": "Ray Tracing",
+              "setOption": "off"
             }
           ]
         },
@@ -156,6 +160,10 @@
             {
               "name": "Graphics Mode",
               "setOption": "Prioritize Frame-Rate"
+            },
+            {
+              "name": "Ray Tracing",
+              "setOption": "off"
             }
           ]
         },
@@ -204,6 +212,10 @@
             {
               "name": "Graphics Mode",
               "setOption": "Prioritize Frame-Rate"
+            },
+            {
+              "name": "Ray Tracing",
+              "setOption": "off"
             }
           ]
         },
