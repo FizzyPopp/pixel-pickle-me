@@ -8,7 +8,6 @@ import CollapsableSection from "./collapsable-section"
 
 import { usePlatformMetadata } from "../hooks/use-platform-metadata"
 
-
 const GameLayout = ({ data }) => {
 
   const platforms = usePlatformMetadata().map((node) => {
