@@ -9,14 +9,22 @@ h2 {
   flex-direction: column;
 }
 
+.collapsable-section-header-container {
+  position: sticky;
+  left: 0;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  max-width: 100vw;
+}
+
 .collapsable-section-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   align-self: stretch;
-  cursor: pointer;
-  border: none;
   border-bottom: 1px solid #DADADA;
-  background-color: transparent;
+  margin: 0 16px;
   padding: 8px 0;
 }

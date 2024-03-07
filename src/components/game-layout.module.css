@@ -1,10 +1,11 @@
 .game-layout {
   display: flex;
   flex-direction: column;
-  align-items: stretch;
-  padding: 16px;
+  align-items: flex-start;
+  padding: 16px 0;
   margin-top: 16px;
   margin-left: auto;
   margin-right: auto;
   max-width: 720px;
+  overflow-x: auto;
 }
