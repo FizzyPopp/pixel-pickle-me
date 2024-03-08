@@ -1,27 +1,58 @@
-import { readFile } from 'fs/promises';
+import { readFile, readdir } from 'fs/promises';
 import * as path from 'path';
 import { URL } from 'node:url';
-import * as http from 'http'
-
-const host = 'localhost'
-const port = 6969
-
-// const index = readFile(__dirname)
+// Import the framework and instantiate it
+import Fastify from 'fastify'
+const fastify = Fastify({
+  logger: true
+})
 
 const p = new URL(import.meta.url)
+const root = path.join(p.pathname, '../..')
+const dataPath = path.join(root, 'data')
+const backupPath = path.join(root, '.data_backup')
 const indexPath = path.join(p.pathname, '..', 'index.html')
 
-console.log(indexPath)
-
 const index = await readFile(indexPath)
-
-async function requestListener(req, res) {
-  res.setHeader(`Content-Type`, `text/html`)
-  res.writeHead(200);
-  res.end(index)
-}
-
-const server = http.createServer(requestListener);
-server.listen(port, host, () => {
-  console.log(`Server is running on http://${host}:${port}`);
+const platformEnum = await readFile(path.join(root, 'data', 'platforms.json'))
+let gameFiles = await readdir(path.join(dataPath, 'games'))
+gameFiles = gameFiles.map((fileName) => {
+  return {
+    name: fileName.split('.')[0],
+  }
 })
+
+console.log(root)
+console.log(dataPath)
+console.log(backupPath)
+console.log(indexPath)
+console.log(gameFiles)
+
+
+// Declare a route
+fastify.get('/', async function handler(request, reply) {
+  reply
+    .code(200)
+    .type('text/html')
+    .send(index)
+})
+
+fastify.get('/game/:gameName', async function handler(request, reply) {
+  const { gameName } = request.params
+  const found = gameFiles.find((e) => { return e.name === gameName })
+
+  reply
+    .code(200)
+    .type('application/json')
+    .send({
+      gameName: found ? found : "poop",
+    })
+})
+
+// Run the server!
+try {
+  await fastify.listen({ port: 6969 })
+} catch (err) {
+  fastify.log.error(err)
+  process.exit(1)
+}
