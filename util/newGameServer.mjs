@@ -12,8 +12,10 @@ const root = path.join(p.pathname, '../..')
 const dataPath = path.join(root, 'data')
 const backupPath = path.join(root, '.data_backup')
 const indexPath = path.join(p.pathname, '..', 'index.html')
+const editorPath = path.join(p.pathname, '..', 'data-editor.js')
 
 const index = await readFile(indexPath)
+const editor = await readFile(editorPath)
 const platformEnum = await readFile(path.join(root, 'data', 'platforms.json'))
 let gameFiles = await readdir(path.join(dataPath, 'games'))
 gameFiles = gameFiles.map((fileName) => {
@@ -35,6 +37,13 @@ fastify.get('/', async function handler(request, reply) {
     .code(200)
     .type('text/html')
     .send(index)
+})
+
+fastify.get('/data-editor', async function handler(request, reply) {
+  reply
+    .code(200)
+    .type('application/javascript')
+    .send(editor)
 })
 
 fastify.get('/game/:gameName', async function handler(request, reply) {
