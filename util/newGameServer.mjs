@@ -15,19 +15,28 @@ const indexPath = path.join(p.pathname, '..', 'index.html')
 
 const index = await readFile(indexPath)
 const platformEnum = await readFile(path.join(root, 'data', 'platforms.json'))
+
 let gameFiles = await readdir(path.join(dataPath, 'games'))
-gameFiles = gameFiles.map((fileName) => {
-  return {
+for (let idx = 0; idx < gameFiles.length; idx++) {
+  let data = {}
+  let fileName = "" + gameFiles[idx]
+
+  try {
+    data = await readFile(path.join(dataPath, 'games', fileName))
+    data = JSON.parse(data)
+  } catch (e) { console.error(e) }
+
+  gameFiles[idx] =  {
     name: fileName.split('.')[0],
+    data: data
   }
-})
+}
 
 console.log(root)
 console.log(dataPath)
 console.log(backupPath)
 console.log(indexPath)
 console.log(gameFiles)
-
 
 // Declare a route
 fastify.get('/', async function handler(request, reply) {
@@ -41,12 +50,20 @@ fastify.get('/game/:gameName', async function handler(request, reply) {
   const { gameName } = request.params
   const found = gameFiles.find((e) => { return e.name === gameName })
 
+  console.log(found)
+  let body = {}
+  if (found) {
+    body = { ...found }
+  } else {
+    body = {
+      error: `Could not find ${gameName} in database`
+    }
+  }
+
   reply
     .code(200)
     .type('application/json')
-    .send({
-      gameName: found ? found : "poop",
-    })
+    .send(body)
 })
 
 // Run the server!
