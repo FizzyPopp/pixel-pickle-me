@@ -1,10 +1,27 @@
   {
     "title": "Elden Ring",
     "platforms": [
+      0,
       1,
-      2,
-      3,
-      4
+      2
+    ],
+    "platformFeatures": [
+      {
+        "platformId": 0,
+        "featuresActive":[
+          "haptic feedback"
+        ]
+      },
+      {
+        "platformId": 1,
+        "featuresActive":[
+          "auto HDR"
+        ]
+      },
+      {
+        "platformId": 2,
+        "featuresActive":[]
+      }
     ],
     "image": {
       "cover": "../../src/images/covers/cover-elden-ring.jpg",

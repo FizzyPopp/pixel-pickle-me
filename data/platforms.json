@@ -1,16 +1,64 @@
 {
   "PlatformEnum": [
     {
+      "platformID": 0,
       "name": "PlayStation 5",
       "logo": "../src/images/logos/logo-psfive.svg"
     },
     {
+      "platformID": 1,
       "name": "Xbox Series X",
       "logo": "../src/images/logos/logo-seriesx.svg"
     },
     {
+      "platformID": 2,
       "name": "Xbox Series S",
       "logo": "../src/images/logos/logo-seriess.svg"
+    }
+  ],
+  "PlatformFeatures":[ 
+    {
+      "platformID": 0,
+      "featureList": [
+        {
+          "name":"Haptic Feedback",
+          "logo":""
+        },
+        {
+          "name":"Adaptive Triggers",
+          "logo":""
+        }
+      ]
+    },
+    {
+      "platformID": 1,
+      "featureList": [
+        {
+          "name": "Auto HDR",
+          "logo":""
+        },
+        {
+          "name":"Optimized for Series X",
+          "logo":""
+        },
+        {
+          "name":"Smart Delivery",
+          "logo":""
+        }
+      ]
+    },
+    {
+      "platformID": 2,
+      "featureList": [
+        {
+          "name":"Optimized for Series S",
+          "logo":""
+        },
+        {
+          "name":"Smart Delivery",
+          "logo":""
+        }
+      ]
     }
   ]
 }
