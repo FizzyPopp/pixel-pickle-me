@@ -10,29 +10,34 @@ const fastify = Fastify({
 const p = new URL(import.meta.url)
 const root = path.join(p.pathname, '../..')
 const dataPath = path.join(root, 'data')
+const gamesPath = path.join(dataPath, 'games')
 const backupPath = path.join(root, '.data_backup')
 const indexPath = path.join(p.pathname, '..', 'index.html')
 const editorPath = path.join(p.pathname, '..', 'data-editor.js')
 
-const index = await readFile(indexPath)
-const editor = await readFile(editorPath)
-const platformEnum = await readFile(path.join(root, 'data', 'platforms.json'))
+let index = await readFile(indexPath)
+let editor = await readFile(editorPath)
+let platformEnum = await readFile(path.join(dataPath, 'platforms.json'))
 
-let gameFiles = await readdir(path.join(dataPath, 'games'))
+let gameFiles = await readdir(gamesPath)
+let gamesDb = {}
 for (let idx = 0; idx < gameFiles.length; idx++) {
   let data = {}
   let fileName = "" + gameFiles[idx]
+  let gameName = fileName.split('.')[0]
 
   try {
     data = await readFile(path.join(dataPath, 'games', fileName))
     data = JSON.parse(data)
   } catch (e) { console.error(e) }
 
-  gameFiles[idx] =  {
-    name: fileName.split('.')[0],
+  gamesDb[gameName] = {
+    name: gameName,
     data: data
   }
 }
+
+const watchers = {}
 
 console.log(root)
 console.log(dataPath)
@@ -57,15 +62,15 @@ fastify.get('/data-editor', async function handler(request, reply) {
 
 fastify.get('/game/:gameName', async function handler(request, reply) {
   const { gameName } = request.params
-  const found = gameFiles.find((e) => { return e.name === gameName })
-
-  console.log(found)
   let body = {}
-  if (found) {
-    body = { ...found }
+
+  if (gamesDb[gameName]) {
+    body = { ...gamesDb[gameName] }
+    body.error = 0
   } else {
     body = {
-      error: `Could not find ${gameName} in database`
+      error: `Could not find ${gameName} in database`,
+      gameFiles: [...Object.keys(gamesDb)]
     }
   }
 
