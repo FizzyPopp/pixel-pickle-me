@@ -1,8 +1,10 @@
 import { readFile, readdir } from 'fs/promises';
 import * as path from 'path';
 import { URL } from 'node:url';
-// Import the framework and instantiate it
+
+import * as chokidar from 'chokidar'
 import Fastify from 'fastify'
+
 const fastify = Fastify({
   logger: true
 })
@@ -80,10 +82,32 @@ fastify.get('/game/:gameName', async function handler(request, reply) {
     .send(body)
 })
 
+setupWatchers()
+
 // Run the server!
 try {
   await fastify.listen({ port: 6969 })
 } catch (err) {
   fastify.log.error(err)
   process.exit(1)
+}
+
+function setupWatchers() {
+  console.log('watching index')
+  watchers.index = chokidar.watch(indexPath)
+    .on('change', async (path) => {
+      index = await readFile(indexPath)
+      console.log('index updated')
+    })
+
+  watchers.editor = chokidar.watch(editorPath)
+    .on('change', async (path) => {
+      editor = await readFile(editorPath)
+      console.log('editor updated')
+    })
+
+  watchers.games = chokidar.watch(gamesPath)
+    .on('change', async (path) => {
+      console.log(`File ${path} has been changed.`)
+    })
 }
