@@ -28,9 +28,11 @@ const gamesPath = Path.join(dataPath, 'games')
 const backupPath = Path.join(root, '.data_backup')
 const indexPath = Path.join(p.pathname, '..', 'index.html')
 const editorPath = Path.join(p.pathname, '..', 'data-editor.js')
+const htmxPath = Path.join(root, 'node_modules/htmx.org/dist/htmx.js')
 
 let index = await readFile(indexPath)
 let editor = await readFile(editorPath)
+let htmx = await readFile(htmxPath)
 let platformEnum = await readFile(Path.join(dataPath, 'platforms.json'))
 
 let gameFiles = await readdir(gamesPath)
@@ -65,6 +67,13 @@ fastify.get('/', async function handler(request, reply) {
     .code(200)
     .type('text/html')
     .send(index)
+})
+
+fastify.get('/htmx', async function handler(request, reply) {
+  reply
+    .code(200)
+    .type('application/javascript')
+    .send(htmx)
 })
 
 fastify.get('/data-editor', async function handler(request, reply) {
