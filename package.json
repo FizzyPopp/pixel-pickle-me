@@ -29,6 +29,7 @@
     "react-icons": "^5.0.1"
   },
   "devDependencies": {
-    "fastify": "^4.26.2"
+    "fastify": "^4.26.2",
+    "pino-pretty": "^10.3.1"
   }
 }

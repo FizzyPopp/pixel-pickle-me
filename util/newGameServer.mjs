@@ -8,8 +8,18 @@ import * as chokidar from 'chokidar';
 import Fastify from 'fastify';
 
 const fastify = Fastify({
-  logger: true
+  logger: {
+    transport: {
+      target: 'pino-pretty',
+      options: {
+        translateTime: 'HH:MM:ss Z',
+        ignore: 'pid,hostname',
+      },
+    },
+  }
 })
+
+const Log = fastify.log
 
 const p = new URL(import.meta.url)
 const root = Path.join(p.pathname, '../..')
@@ -90,13 +100,14 @@ fastify.put('/data/game/:gameName', async function handler(request, reply) {
   const gameData = request.body
   // console.dir(gameData, {depth:1})
   console.dir(request.body)
+  const writePath = Path.join(gamesPath, gameName + '.json')
 
-  await writeFile(Path.join(gamesPath, gameName + '.json'), JSON.stringify(gameData))
+  await writeFile(writePath, JSON.stringify(gameData))
   reply
     .code(200)
     .type('application/json')
     .send({
-      poop: 'poop',
+      filePath: writePath
     })
 })
 
@@ -127,7 +138,22 @@ function setupWatchers() {
     })
 
   watchers.games = chokidar.watch(gamesPath)
-    .on('change', async (path) => {
+    .on('add', async (path) => {
+      await loadGameFromPath(path)
+      const gameName = gameFilePathToName(path)
+      Log.info(`Found new game '${gameName}' at path ${path}`)
+    }).on('change', async (path) => {
+      await loadGameFromPath(path)
+      const gameName = gameFilePathToName(path)
+      Log.info(`Updated game '${gameName}' at path ${path}`)
+    })
+}
+
+function gameFilePathToName(path) {
+  return Path.basename(path).split('.')[0]
+}
+
+async function loadGameFromPath(path){
       console.log(`File ${path} has been changed.`)
       let gameName = gameFilePathToName(path)
       try {
@@ -137,11 +163,6 @@ function setupWatchers() {
           name: gameName,
           data: gameData
         }
-      } catch (e) { console.log(e) }
-      console.log(gamesDb[gameName])
-    })
-}
-
-function gameFilePathToName(path) {
-  return Path.basename(path).split('.')[0]
+        Log.info(gamesDb[gameName])
+      } catch (e) { Log.error(e) }
 }
