@@ -13,9 +13,8 @@
   </head>
   <body>
     hello world
-    <div hx-get="/" hx-trigger="click[ctrlKey]">
-      Control Click Me
-    </div>
+    <select name="game" id="game-select" hx-get="/htmx/option/games" hx-trigger="load" >
+    </select>
 
   </body>
   <script src="../data-editor"></script>

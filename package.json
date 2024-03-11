@@ -30,6 +30,7 @@
   },
   "devDependencies": {
     "fastify": "^4.26.2",
+    "handlebars": "^4.7.8",
     "htmx.org": "^1.9.10",
     "pino-pretty": "^10.3.1"
   }

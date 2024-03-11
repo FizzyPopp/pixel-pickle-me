@@ -6,6 +6,7 @@ import { URL } from 'node:url';
 
 import * as chokidar from 'chokidar';
 import Fastify from 'fastify';
+import Handlebars from 'handlebars';
 
 const fastify = Fastify({
   logger: {
@@ -29,6 +30,14 @@ const backupPath = Path.join(root, '.data_backup')
 const indexPath = Path.join(p.pathname, '..', 'index.html')
 const editorPath = Path.join(p.pathname, '..', 'data-editor.js')
 const htmxPath = Path.join(root, 'node_modules/htmx.org/dist/htmx.js')
+const templatesRaw = {
+  gamesList: `{{#each gamesList}}
+<option value="{{this}}">{{this}}</option>
+{{/each}}`}
+const templates = {}
+for (const t of Object.keys(templatesRaw)){
+  templates[t] = Handlebars.compile(templatesRaw[t])
+}
 
 let index = await readFile(indexPath)
 let editor = await readFile(editorPath)
@@ -52,6 +61,7 @@ for (let idx = 0; idx < gameFiles.length; idx++) {
     data: data
   }
 }
+let gamesList = Object.keys(gamesDb)
 
 const watchers = {}
 
@@ -60,6 +70,9 @@ console.log(dataPath)
 console.log(backupPath)
 console.log(indexPath)
 console.log(gameFiles)
+
+Log.info(`Built template:`)
+Log.info(templates.gamesList({gamesList: gameFiles}))
 
 // Declare GET routes
 fastify.get('/', async function handler(request, reply) {
@@ -74,6 +87,13 @@ fastify.get('/htmx', async function handler(request, reply) {
     .code(200)
     .type('application/javascript')
     .send(htmx)
+})
+
+fastify.get('/htmx/option/games', async function handler(request, reply) {
+  reply
+    .code(200)
+    .type('text/html')
+    .send(templates.gamesList({gamesList: gameFiles}))
 })
 
 fastify.get('/data-editor', async function handler(request, reply) {
@@ -149,12 +169,19 @@ function setupWatchers() {
   watchers.games = chokidar.watch(gamesPath)
     .on('add', async (path) => {
       await loadGameFromPath(path)
+      gamesList = Object.keys(gamesDb)
       const gameName = gameFilePathToName(path)
       Log.info(`Found new game '${gameName}' at path ${path}`)
     }).on('change', async (path) => {
       await loadGameFromPath(path)
+      gamesList = Object.keys(gamesDb)
       const gameName = gameFilePathToName(path)
       Log.info(`Updated game '${gameName}' at path ${path}`)
+    }).on('unlink', async (path) => {
+      const gameName = gameFilePathToName(path)
+      delete gamesDb[gameName]
+      Log.info(`Removed game '${gameName}' at path ${path}`)
+      gameFiles = Object.keys(gamesDb)
     })
 }
 
@@ -162,16 +189,16 @@ function gameFilePathToName(path) {
   return Path.basename(path).split('.')[0]
 }
 
-async function loadGameFromPath(path){
-      console.log(`File ${path} has been changed.`)
-      let gameName = gameFilePathToName(path)
-      try {
-        const gameFileBuf = await readFile(path)
-        const gameData = JSON.parse(gameFileBuf)
-        gamesDb[gameName] = {
-          name: gameName,
-          data: gameData
-        }
-        Log.info(gamesDb[gameName])
+async function loadGameFromPath(path) {
+  console.log(`File ${path} has been changed.`)
+  let gameName = gameFilePathToName(path)
+  try {
+    const gameFileBuf = await readFile(path)
+    const gameData = JSON.parse(gameFileBuf)
+    gamesDb[gameName] = {
+      name: gameName,
+      data: gameData
+    }
+        // Log.info(gamesDb[gameName])
       } catch (e) { Log.error(e) }
 }
