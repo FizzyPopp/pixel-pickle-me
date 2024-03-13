@@ -41,7 +41,14 @@ for (const t of Object.keys(templatesRaw)){
 let index = await readFile(indexPath)
 let editor = await readFile(editorPath)
 let htmx = await readFile(htmxPath)
-let platformEnum = await readFile(Path.join(dataPath, 'platforms.json'))
+let platformsJSON = JSON.parse(
+  await readFile(Path.join(dataPath, 'platforms.json'), 'utf8')
+  )
+
+let platformEnum = []
+for (let i = 0; i < platformsJSON.PlatformEnum.length; i++) {
+  platformEnum.push(platformsJSON.PlatformEnum[i].platformID)
+}
 
 let gameFiles = await readdir(gamesPath)
 let gamesDb = {}
