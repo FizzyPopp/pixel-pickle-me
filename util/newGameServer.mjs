@@ -67,6 +67,7 @@ for (let idx = 0; idx < gameFiles.length; idx++) {
     data: data
   }
 }
+
 let gamesList = Object.keys(gamesDb)
 
 const watchers = {}
@@ -132,15 +133,21 @@ fastify.get('/data/game/:gameName', async function handler(request, reply) {
 // Declare PUT routes
 fastify.put('/data/game/:gameName', async function handler(request, reply) {
   const { gameName } = request.params
-  const gameData = request.body
-  // console.dir(gameData, {depth:1})
+  const gameData = {
+    platforms: [],
+    platformFeatures: [],
+    image: {cover: "", background: ""},
+    gfxOptions: [],
+    performanceRecordlist: [],
+  }
+
   console.dir(request.body)
+  
   const writePath = Path.join(gamesPath, gameName + '.json')
 
   await writeFile(writePath, JSON.stringify(gameData))
   reply
     .code(200)
-    .type('application/json')
     .send({
       filePath: writePath
     })
