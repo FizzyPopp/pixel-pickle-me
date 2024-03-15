@@ -177,6 +177,25 @@ fastify.put('/data/game/:gameName/platforms', async function handler(request, re
   }
 })
 
+fastify.put('/data/game/:gameName/image/:imageName', async function handler(request, reply) {
+  const { gameName, imageName } = request.params
+
+  if (gamesDb[gameName].data.image[imageName] === undefined
+    || typeof request.body !== 'string') {
+    reply
+      .code(400)
+      .send(gamesDb[gameName].data.image[imageName])
+  } else {
+    gamesDb[gameName].data.image[imageName] = request.body
+
+    await writeFile(Path.join(gamesPath, gameName + '.json'), JSON.stringify(gamesDb[gameName].data))
+
+    reply
+      .code(200)
+      .send(gamesDb[gameName].data.image[imageName])
+  }
+})
+
 //Declare DELETE routes
 fastify.delete('/data/game/:gameName/platforms', async function handler(request, reply) {
   const { gameName } = request.params
