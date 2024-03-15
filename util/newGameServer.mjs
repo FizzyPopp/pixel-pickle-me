@@ -153,6 +153,30 @@ fastify.put('/data/game/:gameName', async function handler(request, reply) {
     })
 })
 
+fastify.put('/data/game/:gameName/platforms', async function handler(request, reply) {
+  const { gameName } = request.params
+  
+  if (platformEnum.includes(request.body) 
+    && gamesList.includes(gameName)
+    && !gamesDb[gameName].data.platforms.includes(request.body)
+    ) {
+    gamesDb[gameName].data.platforms.push(request.body)
+    gamesDb[gameName].data.platforms.sort(function(a, b){return a - b})
+
+    await writeFile(Path.join(gamesPath, gameName + '.json'), JSON.stringify(gamesDb[gameName].data))
+
+    reply
+      .code(200)
+      .send(gamesDb[gameName].data.platforms)
+  }
+  else 
+  {
+    reply
+      .code(400)
+      .send(gamesDb[gameName].data.platforms)
+  }
+})
+
 // Detect changes in files
 setupWatchers()
 
@@ -185,11 +209,6 @@ function setupWatchers() {
       gamesList = Object.keys(gamesDb)
       const gameName = gameFilePathToName(path)
       Log.info(`Found new game '${gameName}' at path ${path}`)
-    }).on('change', async (path) => {
-      await loadGameFromPath(path)
-      gamesList = Object.keys(gamesDb)
-      const gameName = gameFilePathToName(path)
-      Log.info(`Updated game '${gameName}' at path ${path}`)
     }).on('unlink', async (path) => {
       const gameName = gameFilePathToName(path)
       delete gamesDb[gameName]
