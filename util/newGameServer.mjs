@@ -155,6 +155,10 @@ fastify.put('/data/game/:gameName', async function handler(request, reply) {
 
 fastify.put('/data/game/:gameName/platforms', async function handler(request, reply) {
   const { gameName } = request.params
+
+  if (!isGameNameValid(gameName, reply)) {
+    return
+  }
   
   if (platformEnum.includes(request.body) 
     && gamesList.includes(gameName)
@@ -261,6 +265,16 @@ function setupWatchers() {
 
 function gameFilePathToName(path) {
   return Path.basename(path).split('.')[0]
+}
+
+function isGameNameValid(gameName, reply) {
+  if (gamesDb[gameName] === undefined) {
+    Log.info(gameName + " does not exist in DB.")
+    reply
+      .code(400)
+      .send(gameName + " does not exist in DB.")
+  }
+  return gamesDb[gameName] !== undefined
 }
 
 async function loadGameFromPath(path) {
