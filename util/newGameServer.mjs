@@ -177,6 +177,29 @@ fastify.put('/data/game/:gameName/platforms', async function handler(request, re
   }
 })
 
+//Declare DELETE routes
+fastify.delete('/data/game/:gameName/platforms', async function handler(request, reply) {
+  const { gameName } = request.params
+  
+  if (platformEnum.includes(request.body) 
+    && gamesList.includes(gameName)
+    ) {
+    gamesDb[gameName].data.platforms.splice(gamesDb[gameName].data.platforms.indexOf(request.body), 1)
+
+    await writeFile(Path.join(gamesPath, gameName + '.json'), JSON.stringify(gamesDb[gameName].data))
+
+    reply
+      .code(200)
+      .send(gamesDb[gameName].data.platforms)
+  }
+  else 
+  {
+    reply
+      .code(400)
+      .send(gamesDb[gameName].data.platforms)
+  }
+})
+
 // Detect changes in files
 setupWatchers()
 
