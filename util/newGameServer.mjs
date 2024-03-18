@@ -154,6 +154,41 @@ fastify.get('/data/game/:gameName/platform-features/:platformId', async function
     .send(targetPlatform.featuresActive)
 })
 
+// Declare POST routes
+fastify.post('/data/game/:gameName/platforms/:platformId', async function handler(request, reply) {
+  const { gameName, platformId } = request.params
+  const id = Number(platformId)
+
+  if (!isGameNameValid(gameName, reply)) {
+    return
+  }
+
+  if (!platformEnum.includes(id)) {
+    reply
+      .code(400)
+      .send("Invalid platform")
+
+    return
+  }
+
+  if (gamesDb[gameName].data.platforms.includes(id)) {
+    reply
+      .code(400)
+      .send("Platform already on list")
+
+    return
+  }
+
+  gamesDb[gameName].data.platforms.push(id)
+  gamesDb[gameName].data.platforms.sort(function (a, b) { return a - b })
+
+  await writeFile(Path.join(gamesPath, gameName + '.json'), JSON.stringify(gamesDb[gameName].data))
+
+  reply
+    .code(200)
+    .send(gamesDb[gameName].data.platforms)
+})
+
 // Declare PUT routes
 fastify.put('/data/game/:gameName', async function handler(request, reply) {
   const { gameName } = request.params
