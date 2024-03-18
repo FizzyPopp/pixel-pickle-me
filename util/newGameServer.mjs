@@ -130,6 +130,30 @@ fastify.get('/data/game/:gameName', async function handler(request, reply) {
     .send(body)
 })
 
+fastify.get('/data/game/:gameName/platform-features/:platformId', async function handler(request, reply) {
+  const { gameName, platformId } = request.params
+
+  if (!isGameNameValid(gameName, reply)) {
+    return
+  }
+
+  let targetPlatform = gamesDb[gameName].data.platformFeatures.find(
+    (element) => element.platformId == platformId)
+
+  if (targetPlatform === undefined) {
+
+    reply
+      .code(400)
+      .send("Invalid platform")
+
+    return
+  }
+
+  reply
+    .code(200)
+    .send(targetPlatform.featuresActive)
+})
+
 // Declare PUT routes
 fastify.put('/data/game/:gameName', async function handler(request, reply) {
   const { gameName } = request.params
