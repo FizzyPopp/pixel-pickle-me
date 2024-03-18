@@ -190,6 +190,30 @@ fastify.get('/data/game/:gameName/platform-features/:platformId', async function
 })
 
 // Declare POST routes
+fastify.post('/data/game/:gameName', async function handler(request, reply) {
+  const { gameName } = request.params
+  const gameData = {
+    platforms: [],
+    platformFeatures: [],
+    image: { cover: "", background: "" },
+    gfxOptions: [],
+    performanceRecordlist: [],
+  }
+
+  console.dir(request.body)
+
+  const writePath = Path.join(gamesPath, gameName + '.json')
+
+  await writeFile(writePath, JSON.stringify(gameData))
+  reply
+    .code(200)
+    .send({
+      filePath: writePath
+    })
+})
+
+
+
 fastify.post('/data/game/:gameName/platforms/:platformId', async function handler(request, reply) {
   const { gameName, platformId } = request.params
   const id = Number(platformId)
@@ -277,28 +301,6 @@ fastify.post('/data/game/:gameName/platform-features/:platformId', async functio
 })
 
 // Declare PUT routes
-fastify.put('/data/game/:gameName', async function handler(request, reply) {
-  const { gameName } = request.params
-  const gameData = {
-    platforms: [],
-    platformFeatures: [],
-    image: { cover: "", background: "" },
-    gfxOptions: [],
-    performanceRecordlist: [],
-  }
-
-  console.dir(request.body)
-
-  const writePath = Path.join(gamesPath, gameName + '.json')
-
-  await writeFile(writePath, JSON.stringify(gameData))
-  reply
-    .code(200)
-    .send({
-      filePath: writePath
-    })
-})
-
 fastify.put('/data/game/:gameName/image/:imageName', async function handler(request, reply) {
   const { gameName, imageName } = request.params
 
