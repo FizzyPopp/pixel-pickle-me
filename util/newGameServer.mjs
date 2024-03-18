@@ -132,13 +132,14 @@ fastify.get('/data/game/:gameName', async function handler(request, reply) {
 
 fastify.get('/data/game/:gameName/platform-features/:platformId', async function handler(request, reply) {
   const { gameName, platformId } = request.params
+  const id = Number(platformId)
 
   if (!isGameNameValid(gameName, reply)) {
     return
   }
 
   let targetPlatform = gamesDb[gameName].data.platformFeatures.find(
-    (element) => element.platformId == platformId)
+    (element) => element.platformId == id)
 
   if (targetPlatform === undefined) {
 
