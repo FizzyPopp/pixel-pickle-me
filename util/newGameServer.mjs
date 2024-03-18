@@ -110,6 +110,13 @@ fastify.get('/data-editor', async function handler(request, reply) {
     .send(editor)
 })
 
+fastify.get('/data/platforms', async function handler(request, reply) {
+  reply
+    .code(200)
+    .type('application/json')
+    .send(platformsJSON)
+})
+
 fastify.get('/data/game/:gameName', async function handler(request, reply) {
   const { gameName } = request.params
   let body = {}
@@ -128,6 +135,33 @@ fastify.get('/data/game/:gameName', async function handler(request, reply) {
     .code(200)
     .type('application/json')
     .send(body)
+})
+
+fastify.get('/data/game/:gameName/image/:imgType', async function handler(request, reply) {
+  const { gameName, imgType } = request.params
+  Log.info(gameName)
+  Log.info(imgType)
+  let imagePath = gamesDb[gameName].data.image[imgType]
+
+  imagePath = Path.join(gamesPath, imagePath)
+  let ext = Path.extname(imagePath)
+
+  Log.info(`ext: ${ext} | path: ${imagePath}`)
+  try {
+    const image = await readFile(imagePath)
+    reply
+      .code(200)
+      .type('image/' + ext)
+      .send(image)
+  } catch (e) {
+    Log.error(e)
+    reply
+      .code(404)
+      .type('application/json')
+      .send({
+        error: e
+      })
+  }
 })
 
 // Declare PUT routes

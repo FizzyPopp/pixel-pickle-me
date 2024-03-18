@@ -3,20 +3,69 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Untitled</title>
+    <title>Best Way to Play Editor</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <style>
+     #images {
+       display: flex;
+       text-align: center;
+     }
+     #images > span{
+       margin: 5px;
+     }
+     img.game-image {
+       height: 150px;
+     }
+     img.game-image-preview {
+     }
+    </style>
+    <!-- <link rel="apple-touch-icon" href="/apple-touch-icon.png"> -->
     <!-- Place favicon.ico in the root directory -->
-
   </head>
   <body>
-    hello world
-    <select name="game" id="game-select" hx-get="/htmx/option/games" hx-trigger="load" >
+    <select
+      name="game" id="game-select"
+      hx-get="/htmx/option/games" hx-trigger="load" >
     </select>
+    <section id="game-data">
+      <h1 id="title">Elden Ring</h1>
+      <fieldset id="images">
+        <legend id="images-legend">
+          <h2>Game Images</h2>
+        </legend>
+      </fieldset>
+      <fieldset id="platforms">
+        <legend id="platforms-legend">
+          <h2>Platform Availablility</h2>
+        </legend>
+        <ol id="platforms-list"></ol>
+        <input type="submit" name="submit-platform-option" value="Add Platform"/>
+      </fieldset>
+      <fieldset id="gfxOptions">
+        <legend id="gfxOptions-legend">
+          <h2>Graphics Options Available</h2>
+        </legend>
+        <ol id="gfxOptions-list">
+        </ol>
+        <div draggable="false">
+          <label for="gfxName">Option Name:</label>
+          <input type="text" name="name" id="gfxOptions-name-input"/>
+          <br/>
+          <fieldset>
+            <legend id="gfxOptions-options-legend">Option entries</legend>
 
+            <label for="gfxName"></label>
+            <input type="text" name="name" id="gfxName"/>
+            <input type="submit" name="submit-gfx-option-entry" value="Add Entry"/>
+          </fieldset>
+          <input type="submit" name="submit-gfx-option" value="Add Option"/>
+        </div>
+      </fieldset>
+    </section>
   </body>
+  <style>
+  </style>
   <script src="../data-editor"></script>
   <script src="../htmx"></script>
 </html>
