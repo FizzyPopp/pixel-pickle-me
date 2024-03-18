@@ -183,7 +183,7 @@ fastify.post('/data/game/:gameName/platforms/:platformId', async function handle
   gamesDb[gameName].data.platforms.push(id)
   gamesDb[gameName].data.platforms.sort(function (a, b) { return a - b })
 
-  await writeFile(Path.join(gamesPath, gameName + '.json'), JSON.stringify(gamesDb[gameName].data))
+  updateGameFile(gameName)
 
   reply
     .code(200)
@@ -320,4 +320,8 @@ async function loadGameFromPath(path) {
     }
     // Log.info(gamesDb[gameName])
   } catch (e) { Log.error(e) }
+}
+
+async function updateGameFile(gameName) {
+  await writeFile(Path.join(gamesPath, gameName + '.json'), JSON.stringify(gamesDb[gameName].data))
 }
