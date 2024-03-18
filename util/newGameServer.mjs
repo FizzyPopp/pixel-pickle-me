@@ -34,7 +34,7 @@ const templatesRaw = {
 <option value="{{this}}">{{this}}</option>
 {{/each}}`}
 const templates = {}
-for (const t of Object.keys(templatesRaw)){
+for (const t of Object.keys(templatesRaw)) {
   templates[t] = Handlebars.compile(templatesRaw[t])
 }
 
@@ -43,7 +43,7 @@ let editor = await readFile(editorPath)
 let htmx = await readFile(htmxPath)
 let platformsJSON = JSON.parse(
   await readFile(Path.join(dataPath, 'platforms.json'), 'utf8')
-  )
+)
 
 let platformEnum = []
 for (let i = 0; i < platformsJSON.PlatformEnum.length; i++) {
@@ -79,7 +79,7 @@ console.log(indexPath)
 console.log(gameFiles)
 
 Log.info(`Built template:`)
-Log.info(templates.gamesList({gamesList: gameFiles}))
+Log.info(templates.gamesList({ gamesList: gameFiles }))
 
 // Declare GET routes
 fastify.get('/', async function handler(request, reply) {
@@ -100,7 +100,7 @@ fastify.get('/htmx/option/games', async function handler(request, reply) {
   reply
     .code(200)
     .type('text/html')
-    .send(templates.gamesList({gamesList: gameFiles}))
+    .send(templates.gamesList({ gamesList: gameFiles }))
 })
 
 fastify.get('/data-editor', async function handler(request, reply) {
@@ -136,13 +136,13 @@ fastify.put('/data/game/:gameName', async function handler(request, reply) {
   const gameData = {
     platforms: [],
     platformFeatures: [],
-    image: {cover: "", background: ""},
+    image: { cover: "", background: "" },
     gfxOptions: [],
     performanceRecordlist: [],
   }
 
   console.dir(request.body)
-  
+
   const writePath = Path.join(gamesPath, gameName + '.json')
 
   await writeFile(writePath, JSON.stringify(gameData))
@@ -173,8 +173,7 @@ fastify.put('/data/game/:gameName/platforms', async function handler(request, re
       .code(200)
       .send(gamesDb[gameName].data.platforms)
   }
-  else 
-  {
+  else {
     reply
       .code(400)
       .send(gamesDb[gameName].data.platforms)
@@ -203,10 +202,10 @@ fastify.put('/data/game/:gameName/image/:imageName', async function handler(requ
 //Declare DELETE routes
 fastify.delete('/data/game/:gameName/platforms', async function handler(request, reply) {
   const { gameName } = request.params
-  
-  if (platformEnum.includes(request.body) 
+
+  if (platformEnum.includes(request.body)
     && gamesList.includes(gameName)
-    ) {
+  ) {
     gamesDb[gameName].data.platforms.splice(gamesDb[gameName].data.platforms.indexOf(request.body), 1)
 
     await writeFile(Path.join(gamesPath, gameName + '.json'), JSON.stringify(gamesDb[gameName].data))
@@ -215,8 +214,7 @@ fastify.delete('/data/game/:gameName/platforms', async function handler(request,
       .code(200)
       .send(gamesDb[gameName].data.platforms)
   }
-  else 
-  {
+  else {
     reply
       .code(400)
       .send(gamesDb[gameName].data.platforms)
@@ -287,6 +285,6 @@ async function loadGameFromPath(path) {
       name: gameName,
       data: gameData
     }
-        // Log.info(gamesDb[gameName])
-      } catch (e) { Log.error(e) }
+    // Log.info(gamesDb[gameName])
+  } catch (e) { Log.error(e) }
 }
