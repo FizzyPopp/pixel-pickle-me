@@ -190,6 +190,58 @@ fastify.post('/data/game/:gameName/platforms/:platformId', async function handle
     .send(gamesDb[gameName].data.platforms)
 })
 
+fastify.post('/data/game/:gameName/platform-features/:platformId', async function handler(request, reply) {
+  const { gameName, platformId } = request.params
+  const id = Number(platformId)
+
+  if (!isGameNameValid(gameName, reply)) {
+    return
+  }
+
+  if (!platformEnum.includes(id)) {
+    reply
+      .code(400)
+      .send("Invalid platform")
+
+    return
+  }
+
+  if (gamesDb[gameName].data.platforms.includes(platformId)) {
+    reply
+      .code(400)
+      .send("Platform does not exist for " + gameName)
+
+    return
+  }
+
+  let targetPlatform = gamesDb[gameName].data.platformFeatures.find(
+    (element) => element.platformId == id)
+
+  if (targetPlatform === undefined) {
+    gamesDb[gameName].data.platformFeatures.push({
+      platformId: id,
+      featuresActive: []
+    })
+
+    targetPlatform = gamesDb[gameName].data.platformFeatures.find(
+      (element) => element.platformId == id)
+  } else if (targetPlatform.featuresActive.includes(request.body)) {
+    reply
+      .code(400)
+      .send(request.body + " already exists in platform " + platformId)
+
+    return
+  }
+
+  targetPlatform.featuresActive.push(request.body)
+
+  updateGameFile(gameName)
+
+  reply
+    .code(200)
+    .send(JSON.stringify(targetPlatform))
+})
+
 // Declare PUT routes
 fastify.put('/data/game/:gameName', async function handler(request, reply) {
   const { gameName } = request.params
