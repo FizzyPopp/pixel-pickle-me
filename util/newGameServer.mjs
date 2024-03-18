@@ -321,13 +321,14 @@ fastify.put('/data/game/:gameName/image/:imageName', async function handler(requ
 })
 
 //Declare DELETE routes
-fastify.delete('/data/game/:gameName/platforms', async function handler(request, reply) {
-  const { gameName } = request.params
+fastify.delete('/data/game/:gameName/platforms/:platformId', async function handler(request, reply) {
+  const { gameName, platformId } = request.params
+  const id = Number(platformId)
 
-  if (platformEnum.includes(request.body)
+  if (platformEnum.includes(id)
     && gamesList.includes(gameName)
   ) {
-    gamesDb[gameName].data.platforms.splice(gamesDb[gameName].data.platforms.indexOf(request.body), 1)
+    gamesDb[gameName].data.platforms.splice(gamesDb[gameName].data.platforms.indexOf(id), 1)
 
     await writeFile(Path.join(gamesPath, gameName + '.json'), JSON.stringify(gamesDb[gameName].data))
 
