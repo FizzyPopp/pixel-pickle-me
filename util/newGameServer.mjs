@@ -212,33 +212,6 @@ fastify.put('/data/game/:gameName', async function handler(request, reply) {
     })
 })
 
-fastify.put('/data/game/:gameName/platforms', async function handler(request, reply) {
-  const { gameName } = request.params
-
-  if (!isGameNameValid(gameName, reply)) {
-    return
-  }
-  
-  if (platformEnum.includes(request.body) 
-    && gamesList.includes(gameName)
-    && !gamesDb[gameName].data.platforms.includes(request.body)
-    ) {
-    gamesDb[gameName].data.platforms.push(request.body)
-    gamesDb[gameName].data.platforms.sort(function(a, b){return a - b})
-
-    await writeFile(Path.join(gamesPath, gameName + '.json'), JSON.stringify(gamesDb[gameName].data))
-
-    reply
-      .code(200)
-      .send(gamesDb[gameName].data.platforms)
-  }
-  else {
-    reply
-      .code(400)
-      .send(gamesDb[gameName].data.platforms)
-  }
-})
-
 fastify.put('/data/game/:gameName/image/:imageName', async function handler(request, reply) {
   const { gameName, imageName } = request.params
 
