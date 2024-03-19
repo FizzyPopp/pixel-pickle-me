@@ -5,27 +5,28 @@ let targetGame = {
 }
 let platformData = {}
 
-fetch('/data/platforms')
-  .then(async (response) => {
-    platformData = await response.json()
-    console.log(platformData)
-  }).then(async () => {
-    const selEl = document.getElementById('game-select')
-    targetGame.name = selEl.options[selEl.selectedIndex].value.split('.')[0]
-    targetGame.url += baseUrl + targetGame.name
-    console.log(targetGame)
+fetch('/data/platforms', {
+  method: `GET`,
+}).then(async (response) => {
+  platformData = await response.json()
+  console.log(platformData)
+}).then(async () => {
+  const selEl = document.getElementById('game-select')
+  targetGame.name = selEl.options[selEl.selectedIndex].value.split('.')[0]
+  targetGame.url += baseUrl + targetGame.name
+  console.log(targetGame)
 
-    const response = await fetch(targetGame.url)
-    if (response.status !== 200) { return }
+  const response = await fetch(targetGame.url)
+  if (response.status !== 200) { return }
 
-    const body = await response.json()
-    targetGame.data = body.data
-    console.log(targetGame.data)
-    render.title(targetGame.data.title)
-    render.image(targetGame.data.image)
-    render.platforms(targetGame.data.platforms)
-    render.gfxOptions(targetGame.data.gfxOptions)
-  })
+  const body = await response.json()
+  targetGame.data = body.data
+  console.log(targetGame.data)
+  render.title(targetGame.data.title)
+  render.image(targetGame.data.image)
+  render.platforms(targetGame.data.platforms)
+  render.gfxOptions(targetGame.data.gfxOptions)
+})
 
 let gfxOptionsNameInputEl = document.querySelector('#gfxOptions-name-input')
 
@@ -45,11 +46,62 @@ const render = {
 
     deleteChildren(platListEl)
 
-    p.forEach((id) => {
-      const li = document.createElement('li')
-      li.innerText = platformData.PlatformEnum.find((plat) => plat.platformID === id).name
-      platListEl.appendChild(li)
-    })
+    for (let platId = 0; platId < platformData.PlatformEnum.length; platId++) {
+      const platName = platformData.PlatformEnum[platId].name
+      const platformListItem = document.createElement('li')
+      const featureList = document.createElement('ul')
+      fetch(`${targetGame.url}/`)
+
+      const platformCheckbox = checkbox(platName, platName)
+      platformCheckbox.children[0].checked = targetGame.data.platforms.includes(platId)
+      console.log(`check boxxx:`)
+      console.log(targetGame.data.platforms.includes(platId))
+      platformListItem.appendChild(platformCheckbox)
+      platformCheckbox.children[0].onclick = (ev) => {
+        const chkbx = ev.target
+        console.log(chkbx)
+        postUrl(`${targetGame.url}/platforms/${platId}`)
+          .then((response) => {
+          console.log(response)
+          if (response.status !== 200) {
+            chkbx.checked = !chkbx.checked
+          }
+          if (chkbx.checked === false) {
+            for (const child of featureList.children) {
+              child.children[0].checked = false
+            }
+          }
+        })
+      }
+
+      for (const feature of platformData.PlatformFeatures[platId].featureList) {
+        const featureBox = checkbox(
+          feature.name,
+          feature.name,
+        )
+        console.log(feature.name)
+        featureBox.children[0].checked = targetGame.data.platformFeatures[platId].featuresActive.includes(feature.name)
+
+        console.log(featureBox.children[0].checked)
+
+        featureBox.onclick = (ev) => {
+          const chkbx = ev.target
+          console.log(chkbx)
+          postUrl(`${targetGame.url}/platform-features/${platId}`, JSON.stringify(feature.name))
+            .then((response) => {
+              if (response.status !== 200) {
+                chkbx.checked = !chkbx.checked
+              }
+          })
+        }
+
+        featureList.appendChild(featureBox)
+      }
+      platformListItem.appendChild(featureList)
+
+      platListEl.appendChild(platformListItem)
+    }
+
     console.log(platListEl)
   },
   gfxOptions: (gfxOpts) => {
@@ -65,7 +117,7 @@ const render = {
 
       const optEl = document.createElement('span')
       const optNameEl = document.createElement('h3')
-      const optOptsEl = document.createElement('ol')
+      const optOptsEl = document.createElement('ul')
       const removeButtonEl = document.createElement('button')
       const id = `gfxOptions-${idx}`
 
@@ -144,16 +196,54 @@ function removeGfxOption(idx, id) {
   console.log(`remove called on index: ${idx} | element id: ${id}`)
 }
 
-function p(text){
+function p(text) {
   const e = document.createElement('p')
-  p.innerText = text
-  return p
+  e.innerText = text
+  return e
+}
+
+function span(text) {
+  const e = document.createElement('span')
+  e.innerText = text
+  return e
+}
+
+function checkbox(name, labelText) {
+  const e = document.createElement('div')
+  const inputEl = document.createElement('input')
+  const labelEl = document.createElement('label')
+
+  inputEl.type = 'checkbox'
+  inputEl.name = name
+  labelEl.for = name
+  labelEl.innerText = labelText
+
+  e.appendChild(inputEl)
+  e.appendChild(labelEl)
+
+  e.id = [
+    'input',
+    'checkbox',
+    name.toLowerCase().replaceAll(' ', '-')
+  ].join('-')
+
+  return e
 }
 
 function h(num, text) {
   const e = document.createElement(`h${num}`)
   e.innerText = text
   return e
+}
+
+async function postUrl(url, body) {
+  return fetch(url, {
+    method: `POST`,
+    headers: {
+      "Content-type": "application/json; charset=UTF-8"
+    },
+    body: body? body : {}
+  })
 }
 
 function deleteChildren(el) { for (const c of el.children) { c.remove() } }
