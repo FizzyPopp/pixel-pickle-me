@@ -1,11 +1,11 @@
-import * as Path from 'path';
-import * as chokidar from 'chokidar';
+import * as Path from 'path'
+import * as chokidar from 'chokidar'
 
-import Fastify from 'fastify';
-import Handlebars from 'handlebars';
+import Fastify from 'fastify'
+import Handlebars from 'handlebars'
 
-import { URL } from 'node:url';
-import { readFile, readdir, writeFile } from 'fs/promises';
+import { URL } from 'node:url'
+import { readFile, readdir, writeFile } from 'fs/promises'
 
 const fastify = Fastify({
   logger: {
