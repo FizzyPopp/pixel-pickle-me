@@ -1,14 +1,16 @@
 import * as Path from 'path';
 import * as chokidar from 'chokidar';
 
+import { page } from './page.mjs'
+
 import Fastify from 'fastify';
-import Handlebars from 'handlebars';
 
 import { URL } from 'node:url';
 import { readFile, readdir, writeFile } from 'fs/promises';
 
 const fastify = Fastify({
   logger: {
+    level: 'debug',
     transport: {
       target: 'pino-pretty',
       options: {
@@ -18,6 +20,7 @@ const fastify = Fastify({
     },
   }
 })
+
 
 const Log = fastify.log
 
@@ -29,14 +32,6 @@ const backupPath = Path.join(root, '.data_backup')
 const indexPath = Path.join(p.pathname, '..', 'index.html')
 const editorPath = Path.join(p.pathname, '..', 'data-editor.js')
 const htmxPath = Path.join(root, 'node_modules/htmx.org/dist/htmx.js')
-const templatesRaw = {
-  gamesList: `{{#each gamesList}}
-<option value="{{this}}">{{this}}</option>
-{{/each}}`}
-const templates = {}
-for (const t of Object.keys(templatesRaw)) {
-  templates[t] = Handlebars.compile(templatesRaw[t])
-}
 
 let index = await readFile(indexPath)
 let editor = await readFile(editorPath)
@@ -78,8 +73,13 @@ console.log(backupPath)
 console.log(indexPath)
 console.log(gameFiles)
 
-Log.info(`Built template:`)
-Log.info(templates.gamesList({ gamesList: gameFiles }))
+// register plugin routes
+fastify.register(page, {
+  baseUrl: '/page',
+  templatePath: Path.join(root, 'util', 'ui'),
+  platformsJSON: platformsJSON,
+  db: gamesDb,
+})
 
 // Declare GET routes
 fastify.get('/', async function handler(request, reply) {
@@ -94,13 +94,6 @@ fastify.get('/htmx', async function handler(request, reply) {
     .code(200)
     .type('application/javascript')
     .send(htmx)
-})
-
-fastify.get('/htmx/option/games', async function handler(request, reply) {
-  reply
-    .code(200)
-    .type('text/html')
-    .send(templates.gamesList({ gamesList: gameFiles }))
 })
 
 fastify.get('/data-editor', async function handler(request, reply) {
@@ -349,6 +342,7 @@ setupWatchers()
 // Run the server!
 try {
   await fastify.listen({ port: 6969 })
+  Log.info("Routing:\n" + fastify.printRoutes())
 } catch (err) {
   fastify.log.error(err)
   process.exit(1)
