@@ -1,12 +1,14 @@
-import * as Path from 'path';
-import * as chokidar from 'chokidar';
+import * as Path from 'path'
+import * as chokidar from 'chokidar'
 
-import { page } from './page.mjs'
 
-import Fastify from 'fastify';
+import Fastify from 'fastify'
 
-import { URL } from 'node:url';
-import { readFile, readdir, writeFile } from 'fs/promises';
+import formbody from '@fastify/formbody'
+import page from './page.mjs'
+
+import { URL } from 'node:url'
+import { readFile, readdir, writeFile } from 'fs/promises'
 
 const fastify = Fastify({
   logger: {
@@ -74,6 +76,7 @@ console.log(indexPath)
 console.log(gameFiles)
 
 // register plugin routes
+fastify.register(formbody)
 fastify.register(page, {
   baseUrl: '/page',
   templatePath: Path.join(root, 'util', 'ui'),
@@ -244,6 +247,7 @@ fastify.post('/data/game/:gameName/platforms/:platformId', async function handle
 fastify.post('/data/game/:gameName/platform-features/:platformId', async function handler(request, reply) {
   const { gameName, platformId } = request.params
   const id = Number(platformId)
+  Log.info(request.body)
 
   if (!isGameNameValid(gameName, reply)) {
     return
@@ -284,6 +288,7 @@ fastify.post('/data/game/:gameName/platform-features/:platformId', async functio
     return
   }
 
+  Log.debug(request.body)
   targetPlatform.featuresActive.push(request.body)
 
   updateGameFile(gameName)
@@ -406,5 +411,5 @@ async function loadGameFromPath(path) {
 }
 
 async function updateGameFile(gameName) {
-  await writeFile(Path.join(gamesPath, gameName + '.json'), JSON.stringify(gamesDb[gameName].data))
+  await writeFile(Path.join(gamesPath, gameName + '.json'), JSON.stringify(gamesDb[gameName].data, null, 2))
 }

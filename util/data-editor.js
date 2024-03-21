@@ -5,6 +5,8 @@ let targetGame = {
 }
 let platformData = {}
 
+
+
 fetch('/data/platforms', {
   method: `GET`,
 }).then(async (response) => {
@@ -22,93 +24,47 @@ fetch('/data/platforms', {
   const body = await response.json()
   targetGame.data = body.data
   console.log(targetGame.data)
-  render.title(targetGame.data.title)
-  render.image(targetGame.data.image)
-  render.platforms(targetGame.data.platforms)
+  // render.title(targetGame.data.title)
+  // render.image(targetGame.data.image)
+  // htmx.trigger('platforms-list', 'get-platforms')
+  // render.platforms(targetGame.data.platforms)
+  // render.gfxOptions(targetGame.data.gfxOptions)
+})
+
+async function handleCheckboxChange(target){
+  target.checked = !target.checked
+  const url = target.getAttribute('endpoint')
+
+  const response = await fetch(url, {
+    method: target.checked ? 'DELETE' : 'POST',
+    body: target.name
+  })
+
+  if (response.status === 200) {
+    target.checked = !target.checked
+  }
+  return target.checked
+}
+async function renderFields(target){
+  // console.log(target)
+  render.image()
   render.gfxOptions(targetGame.data.gfxOptions)
-})
+}
 
-let gfxOptionsNameInputEl = document.querySelector('#gfxOptions-name-input')
+// let gfxOptionsNameInputEl = document.querySelector('#gfxOptions-name-input')
 
-gfxOptionsNameInputEl.addEventListener('change', (event) => {
-  const optionName = gfxOptionsNameInputEl.value
-  console.log(optionName)
-  document.querySelector('#gfxOptions-options-legend').textContent = "" + optionName + " entries"
-})
+// gfxOptionsNameInputEl.addEventListener('change', (event) => {
+//   const optionName = gfxOptionsNameInputEl.value
+//   console.log(optionName)
+//   document.querySelector('#gfxOptions-options-legend').textContent = "" + optionName + " entries"
+// })
 
 const render = {
-  title: (t) => {
-    const titleEl = document.getElementById('title')
-    titleEl.innerText = t
-  },
-  platforms: (p) => {
-    const platListEl = document.getElementById('platforms-list')
-
-    deleteChildren(platListEl)
-
-    for (let platId = 0; platId < platformData.PlatformEnum.length; platId++) {
-      const platName = platformData.PlatformEnum[platId].name
-      const platformListItem = document.createElement('li')
-      const featureList = document.createElement('ul')
-      fetch(`${targetGame.url}/`)
-
-      const platformCheckbox = checkbox(platName, platName)
-      platformCheckbox.children[0].checked = targetGame.data.platforms.includes(platId)
-      console.log(`check boxxx:`)
-      console.log(targetGame.data.platforms.includes(platId))
-      platformListItem.appendChild(platformCheckbox)
-      platformCheckbox.children[0].onclick = (ev) => {
-        const chkbx = ev.target
-        console.log(chkbx)
-        postUrl(`${targetGame.url}/platforms/${platId}`)
-          .then((response) => {
-          console.log(response)
-          if (response.status !== 200) {
-            chkbx.checked = !chkbx.checked
-          }
-          if (chkbx.checked === false) {
-            for (const child of featureList.children) {
-              child.children[0].checked = false
-            }
-          }
-        })
-      }
-
-      for (const feature of platformData.PlatformFeatures[platId].featureList) {
-        const featureBox = checkbox(
-          feature.name,
-          feature.name,
-        )
-        console.log(feature.name)
-        featureBox.children[0].checked = targetGame.data.platformFeatures[platId].featuresActive.includes(feature.name)
-
-        console.log(featureBox.children[0].checked)
-
-        featureBox.onclick = (ev) => {
-          const chkbx = ev.target
-          console.log(chkbx)
-          postUrl(`${targetGame.url}/platform-features/${platId}`, JSON.stringify(feature.name))
-            .then((response) => {
-              if (response.status !== 200) {
-                chkbx.checked = !chkbx.checked
-              }
-          })
-        }
-
-        featureList.appendChild(featureBox)
-      }
-      platformListItem.appendChild(featureList)
-
-      platListEl.appendChild(platformListItem)
-    }
-
-    console.log(platListEl)
-  },
   gfxOptions: (gfxOpts) => {
-    const gfxOptionsListEl = document.getElementById('gfxOptions-list')
+    const gfxOptionsListEl = document.getElementById('poopybutthole')
 
     console.log(gfxOpts)
-    console.log(gfxOptionsListEl.children)
+    // console.log(gfxOptionsListEl.children)
 
     deleteChildren(gfxOptionsListEl)
 
@@ -140,8 +96,12 @@ const render = {
   },
   image: (img) => {
     const imageEl = document.getElementById('images')
+    const imgLegend = document.createElement('legend')
+    imgLegend.id='images-legend'
+    imgLegend.appendChild(h(2, "Game Images"))
 
     deleteChildren(imageEl)
+    imageEl.appendChild(imgLegend)
 
     const imgTypes = ['Cover', 'Background']
 
@@ -183,6 +143,7 @@ const render = {
       imgSpan.appendChild(imgSelect)
       imgSpan.appendChild(h(3, `Preview`))
       imgSpan.appendChild(imgPreview)
+
 
       imageEl.appendChild(imgSpan)
     }
@@ -246,4 +207,8 @@ async function postUrl(url, body) {
   })
 }
 
-function deleteChildren(el) { for (const c of el.children) { c.remove() } }
+function deleteChildren(el) {
+  if (el) {
+    for (const c of el.children) { c.remove() }
+  }
+}
