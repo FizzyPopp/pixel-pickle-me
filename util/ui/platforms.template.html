@@ -1,14 +1,24 @@
-{{#each platformFeatures}}
+{{#each sectionData}}
 <li>
-  <div id="input-checkbox-{{this.platform}}">
-    <input type="checkbox" name="PlayStation 5">
-    <label>PlayStation 5</label>
+  <div id="input-checkbox-{{slug name}}">
+    <input
+      type="checkbox" name="{{name}}" {{#if active}}checked{{/if}}
+      endpoint="/data/game/{{../gameName}}/platforms/{{platformID}}"
+      onchange="handleCheckboxChange(this)"
+    >
+    <label>{{name}}</label>
   </div>
   <ul>
-    <!-- <div id="input-checkbox-haptic-feedback">
-         <input type="checkbox" name="Haptic Feedback">
-         <label>Haptic Feedback</label>
-         </div> -->
+    {{#each featureList}}
+    <div id="input-checkbox-{{slug name}}">
+      <input
+        type="checkbox" name="{{name}}" {{#if active}}checked{{/if}}
+        endpoint="/data/game/{{../../gameName}}/platform-features/{{../platformID}}"
+        onchange="handleCheckboxChange(this)"
+      >
+      <label>{{name}}</label>
+    </div>
+    {{/each}}
   </ul>
 </li>
 {{/each}}

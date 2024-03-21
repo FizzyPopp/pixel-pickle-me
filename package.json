@@ -29,6 +29,7 @@
     "react-icons": "^5.0.1"
   },
   "devDependencies": {
+    "@fastify/formbody": "^7.4.0",
     "fastify": "^4.26.2",
     "handlebars": "^4.7.8",
     "htmx.org": "^1.9.10",

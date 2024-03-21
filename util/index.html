@@ -24,44 +24,12 @@
     <!-- Place favicon.ico in the root directory -->
   </head>
   <body>
-    <select
-      name="game" id="game-select"
-      hx-get="/page/game-select" hx-trigger="load" >
-    </select>
-    <section id="game-data">
-      <h1 id="title">Elden Ring</h1>
-      <fieldset id="images">
-        <legend id="images-legend">
-          <h2>Game Images</h2>
-        </legend>
-      </fieldset>
-      <fieldset id="platforms">
-        <legend id="platforms-legend">
-          <h2>Platform Availablility</h2>
-        </legend>
-        <ul id="platforms-list"></ul>
-        <input type="submit" name="submit-platform-option" value="Add Platform"/>
-      </fieldset>
-      <fieldset id="gfxOptions">
-        <legend id="gfxOptions-legend">
-          <h2>Graphics Options Available</h2>
-        </legend>
-        <ul id="gfxOptions-list">
-        </ul>
-        <div draggable="false">
-          <label for="gfxName">Option Name:</label>
-          <input type="text" name="name" id="gfxOptions-name-input"/>
-          <br/>
-          <fieldset>
-            <legend id="gfxOptions-options-legend">Option entries</legend>
-            <label for="gfxName"></label>
-            <input type="text" name="name" id="gfxName"/>
-            <input type="submit" name="submit-gfx-option-entry" value="Add Entry"/>
-          </fieldset>
-          <input type="submit" name="submit-gfx-option" value="Add Option"/>
-        </div>
-      </fieldset>
-    </section>
+    <section
+      name="game-select-section"
+      hx-get="/page/game-select"
+      hx-trigger="load"
+    ></section>
+    <section id="game-data" ></section>
   </body>
   <style>
   </style>
