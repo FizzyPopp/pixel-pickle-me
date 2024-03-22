@@ -14,17 +14,15 @@ Handlebars.registerHelper('slug', function (context) {
 
 export default async function routePage(pageApi, options) {
   const {
-    baseUrl,
-    templatePath,
     platformsJSON,
     gamesDb,
+    getTemplates
   } = options
   const Log = pageApi.log
+  const baseUrl = '/page'
 
   Log.info(baseUrl)
 
-  const templatesList = await readdir(templatePath)
-  const templatesRaw = {}
   const templates = {}
   const sectionData = {}
   let targetGameName = ''
@@ -36,17 +34,11 @@ export default async function routePage(pageApi, options) {
     }
   })
 
-  await (async () => {
-    for (const t of templatesList) {
-      const template = await readFile(Path.join(templatePath, t), { encoding: 'utf8' })
-      const name = t.split('.')[0]
-      templatesRaw[name] = template
-      templates[name] = Handlebars.compile(template)
-    }
-  })()
+  let templatesRaw = await getTemplates()
+  for(const name in templatesRaw){
+    templates[name] = Handlebars.compile(templatesRaw[name])
+  }
 
-  Log.debug(`Templates list: ${templatePath}`)
-  Log.debug(`Templates: ${templatesList}`)
   Log.debug(`Built template:`)
   Log.debug(templates['game-select']({ gamesList: Object.keys(gamesDb) }))
   Log.debug(`sectionData: ${Q(sectionData)}`)

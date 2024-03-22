@@ -40,6 +40,8 @@ const adminPath = Path.join(root, 'admin')
 
 const gamesPath = Path.join(dataPath, 'games')
 
+const templatePath = Path.join(adminPath, 'ui')
+
 const indexPath = Path.join(p.pathname, '..', 'index.html')
 const editorPath = Path.join(p.pathname, '..', 'data-editor.js')
 
@@ -92,7 +94,19 @@ const options = {
   platformEnum: platformEnum,
   gamesDb: gamesDb,
   gamesList: gamesList,
-  createGameFile: async function(gameName) {
+  getTemplates: async function () {
+    const templatesList = await readdir(templatePath)
+    const templatesRaw = {}
+    await (async () => {
+      for (const t of templatesList) {
+        const template = await readFile(Path.join(templatePath, t), { encoding: 'utf8' })
+        const name = t.split('.')[0]
+        templatesRaw[name] = template
+      }
+    })()
+    return templatesRaw
+  },
+  createGameFile: async function (gameName) {
     const gameData = {
       platforms: [],
       platformFeatures: [],
@@ -128,8 +142,6 @@ fastify.register(fastifyFormbody)
 fastify.register(routesRoot, options)
 fastify.register(routesPage, {
   ...options,
-  baseUrl: '/page',
-  templatePath: Path.join(adminPath, 'ui')
 })
 fastify.register(routesTitle, options)
 fastify.register(routesImage, options)
