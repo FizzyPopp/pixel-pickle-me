@@ -8,47 +8,49 @@ const Q = (obj, depth = 2) => {
   return util.inspect(obj, { depth: depth, colors: true })
 }
 
-Handlebars.registerHelper('slug', function (context) {
+Handlebars.registerHelper('slug', (context) => {
   return context.toLowerCase().replace(/ /g, '-')
 })
 
+Handlebars.registerHelper('cap', (context) => {
+  let str = ''
+  context.split(' ').forEach((word) => {
+    str += word.charAt(0).toUpperCase() + word.toLowerCase().slice(1) + ' '
+  })
+  str = str.trim()
+  return str
+})
+
 export default async function routePage(pageApi, options) {
-  const {
-    platformsJSON,
-    gamesDb,
-    getTemplates
-  } = options
   const Log = pageApi.log
   const baseUrl = '/page'
-
-  Log.info(baseUrl)
 
   const templates = {}
   const sectionData = {}
   let targetGameName = ''
 
-  sectionData.platforms = platformsJSON.PlatformEnum.map((plat) => {
+  sectionData.platforms = options.platformsJSON.PlatformEnum.map((plat) => {
     return {
       ...plat,
-      featureList: platformsJSON.PlatformFeatures[plat.platformID].featureList
+      featureList: options.platformsJSON.PlatformFeatures[plat.platformID].featureList
     }
   })
 
-  let templatesRaw = await getTemplates()
+  let templatesRaw = await options.getTemplates()
   for(const name in templatesRaw){
+    Log.debug(`Compiling tempate for ${name}`)
+    Log.debug(templatesRaw[name])
     templates[name] = Handlebars.compile(templatesRaw[name])
+    Log.debug(templates[name]({}))
   }
 
-  Log.debug(`Built template:`)
-  Log.debug(templates['game-select']({ gamesList: Object.keys(gamesDb) }))
-  Log.debug(`sectionData: ${Q(sectionData)}`)
   // Log.info(platformDataList)
 
   pageApi.get(baseUrl + '/game-select', async function handler(request, reply) {
-    const gamesList = Object.keys(gamesDb).map((key) => {
+    const gamesList = Object.keys(options.gamesDb).map((key) => {
       return {
         name: key,
-        title: gamesDb[key].data.title
+        title: options.gamesDb[key].data.title
       }
     })
     reply
@@ -57,45 +59,56 @@ export default async function routePage(pageApi, options) {
       .send(templates['game-select']({ gamesList: gamesList }))
   })
 
+  pageApi.get(baseUrl + '/test', (request, reply) => {
+    Log.info(targetGameName)
+    Log.info(options.gamesDb[targetGameName].data.title)
+    // options.gamesDb[targetGameName].data.title = "poop"
+    // options.updateGameFile(targetGameName)
+    reply
+      .code(200)
+      .type('application/json')
+      .send(JSON.stringify(options.gamesDb[targetGameName]))
+  })
+
+  pageApi.post(baseUrl + '/data-editor', async function handler(request, reply) {
+    targetGameName = request.body.gameName
+    Log.debug(`targetGameName: ${Q(options.gamesDb[targetGameName].data)}`)
+    reply
+      .code(200)
+      .type('text/html')
+      .send(templates['data-editor']({
+        name: targetGameName,
+        title: options.gamesDb[targetGameName].data.title
+      }))
+  })
+
   pageApi.get(baseUrl + '/:gameName/:section', (request, reply) => {
     const { gameName, section } = request.params
 
-    Log.debug(`gameName: ${gameName}`)
-    Log.debug(`section: ${section}`)
+    Log.info(`gameName: ${gameName}`)
+    Log.info(`section: ${section}`)
 
     const htmlRender = templates[section]({
       gameName: gameName,
       sectionData:
           customizeSectionDataForGame[section](
             sectionData[section],
-            gamesDb[gameName].data
+            options.gamesDb[gameName].data
           ),
       })
 
-    Log.debug(`htmlRender: ${htmlRender}`)
     reply
       .code(200)
       .type('text/html')
       .send(htmlRender)
   })
-  pageApi.post(baseUrl + '/game-data', async function handler(request, reply) {
-    Log.debug(`gameName: ${Q(request.body)}`)
-    targetGameName = request.body.gameName
-    Log.debug(`targetGameName: ${Q(gamesDb[targetGameName].data)}`)
-    reply
-      .code(200)
-      .type('text/html')
-      .send(templates['game-data']({
-        name: targetGameName,
-        ...gamesDb[targetGameName].data,
-      }))
-  })
 }
 
 const customizeSectionDataForGame = {
+  images: (sectionData, gameData) => {
+    return ['cover', 'background'].map((n) => { return { name: n } })
+  },
   platforms: (sectionData, gameData) => {
-    console.log(gameData)
-    console.log(sectionData)
     const platforms = sectionData.map((plat) => {
       console.log(plat)
       plat.active = gameData.platforms.includes(plat.platformID)

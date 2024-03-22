@@ -45,9 +45,24 @@ async function handleCheckboxChange(target){
   }
   return target.checked
 }
+
+async function loadImagePreview(event) {
+  const elem = event.target
+  if (elem.files.length == 1) {
+    const imgPreviewId = elem.name.split('-').slice(0,3).join('-') + '-preview'
+    const imgPreview = document.getElementById(imgPreviewId)
+    const reader = new FileReader();
+    reader.addEventListener('load', () => {
+      imgPreview.src = reader.result
+    })
+    reader.readAsDataURL(elem.files[0])
+    imgPreview.style.height = '100px'
+  }
+}
+
 async function renderFields(target){
   // console.log(target)
-  render.image()
+  // render.image()
   render.gfxOptions(targetGame.data.gfxOptions)
 }
 

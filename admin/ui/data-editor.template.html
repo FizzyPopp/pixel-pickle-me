@@ -10,14 +10,21 @@
     <legend id="images-legend">
       <h2>Game Images</h2>
     </legend>
+    <div
+      id="images"
+      hx-get="/page/{{name}}/images"
+      hx-trigger="load"
+    ></div>
   </fieldset>
   <fieldset id="platforms">
     <legend id="platforms-legend">
       <h2>Platform Availablility</h2>
     </legend>
-    <ul id="platforms-list" hx-get="/page/{{name}}/platforms" hx-trigger="load">
-
-    </ul>
+    <ul
+      id="platforms-list"
+      hx-get="/page/{{name}}/platforms"
+      hx-trigger="load"
+    ></ul>
     <input type="submit" name="submit-platform-option" value="Add Platform"/>
   </fieldset>
   <fieldset id="gfxOptions">

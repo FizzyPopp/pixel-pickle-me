@@ -1,0 +1,12 @@
+{{#each sectionData}}
+<fieldset id="image-{{name}}">
+  <legend id="image-{{name}}-legend">
+    <h3>{{cap name}}</h3>
+  </legend>
+  <img src="/data/game/{{../gameName}}/image/{{name}}" class="game-image" />
+  <input type="file" name="image-{{name}}-input-file" accept="image/png, image/jpeg" id="image-{{name}}-input-file"
+    onchange="loadImagePreview(event)" />
+  <h3>Preview</h3>
+  <img src="" class="game-image-preview" id="image-{{name}}-input-preview" />
+</fieldset>
+{{/each}}
