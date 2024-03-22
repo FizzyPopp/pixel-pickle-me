@@ -140,9 +140,7 @@ const options = {
 
 fastify.register(fastifyFormbody)
 fastify.register(routesRoot, options)
-fastify.register(routesPage, {
-  ...options,
-})
+fastify.register(routesPage, options)
 fastify.register(routesTitle, options)
 fastify.register(routesImage, options)
 fastify.register(routesPlatforms, options)
