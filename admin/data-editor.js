@@ -56,7 +56,7 @@ async function loadImagePreview(event) {
       imgPreview.src = reader.result
     })
     reader.readAsDataURL(elem.files[0])
-    imgPreview.style.height = '100px'
+    imgPreview.style.visibility = 'visible'
   }
 }
 
