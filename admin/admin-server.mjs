@@ -163,27 +163,27 @@ function setupWatchers() {
   console.log('watching index')
   watchers.index = chokidar.watch(indexPath)
     .on('change', async (path) => {
-      index = await readFile(indexPath)
+      options.index = await readFile(indexPath)
       console.log('index updated')
     })
 
   watchers.editor = chokidar.watch(editorPath)
     .on('change', async (path) => {
-      editor = await readFile(editorPath)
+      options.editor = await readFile(editorPath)
       console.log('editor updated')
     })
 
   watchers.games = chokidar.watch(gamesPath)
     .on('add', async (path) => {
       await loadGameFromPath(path)
-      gamesList = Object.keys(gamesDb)
+      options.gamesList = Object.keys(gamesDb)
       const gameName = gameFilePathToName(path)
       Log.info(`Found new game '${gameName}' at path ${path}`)
     }).on('unlink', async (path) => {
       const gameName = gameFilePathToName(path)
       delete gamesDb[gameName]
       Log.info(`Removed game '${gameName}' at path ${path}`)
-      gameFiles = Object.keys(gamesDb)
+      options.gamesList = Object.keys(gamesDb)
     })
 }
 
