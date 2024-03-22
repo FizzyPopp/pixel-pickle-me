@@ -2,9 +2,10 @@ import * as Path from 'path'
 import * as chokidar from 'chokidar'
 
 import Fastify from 'fastify'
-import Handlebars from 'handlebars'
+import fastifyFormbody from '@fastify/formbody'
 
 import routesRoot from './routes/root.mjs'
+import routesPage from './routes/page.mjs'
 import routesTitle from './routes/data/game/title.mjs'
 import routesImage from './routes/data/game/image.mjs'
 import routesPlatforms from './routes/data/platforms.mjs'
@@ -35,20 +36,12 @@ const root = Path.join(p.pathname, '../..')
 const dataPath = Path.join(root, 'data')
 const htmxPath = Path.join(root, 'node_modules/htmx.org/dist/htmx.js')
 const backupPath = Path.join(root, '.data_backup')
+const adminPath = Path.join(root, 'admin')
 
 const gamesPath = Path.join(dataPath, 'games')
 
 const indexPath = Path.join(p.pathname, '..', 'index.html')
 const editorPath = Path.join(p.pathname, '..', 'data-editor.js')
-
-const templatesRaw = {
-  gamesList: `{{#each gamesList}}
-<option value="{{this}}">{{this}}</option>
-{{/each}}`}
-const templates = {}
-for (const t of Object.keys(templatesRaw)) {
-  templates[t] = Handlebars.compile(templatesRaw[t])
-}
 
 let htmx = await readFile(htmxPath)
 let index = await readFile(indexPath)
@@ -91,16 +84,6 @@ console.log(backupPath)
 console.log(indexPath)
 console.log(gameFiles)
 
-Log.info(`Built template:`)
-Log.info(templates.gamesList({ gamesList: gameFiles }))
-
-fastify.get('/htmx/option/games', async function handler(request, reply) {
-  reply
-    .code(200)
-    .type('text/html')
-    .send(templates.gamesList({ gamesList: gameFiles }))
-})
-
 const options = {
   htmx: htmx,
   index: index,
@@ -141,7 +124,13 @@ const options = {
   }
 }
 
+fastify.register(fastifyFormbody)
 fastify.register(routesRoot, options)
+fastify.register(routesPage, {
+  ...options,
+  baseUrl: '/page',
+  templatePath: Path.join(adminPath, 'ui')
+})
 fastify.register(routesTitle, options)
 fastify.register(routesImage, options)
 fastify.register(routesPlatforms, options)

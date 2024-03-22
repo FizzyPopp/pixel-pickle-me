@@ -12,14 +12,16 @@ Handlebars.registerHelper('slug', function (context) {
   return context.toLowerCase().replace(/ /g, '-')
 })
 
-export default async function page(pageApi, options) {
+export default async function routePage(pageApi, options) {
   const {
     baseUrl,
     templatePath,
     platformsJSON,
-    db,
+    gamesDb,
   } = options
   const Log = pageApi.log
+
+  Log.info(baseUrl)
 
   const templatesList = await readdir(templatePath)
   const templatesRaw = {}
@@ -46,15 +48,15 @@ export default async function page(pageApi, options) {
   Log.debug(`Templates list: ${templatePath}`)
   Log.debug(`Templates: ${templatesList}`)
   Log.debug(`Built template:`)
-  Log.debug(templates['game-select']({ gamesList: Object.keys(db) }))
+  Log.debug(templates['game-select']({ gamesList: Object.keys(gamesDb) }))
   Log.debug(`sectionData: ${Q(sectionData)}`)
   // Log.info(platformDataList)
 
   pageApi.get(baseUrl + '/game-select', async function handler(request, reply) {
-    const gamesList = Object.keys(db).map((key) => {
+    const gamesList = Object.keys(gamesDb).map((key) => {
       return {
         name: key,
-        title: db[key].data.title
+        title: gamesDb[key].data.title
       }
     })
     reply
@@ -74,7 +76,7 @@ export default async function page(pageApi, options) {
       sectionData:
           customizeSectionDataForGame[section](
             sectionData[section],
-            db[gameName].data
+            gamesDb[gameName].data
           ),
       })
 
@@ -87,13 +89,13 @@ export default async function page(pageApi, options) {
   pageApi.post(baseUrl + '/game-data', async function handler(request, reply) {
     Log.debug(`gameName: ${Q(request.body)}`)
     targetGameName = request.body.gameName
-    Log.debug(`targetGameName: ${Q(db[targetGameName].data)}`)
+    Log.debug(`targetGameName: ${Q(gamesDb[targetGameName].data)}`)
     reply
       .code(200)
       .type('text/html')
       .send(templates['game-data']({
         name: targetGameName,
-        ...db[targetGameName].data,
+        ...gamesDb[targetGameName].data,
       }))
   })
 }
