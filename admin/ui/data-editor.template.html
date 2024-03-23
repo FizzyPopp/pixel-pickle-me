@@ -22,7 +22,7 @@
     </legend>
     <ul
       id="platforms-list"
-      hx-get="/page/{{name}}/platforms"
+      hx-get="/page/{{name}}/platformFeatures"
       hx-trigger="load"
     ></ul>
     <input type="submit" name="submit-platform-option" value="Add Platform"/>
@@ -31,7 +31,11 @@
     <legend id="gfxOptions-legend">
       <h2>Graphics Options Available</h2>
     </legend>
-    <ul id="poopybutthole">
+    <ul
+      id="gfxOptions-list"
+      hx-get="/page/{{name}}/gfxOptions"
+      hx-trigger="load"
+    >
     </ul>
     <div draggable="false">
       <label for="gfxName">Option Name:</label>

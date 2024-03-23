@@ -26,10 +26,20 @@ export default async function routePage(pageApi, options) {
   const baseUrl = '/page'
 
   const templates = {}
-  const sectionData = {}
+  const sectionData = [
+    'title',
+    'images',
+    'platformFeatures',
+    'gfxOptions',
+    'performanceRecordList'
+  ].reduce((accumulator, currValue) => {
+    accumulator[currValue] = {}
+    return accumulator
+  }, {})
   let targetGameName = ''
 
-  sectionData.platforms = options.platformsJSON.PlatformEnum.map((plat) => {
+
+  const platformData = options.platformsJSON.PlatformEnum.map((plat) => {
     return {
       ...plat,
       featureList: options.platformsJSON.PlatformFeatures[plat.platformID].featureList
@@ -46,7 +56,7 @@ export default async function routePage(pageApi, options) {
 
   // Log.info(platformDataList)
 
-  pageApi.get(baseUrl + '/game-select', async function handler(request, reply) {
+  pageApi.get(baseUrl + '/game-select', async (request, reply) => {
     const gamesList = Object.keys(options.gamesDb).map((key) => {
       return {
         name: key,
@@ -59,7 +69,7 @@ export default async function routePage(pageApi, options) {
       .send(templates['game-select']({ gamesList: gamesList }))
   })
 
-  pageApi.get(baseUrl + '/test', (request, reply) => {
+  pageApi.get(baseUrl + '/test', async (request, reply) => {
     Log.info(targetGameName)
     Log.info(options.gamesDb[targetGameName].data.title)
     // options.gamesDb[targetGameName].data.title = "poop"
@@ -70,9 +80,10 @@ export default async function routePage(pageApi, options) {
       .send(JSON.stringify(options.gamesDb[targetGameName]))
   })
 
-  pageApi.post(baseUrl + '/data-editor', async function handler(request, reply) {
+  pageApi.post(baseUrl + '/data-editor', async (request, reply) => {
     targetGameName = request.body.gameName
     Log.debug(`targetGameName: ${Q(options.gamesDb[targetGameName].data)}`)
+    updateSectionData()
     reply
       .code(200)
       .type('text/html')
@@ -82,39 +93,38 @@ export default async function routePage(pageApi, options) {
       }))
   })
 
-  pageApi.get(baseUrl + '/:gameName/:section', (request, reply) => {
+  pageApi.get(baseUrl + '/:gameName/:section', async (request, reply) => {
     const { gameName, section } = request.params
 
-    Log.info(`gameName: ${gameName}`)
-    Log.info(`section: ${section}`)
+    Log.debug(`gameName: ${gameName}`)
+    Log.debug(`section: ${section}`)
 
-    const htmlRender = templates[section]({
-      gameName: gameName,
-      sectionData:
-          customizeSectionDataForGame[section](
-            sectionData[section],
-            options.gamesDb[gameName].data
-          ),
-      })
+    const htmlRender = templates[section](sectionData[section])
+    Log.debug(htmlRender)
 
     reply
       .code(200)
       .type('text/html')
       .send(htmlRender)
   })
-}
 
-const customizeSectionDataForGame = {
-  images: (sectionData, gameData) => {
-    return ['cover', 'background'].map((n) => { return { name: n } })
-  },
-  platforms: (sectionData, gameData) => {
-    const platforms = sectionData.map((plat) => {
+
+  //--- helper functions
+
+  function updateSectionData() {
+    Log.debug(sectionData)
+    for (const key in sectionData) {
+      sectionData[key].gameName = targetGameName
+    }
+
+    sectionData.images.types = ['cover', 'background'].map((t) => { return { name: t } })
+
+    sectionData.platformFeatures.list = platformData.map((plat) => {
       console.log(plat)
-      plat.active = gameData.platforms.includes(plat.platformID)
+      plat.active = options.gamesDb[targetGameName].data.platforms.includes(plat.platformID)
       if (plat.active) {
-        console.log(gameData.platformFeatures.find((pf) => pf.platformId === plat.platformID).featuresActive)
-        const featuresActive = gameData.platformFeatures.find((pf) => {
+        console.log(options.gamesDb[targetGameName].data.platformFeatures.find((pf) => pf.platformId === plat.platformID).featuresActive)
+        const featuresActive = options.gamesDb[targetGameName].data.platformFeatures.find((pf) => {
           return pf.platformId === plat.platformID
         }).featuresActive
 
@@ -125,7 +135,7 @@ const customizeSectionDataForGame = {
       }
       return plat
     })
-    console.dir(platforms, {depth: 5})
-    return platforms
+
+    sectionData.gfxOptions.list = options.gamesDb[targetGameName].data.gfxOptions
   }
 }

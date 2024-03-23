@@ -1,0 +1,10 @@
+{{#each list }}
+  <span id="gfxOptions-0">
+    <h3>{{name}}</h3>
+    <ul>
+      {{#each options}}
+      <li>{{this}}</li>
+      {{/each}}
+    </ul><button onclick="removeGfxOption(this)">Remove Option</button>
+  </span>
+{{/each}}
