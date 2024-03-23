@@ -43,6 +43,29 @@ async function loadImagePreview(event) {
   }
 }
 
+async function updateGfxOptionsPreviewName(inputEl){
+  document.getElementById('gfxOptions-preview-name').innerText = inputEl.value
+}
+
+async function updateGfxOptionsPreviewEntries(inputEl){
+  const childList = inputEl.value.split(',').map((entry) => {
+    const child = document.createElement('li')
+    console.log(entry)
+    child.innerText = entry.trim()
+    return child
+  })
+  const previewEl = document.getElementById('gfxOptions-preview-entries')
+  removeChildren(previewEl)
+  for (const c of childList) {
+    console.log(c)
+    previewEl.appendChild(c)
+  }
+}
+
+async function removeGfxOption(t){
+  console.log(t)
+}
+
 async function postUrl(url, body) {
   return fetch(url, {
     method: `POST`,
@@ -51,4 +74,9 @@ async function postUrl(url, body) {
     },
     body: body? body : {}
   })
+}
+
+function removeChildren(el){
+  while (el.firstChild) { el.removeChild(el.lastChild) }
+  return el
 }

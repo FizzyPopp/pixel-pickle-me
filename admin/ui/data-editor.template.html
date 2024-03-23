@@ -36,17 +36,32 @@
       hx-trigger="load"
     >
     </ul>
-    <div draggable="false">
-      <label for="gfxName">Option Name:</label>
-      <input type="text" name="name" id="gfxOptions-name-input"/>
+    <fieldset draggable="false">
+      <legend>
+        <h3>New Option</h3>
+      </legend>
+      <div>
+        <label for="gfxOptions-name-input">Option Name:</label>
+        <input
+          type="text"
+          name="gfxOptions-name-input"
+          id="gfxOptions-name-input"
+          oninput="updateGfxOptionsPreviewName(this)"
+        />
+      </div>
       <br/>
-      <fieldset>
-        <legend id="gfxOptions-options-legend">Option entries</legend>
-        <label for="gfxName"></label>
-        <input type="text" name="name" id="gfxName"/>
-        <input type="submit" name="submit-gfx-option-entry" value="Add Entry"/>
-      </fieldset>
+      <div>
+        <label for="gfxOptions-entries-input">Option Entries (comma separated):</label>
+        <input
+          type="text"
+          name="gfxOptions-entries-input"
+          id="gfxOptions-entries-input"
+          onchange="updateGfxOptionsPreviewEntries(this)"
+        />
+      </div>
+      <h3 id="gfxOptions-preview-name"></h3>
+      <ul id="gfxOptions-preview-entries"></ul>
       <input type="submit" name="submit-gfx-option" value="Add Option"/>
-    </div>
+    </fieldset>
   </fieldset>
 </section>

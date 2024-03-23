@@ -3,7 +3,8 @@
     <h3>{{name}}</h3>
     <ul>
       {{#each options}}
-      <li>{{this}}</li>
+      <li optionName={{this}} >
+        {{this}}</li>
       {{/each}}
     </ul><button onclick="removeGfxOption(this)">Remove Option</button>
   </span>
