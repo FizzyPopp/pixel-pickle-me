@@ -14,6 +14,8 @@ fetch('/data/platforms', {
   console.log(platformData)
 })
 
+//--- event handlers
+
 async function handleCheckboxChange(target){
   target.checked = !target.checked
   const url = target.getAttribute('endpoint')
@@ -43,8 +45,12 @@ async function loadImagePreview(event) {
   }
 }
 
+async function removeRecordByIndex(index){
+  console.log(`Removing record with index ${index}`)
+}
+
 async function updateGfxOptionsPreviewName(inputEl){
-  document.getElementById('gfxOptions-preview-name').innerText = inputEl.value
+  document.getElementById('gfx-options-preview-name').innerText = inputEl.value
 }
 
 async function updateGfxOptionsPreviewEntries(inputEl){
@@ -54,7 +60,7 @@ async function updateGfxOptionsPreviewEntries(inputEl){
     child.innerText = entry.trim()
     return child
   })
-  const previewEl = document.getElementById('gfxOptions-preview-entries')
+  const previewEl = document.getElementById('gfx-options-preview-entries')
   removeChildren(previewEl)
   for (const c of childList) {
     console.log(c)
@@ -65,6 +71,8 @@ async function updateGfxOptionsPreviewEntries(inputEl){
 async function removeGfxOption(t){
   console.log(t)
 }
+
+//--- helper functions
 
 async function postUrl(url, body) {
   return fetch(url, {

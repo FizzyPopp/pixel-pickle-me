@@ -1,6 +1,4 @@
-import * as Path from 'path'
 import * as util from 'util'
-import { readFile, readdir } from 'fs/promises'
 
 import Handlebars from 'handlebars'
 
@@ -8,18 +6,13 @@ const Q = (obj, depth = 2) => {
   return util.inspect(obj, { depth: depth, colors: true })
 }
 
+Handlebars.logger.level = 0
+
 Handlebars.registerHelper('slug', (context) => {
   return context.toLowerCase().replace(/ /g, '-')
 })
 
-Handlebars.registerHelper('cap', (context) => {
-  let str = ''
-  context.split(' ').forEach((word) => {
-    str += word.charAt(0).toUpperCase() + word.toLowerCase().slice(1) + ' '
-  })
-  str = str.trim()
-  return str
-})
+Handlebars.registerHelper('cap', capitalize)
 
 export default async function routePage(pageApi, options) {
   const Log = pageApi.log
@@ -29,9 +22,9 @@ export default async function routePage(pageApi, options) {
   const sectionData = [
     'title',
     'images',
-    'platformFeatures',
-    'gfxOptions',
-    'performanceRecordList'
+    'platform-features',
+    'gfx-options',
+    'performance-record-list'
   ].reduce((accumulator, currValue) => {
     accumulator[currValue] = {}
     return accumulator
@@ -49,10 +42,11 @@ export default async function routePage(pageApi, options) {
   let templatesRaw = await options.getTemplates()
   for(const name in templatesRaw){
     Log.debug(`Compiling tempate for ${name}`)
-    Log.debug(templatesRaw[name])
+    // Log.debug(templatesRaw[name])
     templates[name] = Handlebars.compile(templatesRaw[name])
-    Log.debug(templates[name]({}))
   }
+
+  Log.debug(camelify('toaster-butt'))
 
   // Log.info(platformDataList)
 
@@ -112,19 +106,18 @@ export default async function routePage(pageApi, options) {
   //--- helper functions
 
   function updateSectionData() {
+    const gameData = options.gamesDb[targetGameName].data
     Log.debug(sectionData)
     for (const key in sectionData) {
       sectionData[key].gameName = targetGameName
     }
 
-    sectionData.images.types = ['cover', 'background'].map((t) => { return { name: t } })
+    sectionData['images'].types = ['cover', 'background'].map((t) => { return { name: t } })
 
-    sectionData.platformFeatures.list = platformData.map((plat) => {
-      console.log(plat)
-      plat.active = options.gamesDb[targetGameName].data.platforms.includes(plat.platformID)
+    sectionData['platform-features'].list = platformData.map((plat) => {
+      plat.active = gameData.platforms.includes(plat.platformID)
       if (plat.active) {
-        console.log(options.gamesDb[targetGameName].data.platformFeatures.find((pf) => pf.platformId === plat.platformID).featuresActive)
-        const featuresActive = options.gamesDb[targetGameName].data.platformFeatures.find((pf) => {
+        const featuresActive = gameData.platformFeatures.find((pf) => {
           return pf.platformId === plat.platformID
         }).featuresActive
 
@@ -136,6 +129,28 @@ export default async function routePage(pageApi, options) {
       return plat
     })
 
-    sectionData.gfxOptions.list = options.gamesDb[targetGameName].data.gfxOptions
+    sectionData['gfx-options'].list = gameData.gfxOptions
+
+    sectionData['performance-record-list'].resolutionTypes = ['full', 'dynamic', 'checkerboard']
+    sectionData['performance-record-list'].list = gameData.performanceRecordList.map((record, idx) => {
+      return {
+        index: idx,
+        ...record
+      }
+    })
   }
+}
+
+function capitalize(str){
+  let Str = ''
+  str.split(' ').forEach((word) => {
+    Str += word.charAt(0).toUpperCase() + word.toLowerCase().slice(1) + ' '
+  })
+  Str = Str.trim()
+  return Str
+}
+
+function camelify(slug){
+  let words = slug.split('-')
+  return [words[0], ...words.slice(1).map(capitalize)].join('')
 }

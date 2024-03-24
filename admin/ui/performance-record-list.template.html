@@ -1,0 +1,67 @@
+{{#each list}}
+<li id="platform-record-{{@index}}"
+    record-index="{{index}}"
+>
+  <fieldset>
+    <legend>{{index}}</legend>
+    <button
+      onclick="removeRecordByIndex({{index}})"
+    >X</button>
+    <span>
+      <div id="platform-record-{{index}}-context">
+        <h3>Context</h3>
+        {{#each context.gfxOptionsSet}}
+        <p>
+          {{name}}: {{setOption}}
+        </p>
+        {{/each}}
+      </div>
+      <div id="platform-record-{{index}}-fps">
+        <label
+          for="platform-record-{{index}}-fps-target"
+        >FPS:</label>
+        <input
+          type="text"
+          id="platform-record-{{index}}-fps-target"
+          value="{{fps.target}}"
+          pattern="\d{2,}"
+        />
+        <label
+          for="platform-record-{{index}}-fps-unlocked"
+        >
+          unlocked:
+        </label>
+        <input
+          type="checkbox"
+          id="platform-record-{{index}}-fps-unlocked"
+          name="platform-record-{{index}}-fps-unlocked"
+          {{#if fps.isUnlocked}}
+          checked
+          {{/if}}
+        />
+      </div>
+
+      <div id="platform-record-{{index}}-resolution">
+        <label
+          for="platform-record-{{index}}-resolution-target"
+        >Resolution:</label>
+        <input
+          type="text"
+          id="platform-record-{{index}}-resolution-target"
+          value="{{resolution.target}}"
+          pattern="\d{3,}"
+        />
+        {{#each ../resolutionTypes}}
+        <input
+          type="radio"
+          name="platform-record-{{index}}-resolution-type"
+          id="platform-record-{{index}}-resolution-{{this}}"
+          value="{{this}}"
+        />
+        <label for="platform-record-{{index}}-resolution-{{this}}">{{this}}</label>
+        {{/each}}
+      </div>
+    </span>
+  </fieldset>
+</li>
+{{/each}}

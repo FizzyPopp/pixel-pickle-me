@@ -3,9 +3,7 @@
   game-name="{{name}}"
 >
   <h1 id="title">{{title}}</h1>
-  <fieldset
-    id="images"
-  >
+  <fieldset id="images">
     <legend id="images-legend">
       <h2>Game Images</h2>
     </legend>
@@ -15,24 +13,24 @@
       hx-trigger="load"
     ></div>
   </fieldset>
-  <fieldset id="platforms">
-    <legend id="platforms-legend">
+  <fieldset id="platform-features-">
+    <legend id="platform-featuress-legend">
       <h2>Platform Availablility</h2>
     </legend>
     <ul
-      id="platforms-list"
-      hx-get="/page/{{name}}/platformFeatures"
+      id="platform-features-list"
+      hx-get="/page/{{name}}/platform-features"
       hx-trigger="load"
     ></ul>
     <input type="submit" name="submit-platform-option" value="Add Platform"/>
   </fieldset>
-  <fieldset id="gfxOptions">
-    <legend id="gfxOptions-legend">
+  <fieldset id="gfx-options">
+    <legend id="gfx-options-legend">
       <h2>Graphics Options Available</h2>
     </legend>
     <ul
-      id="gfxOptions-list"
-      hx-get="/page/{{name}}/gfxOptions"
+      id="gfx-options--list"
+      hx-get="/page/{{name}}/gfx-options"
       hx-trigger="load"
     >
     </ul>
@@ -41,27 +39,37 @@
         <h3>New Option</h3>
       </legend>
       <div>
-        <label for="gfxOptions-name-input">Option Name:</label>
+        <label for="gfx-options-name-input">Option Name:</label>
         <input
           type="text"
-          name="gfxOptions-name-input"
-          id="gfxOptions-name-input"
+          name="gfx-options-name-input"
+          id="gfx-options-name-input"
           oninput="updateGfxOptionsPreviewName(this)"
         />
       </div>
       <br/>
       <div>
-        <label for="gfxOptions-entries-input">Option Entries (comma separated):</label>
+        <label for="gfx-options-entries-input">Option Entries (comma separated):</label>
         <input
           type="text"
-          name="gfxOptions-entries-input"
-          id="gfxOptions-entries-input"
+          name="gfx-options-entries-input"
+          id="gfx-options-entries-input"
           onchange="updateGfxOptionsPreviewEntries(this)"
         />
       </div>
-      <h3 id="gfxOptions-preview-name"></h3>
-      <ul id="gfxOptions-preview-entries"></ul>
+      <h3 id="gfx-options-preview-name"></h3>
+      <ul id="gfx-options-preview-entries"></ul>
       <input type="submit" name="submit-gfx-option" value="Add Option"/>
     </fieldset>
+  </fieldset>
+  <fieldset id="performance-record-list">
+    <legend id="performance-record-list-legend">
+      <h2>Performance Records</h2>
+    </legend>
+    <ul
+      id="performance-record-list-list"
+      hx-get="/page/{{name}}/performance-record-list"
+      hx-trigger="load"
+    ></ul>
   </fieldset>
 </section>
