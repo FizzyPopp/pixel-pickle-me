@@ -1,23 +1,23 @@
 async function routes (fastify, options) {
   fastify.get('/', async function handler(request, reply) {
-    reply
+    return reply
       .code(200)
       .type('text/html')
-      .send(options.index)
+      .sendFile('index.html')
   })
 
   fastify.get('/htmx', async function handler(request, reply) {
-    reply
+    return reply
       .code(200)
       .type('application/javascript')
-      .send(options.htmx)
+      .sendFile('htmx.js')
   })
 
   fastify.get('/data-editor', async function handler(request, reply) {
-    reply
+    return reply
       .code(200)
       .type('application/javascript')
-      .send(options.editor)
+      .sendFile('data-editor.js')
   })
 }
 

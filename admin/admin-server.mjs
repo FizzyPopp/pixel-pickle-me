@@ -1,8 +1,9 @@
 import * as Path from 'path'
-import * as chokidar from 'chokidar'
+import * as Chokidar from 'chokidar'
 
 import Fastify from 'fastify'
 import fastifyFormbody from '@fastify/formbody'
+import fastifyStatic from '@fastify/static'
 
 import routesRoot from './routes/root.mjs'
 import routesPage from './routes/page.mjs'
@@ -86,6 +87,8 @@ console.log(backupPath)
 console.log(indexPath)
 console.log(gameFiles)
 
+const htmxtemp = Path.join(root, 'node_modules/htmx.org/dist')
+
 const options = {
   htmx: htmx,
   index: index,
@@ -146,6 +149,7 @@ fastify.register(routesImage, options)
 fastify.register(routesPlatforms, options)
 fastify.register(routesPlatformId, options)
 fastify.register(routesPlatformFeatures, options)
+fastify.register(fastifyStatic, { root: [adminPath, htmxtemp] })
 
 // Detect changes in files
 setupWatchers()
@@ -161,19 +165,19 @@ try {
 // Helper Functions
 function setupWatchers() {
   console.log('watching index')
-  watchers.index = chokidar.watch(indexPath)
+  watchers.index = Chokidar.watch(indexPath)
     .on('change', async (path) => {
       options.index = await readFile(indexPath)
       console.log('index updated')
     })
 
-  watchers.editor = chokidar.watch(editorPath)
+  watchers.editor = Chokidar.watch(editorPath)
     .on('change', async (path) => {
       options.editor = await readFile(editorPath)
       console.log('editor updated')
     })
 
-  watchers.games = chokidar.watch(gamesPath)
+  watchers.games = Chokidar.watch(gamesPath)
     .on('add', async (path) => {
       await loadGameFromPath(path)
       options.gamesList = Object.keys(gamesDb)
