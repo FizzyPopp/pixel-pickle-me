@@ -1,59 +1,46 @@
-async function routes (fastify, options) {
-  fastify.post('/data/game/:gameName/platforms/:platformId', async function handler(request, reply) {
-    const { gameName, platformId } = request.params
-    const id = Number(platformId)
-  
-    if (!options.isGameNameValid(gameName, reply)) {
-      return
-    }
-  
-    if (!options.platformEnum.includes(id)) {
-      reply
-        .code(400)
-        .send("Invalid platform")
-  
-      return
-    }
-  
-    if (options.gamesDb[gameName].data.platforms.includes(id)) {
-      reply
-        .code(400)
-        .send("Platform already on list")
-  
-      return
-    }
-  
-    options.gamesDb[gameName].data.platforms.push(id)
-    options.gamesDb[gameName].data.platforms.sort(function (a, b) { return a - b })
-  
-    options.updateGameFile(gameName)
-  
-    reply
-      .code(200)
-      .send(options.gamesDb[gameName].data.platforms)
-  })
+async function routes(fastify, options) {
+  fastify.post('/data/game/:gameName/platforms/:platformId',
+    {
+      config: {
+        gameNameExists: true,
+        platformIdValid: true,
+        platformIdExistsFail: true
+      }
+    },
+    async function handler(request, reply) {
+      const { gameName, platformId } = request.params
+      const id = Number(platformId)
 
-  fastify.delete('/data/game/:gameName/platforms/:platformId', async function handler(request, reply) {
-    const { gameName, platformId } = request.params
-    const id = Number(platformId)
-  
-    if (options.platformEnum.includes(id)
-      && options.gamesList.includes(gameName)
-    ) {
-      options.gamesDb[gameName].data.platforms.splice(options.gamesDb[gameName].data.platforms.indexOf(id), 1)
-  
+      options.gamesDb[gameName].data.platforms.push(id)
+      options.gamesDb[gameName].data.platforms.sort(function (a, b) { return a - b })
+
       options.updateGameFile(gameName)
-  
+
       reply
         .code(200)
         .send(options.gamesDb[gameName].data.platforms)
-    }
-    else {
+    })
+
+  fastify.delete('/data/game/:gameName/platforms/:platformId',
+    {
+      config: {
+        gameNameExists: true,
+        platformIdValid: true,
+        platformIdExistsPass: true
+      }
+    },
+    async function handler(request, reply) {
+      const { gameName, platformId } = request.params
+      const id = Number(platformId)
+
+      options.gamesDb[gameName].data.platforms.splice(options.gamesDb[gameName].data.platforms.indexOf(id), 1)
+
+      options.updateGameFile(gameName)
+
       reply
-        .code(400)
+        .code(200)
         .send(options.gamesDb[gameName].data.platforms)
-    }
-  })
+    })
 }
 
 export default routes;

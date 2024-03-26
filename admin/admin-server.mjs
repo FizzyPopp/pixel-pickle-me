@@ -151,6 +151,80 @@ fastify.register(routesPlatformId, options)
 fastify.register(routesPlatformFeatures, options)
 fastify.register(fastifyStatic, { root: [adminPath, htmxtemp] })
 
+fastify.decorate('gameNameExists', (request, reply) => {
+  const { gameName } = request.params
+  if (options.gamesDb[gameName] === undefined) {
+    reply
+      .code(400)
+      .send(gameName + " does not exist in DB.")
+  }
+})
+
+fastify.decorate('platformIdValid', (request, reply) => {
+  const { platformId } = request.params
+  if (!options.platformEnum.includes(Number(platformId))) {
+    reply
+      .code(400)
+      .send("Invalid platform")
+  }
+})
+
+fastify.decorate('platformIdExistsFail', (request, reply) => {
+  const { gameName, platformId } = request.params
+  if (options.gamesDb[gameName].data.platforms.includes(Number(platformId))) {
+    reply
+      .code(400)
+      .send("Platform already on list")
+  }
+})
+
+fastify.decorate('platformIdExistsPass', (request, reply) => {
+  const { gameName, platformId } = request.params
+  if (!options.gamesDb[gameName].data.platforms.includes(Number(platformId))) {
+    reply
+      .code(400)
+      .send("Platform already on list")
+  }
+})
+
+fastify.addHook('onRoute', (routeOptions) => {
+  if (routeOptions.config) {
+    addHandler((request, reply, done) => {
+      fastify.gameNameExists(request, reply)
+      done()
+    }, routeOptions, "gameNameExists")
+
+    addHandler((request, reply, done) => {
+      fastify.platformIdValid(request, reply)
+      done()
+    }, routeOptions, "platformIdValid")
+
+    addHandler((request, reply, done) => {
+      fastify.platformIdExistsFail(request, reply)
+      done()
+    }, routeOptions, "platformIdExistsFail")
+
+    addHandler((request, reply, done) => {
+      fastify.platformIdExistsPass(request, reply)
+      done()
+    }, routeOptions, "platformIdExistsPass")
+  }
+})
+
+function addHandler(handler, routeOptions, configName) {
+  if (routeOptions.config[configName] === true) {
+    if (!routeOptions.preHandler) {
+      routeOptions.preHandler = [handler]
+    }
+    else if (Array.isArray(routeOptions.preHandler)) {
+      routeOptions.preHandler.push(handler)
+    }
+    else {
+      routeOptions.preHandler = [routeOptions.preHandler, handler]
+    }
+  }
+}
+
 // Detect changes in files
 setupWatchers()
 
