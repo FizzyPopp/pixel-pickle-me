@@ -7,7 +7,7 @@ import fastifyStatic from '@fastify/static'
 
 import routesRoot from './routes/root.mjs'
 import routesPage from './routes/page.mjs'
-import routesTitle from './routes/data/game/title.mjs'
+import routesTitle from './routes/data/game/game.mjs'
 import routesImage from './routes/data/game/image.mjs'
 import routesPlatforms from './routes/data/platforms.mjs'
 import routesPlatformId from './routes/data/game/platform-id.mjs'
