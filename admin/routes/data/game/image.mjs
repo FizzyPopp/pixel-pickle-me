@@ -13,7 +13,7 @@ async function routes(fastify, options) {
       try {
         reply
           .code(200)
-          .type('image/' + options.getImageExt(gameName, imageType))
+          .type('image/jpeg')
           .send(await options.getImage(gameName, imageType))
       } catch (e) {
         fastify.log.error(e)

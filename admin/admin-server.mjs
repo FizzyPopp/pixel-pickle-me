@@ -14,7 +14,92 @@ import routesPlatformId from './routes/data/game/platform-id.mjs'
 import routesPlatformFeatures from './routes/data/game/platform-features.mjs'
 
 import { URL } from 'node:url'
+import { readFileSync, readdirSync } from 'fs'
 import { readFile, readdir, writeFile } from 'fs/promises'
+
+class FileHandler {
+  #p = new URL(import.meta.url)
+
+  root = Path.join(this.#p.pathname, '../..')
+
+  #dataPath = Path.join(this.root, 'data')
+  adminPath = Path.join(this.root, 'admin')
+  htmxPath = Path.join(this.root, 'node_modules/htmx.org/dist')
+
+  gamesPath = Path.join(this.#dataPath, 'games')
+  #templatePath = Path.join(this.adminPath, 'ui')
+
+  platformEnum = []
+
+  gamesDb = {}
+
+  constructor(log) {
+    this.log = log
+
+    this.platformsJSON = JSON.parse(
+      readFileSync(Path.join(this.#dataPath, 'platforms.json'), 'utf8')
+    )
+
+    this.gameFiles = readdirSync(this.gamesPath)
+
+    for (let i = 0; i < this.platformsJSON.PlatformEnum.length; i++) {
+      this.platformEnum.push(this.platformsJSON.PlatformEnum[i].platformID)
+    }
+
+    for (let idx = 0; idx < this.gameFiles.length; idx++) {
+      let data = {}
+      let fileName = "" + this.gameFiles[idx]
+      let gameName = fileName.split('.')[0]
+
+      try {
+        data = readFileSync(Path.join(this.#dataPath, 'games', fileName))
+        data = JSON.parse(data)
+      } catch (e) { console.error(e) }
+
+      this.gamesDb[gameName] = {
+        name: gameName,
+        data: data
+      }
+    }
+
+    this.gamesList = Object.keys(this.gamesDb)
+  }
+
+  async getTemplates() {
+    const templatesList = await readdir(this.#templatePath)
+    const templatesRaw = {}
+    await (async () => {
+      for (const t of templatesList) {
+        const template = await readFile(Path.join(this.#templatePath, t), { encoding: 'utf8' })
+        const name = t.split('.')[0]
+        templatesRaw[name] = template
+      }
+    })()
+    return templatesRaw
+  }
+
+  async getImage(gameName, imgType) {
+    return readFile(Path.join(this.gamesPath, this.gamesDb[gameName].data.image[imgType]))
+  }
+
+  async createGameFile(gameName) {
+    const gameData = {
+      platforms: [],
+      platformFeatures: [],
+      image: { cover: "", background: "" },
+      gfxOptions: [],
+      performanceRecordlist: [],
+    }
+    await writeFile(Path.join(this.gamesPath, gameName + '.json'),
+      JSON.stringify(gameData))
+    this.log.info(gameName + " added")
+  }
+
+  async updateGameFile() {
+    await writeFile(Path.join(this.gamesPath, gameName + '.json'),
+      JSON.stringify(this.gamesDb[gameName].data))
+  }
+}
 
 const fastify = Fastify({
   logger: {
@@ -30,130 +115,23 @@ const fastify = Fastify({
 
 const Log = fastify.log
 
-const p = new URL(import.meta.url)
-
-const root = Path.join(p.pathname, '../..')
-
-const dataPath = Path.join(root, 'data')
-const htmxPath = Path.join(root, 'node_modules/htmx.org/dist/htmx.js')
-const backupPath = Path.join(root, '.data_backup')
-const adminPath = Path.join(root, 'admin')
-
-const gamesPath = Path.join(dataPath, 'games')
-
-const templatePath = Path.join(adminPath, 'ui')
-
-const indexPath = Path.join(p.pathname, '..', 'index.html')
-const editorPath = Path.join(p.pathname, '..', 'data-editor.js')
-
-let htmx = await readFile(htmxPath)
-let index = await readFile(indexPath)
-let editor = await readFile(editorPath)
-
-let platformsJSON = JSON.parse(
-  await readFile(Path.join(dataPath, 'platforms.json'), 'utf8')
-)
-
-let platformEnum = []
-for (let i = 0; i < platformsJSON.PlatformEnum.length; i++) {
-  platformEnum.push(platformsJSON.PlatformEnum[i].platformID)
-}
-
-let gameFiles = await readdir(gamesPath)
-let gamesDb = {}
-for (let idx = 0; idx < gameFiles.length; idx++) {
-  let data = {}
-  let fileName = "" + gameFiles[idx]
-  let gameName = fileName.split('.')[0]
-
-  try {
-    data = await readFile(Path.join(dataPath, 'games', fileName))
-    data = JSON.parse(data)
-  } catch (e) { console.error(e) }
-
-  gamesDb[gameName] = {
-    name: gameName,
-    data: data
-  }
-}
-
-let gamesList = Object.keys(gamesDb)
+const fileHandler = new FileHandler(fastify.log)
 
 const watchers = {}
 
-console.log(root)
-console.log(dataPath)
-console.log(backupPath)
-console.log(indexPath)
-console.log(gameFiles)
-
-const htmxtemp = Path.join(root, 'node_modules/htmx.org/dist')
-
-const options = {
-  htmx: htmx,
-  index: index,
-  editor: editor,
-  platformsJSON: platformsJSON,
-  platformEnum: platformEnum,
-  gamesDb: gamesDb,
-  gamesList: gamesList,
-  getTemplates: async function () {
-    const templatesList = await readdir(templatePath)
-    const templatesRaw = {}
-    await (async () => {
-      for (const t of templatesList) {
-        const template = await readFile(Path.join(templatePath, t), { encoding: 'utf8' })
-        const name = t.split('.')[0]
-        templatesRaw[name] = template
-      }
-    })()
-    return templatesRaw
-  },
-  createGameFile: async function (gameName) {
-    const gameData = {
-      platforms: [],
-      platformFeatures: [],
-      image: { cover: "", background: "" },
-      gfxOptions: [],
-      performanceRecordlist: [],
-    }
-    await writeFile(Path.join(gamesPath, gameName + '.json'), 
-    JSON.stringify(gameData))
-  },
-  updateGameFile: async function(gameName) {
-    await writeFile(Path.join(gamesPath, gameName + '.json'), 
-    JSON.stringify(this.gamesDb[gameName].data))
-  },
-  isGameNameValid: function(gameName, reply) {
-    if (gamesDb[gameName] === undefined) {
-      Log.info(gameName + " does not exist in DB.")
-      reply
-        .code(400)
-        .send(gameName + " does not exist in DB.")
-    }
-    return gamesDb[gameName] !== undefined
-  },
-  getImageExt: function(gameName, imgType) {
-    return Path.extname(Path.join(gamesPath, options.gamesDb[gameName].data.image[imgType]))
-  },
-  getImage: async function(gameName, imgType) {
-    return readFile(Path.join(gamesPath, options.gamesDb[gameName].data.image[imgType]))
-  }
-}
-
 fastify.register(fastifyFormbody)
-fastify.register(routesRoot, options)
-fastify.register(routesPage, options)
-fastify.register(routesTitle, options)
-fastify.register(routesImage, options)
-fastify.register(routesPlatforms, options)
-fastify.register(routesPlatformId, options)
-fastify.register(routesPlatformFeatures, options)
-fastify.register(fastifyStatic, { root: [adminPath, htmxtemp] })
+fastify.register(routesRoot, fileHandler)
+fastify.register(routesPage, fileHandler)
+fastify.register(routesTitle, fileHandler)
+fastify.register(routesImage, fileHandler)
+fastify.register(routesPlatforms, fileHandler)
+fastify.register(routesPlatformId, fileHandler)
+fastify.register(routesPlatformFeatures, fileHandler)
+fastify.register(fastifyStatic, { root: [fileHandler.adminPath, fileHandler.htmxPath] })
 
 fastify.decorate('gameNameExists', (request, reply) => {
   const { gameName } = request.params
-  if (options.gamesDb[gameName] === undefined) {
+  if (fileHandler.gamesDb[gameName] === undefined) {
     reply
       .code(400)
       .send(gameName + " does not exist in DB.")
@@ -162,7 +140,7 @@ fastify.decorate('gameNameExists', (request, reply) => {
 
 fastify.decorate('platformIdValid', (request, reply) => {
   const { platformId } = request.params
-  if (!options.platformEnum.includes(Number(platformId))) {
+  if (!fileHandler.platformEnum.includes(Number(platformId))) {
     reply
       .code(400)
       .send("Invalid platform")
@@ -171,7 +149,7 @@ fastify.decorate('platformIdValid', (request, reply) => {
 
 fastify.decorate('platformIdExistsFail', (request, reply) => {
   const { gameName, platformId } = request.params
-  if (options.gamesDb[gameName].data.platforms.includes(Number(platformId))) {
+  if (fileHandler.gamesDb[gameName].data.platforms.includes(Number(platformId))) {
     reply
       .code(400)
       .send("Platform already on list")
@@ -180,7 +158,7 @@ fastify.decorate('platformIdExistsFail', (request, reply) => {
 
 fastify.decorate('platformIdExistsPass', (request, reply) => {
   const { gameName, platformId } = request.params
-  if (!options.gamesDb[gameName].data.platforms.includes(Number(platformId))) {
+  if (!fileHandler.gamesDb[gameName].data.platforms.includes(Number(platformId))) {
     reply
       .code(400)
       .send("Platform already on list")
@@ -238,61 +216,24 @@ try {
 
 // Helper Functions
 function setupWatchers() {
-  console.log('watching index')
-  watchers.index = Chokidar.watch(indexPath)
-    .on('change', async (path) => {
-      options.index = await readFile(indexPath)
-      console.log('index updated')
-    })
-
-  watchers.editor = Chokidar.watch(editorPath)
-    .on('change', async (path) => {
-      options.editor = await readFile(editorPath)
-      console.log('editor updated')
-    })
-
-  watchers.games = Chokidar.watch(gamesPath)
+  watchers.games = Chokidar.watch(fileHandler.gamesPath)
     .on('add', async (path) => {
-      await loadGameFromPath(path)
-      options.gamesList = Object.keys(gamesDb)
-      const gameName = gameFilePathToName(path)
+      console.log(`File ${path} has been changed.`)
+      const gameName = Path.basename(path).split('.')[0]
+      try {
+        const gameFileBuf = await readFile(path)
+        const gameData = JSON.parse(gameFileBuf)
+        fileHandler.gamesDb[gameName] = {
+          name: gameName,
+          data: gameData
+        }
+      } catch (e) { Log.error(e) }
+      fileHandler.gamesList = Object.keys(fileHandler.gamesDb)
       Log.info(`Found new game '${gameName}' at path ${path}`)
     }).on('unlink', async (path) => {
-      const gameName = gameFilePathToName(path)
-      delete gamesDb[gameName]
+      const gameName = Path.basename(path).split('.')[0]
+      delete fileHandler.gamesDb[gameName]
       Log.info(`Removed game '${gameName}' at path ${path}`)
-      options.gamesList = Object.keys(gamesDb)
+      fileHandler.gamesList = Object.keys(fileHandler.gamesDb)
     })
-}
-
-function gameFilePathToName(path) {
-  return Path.basename(path).split('.')[0]
-}
-
-function isGameNameValid(gameName, reply) {
-  if (gamesDb[gameName] === undefined) {
-    Log.info(gameName + " does not exist in DB.")
-    reply
-      .code(400)
-      .send(gameName + " does not exist in DB.")
-  }
-  return gamesDb[gameName] !== undefined
-}
-
-async function loadGameFromPath(path) {
-  console.log(`File ${path} has been changed.`)
-  let gameName = gameFilePathToName(path)
-  try {
-    const gameFileBuf = await readFile(path)
-    const gameData = JSON.parse(gameFileBuf)
-    gamesDb[gameName] = {
-      name: gameName,
-      data: gameData
-    }
-    // Log.info(gamesDb[gameName])
-  } catch (e) { Log.error(e) }
-}
-
-async function updateGameFile(gameName) {
-  await writeFile(Path.join(gamesPath, gameName + '.json'), JSON.stringify(gamesDb[gameName].data))
 }
