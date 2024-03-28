@@ -1,6 +1,7 @@
-<section
+<div
   id="game-data"
   game-name="{{name}}"
+  hx-on:htmx:load="getGameData(event)"
 >
   <h1 id="title">{{title}}</h1>
   <fieldset id="images">
@@ -29,9 +30,9 @@
       <h2>Graphics Options Available</h2>
     </legend>
     <ul
-      id="gfx-options--list"
+      id="gfx-options-list"
       hx-get="/page/{{name}}/gfx-options"
-      hx-trigger="load"
+      hx-trigger="load, update-gfx-options"
     >
     </ul>
     <fieldset draggable="false">
@@ -72,4 +73,4 @@
       hx-trigger="load"
     ></ul>
   </fieldset>
-</section>
+</div>

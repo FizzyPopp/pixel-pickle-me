@@ -77,14 +77,23 @@ export default async function routePage(pageApi, options) {
   pageApi.post(baseUrl + '/data-editor', async (request, reply) => {
     targetGameName = request.body.gameName
     Log.debug(`targetGameName: ${Q(options.gamesDb[targetGameName].data)}`)
-    updateSectionData()
-    reply
-      .code(200)
-      .type('text/html')
-      .send(templates['data-editor']({
+    let html = ''
+    let code = 200
+    try {
+      updateSectionData()
+      html = templates['data-editor']({
         name: targetGameName,
         title: options.gamesDb[targetGameName].data.title
-      }))
+      })
+    } catch (e) {
+      code = 200
+      html = `<p>${targetGameName} not found to be a valid game :(</p>`
+    }
+
+    reply
+      .code(code)
+      .type('text/html')
+      .send(html)
   })
 
   pageApi.get(baseUrl + '/:gameName/:section', async (request, reply) => {
@@ -110,6 +119,7 @@ export default async function routePage(pageApi, options) {
     Log.debug(sectionData)
     for (const key in sectionData) {
       sectionData[key].gameName = targetGameName
+      sectionData[key].idPrefix = key
     }
 
     sectionData['images'].types = ['cover', 'background'].map((t) => { return { name: t } })

@@ -5,7 +5,8 @@ let targetGame = {
 }
 let platformData = {}
 
-
+let counter = 0
+let gameLoaded = false
 
 fetch('/data/platforms', {
   method: `GET`,
@@ -15,6 +16,25 @@ fetch('/data/platforms', {
 })
 
 //--- event handlers
+async function getGameData(event) {
+  if (gameLoaded === false) {
+    gameLoaded = true
+    targetGame.name = event.detail.elt.getAttribute(`game-name`)
+    try {
+      const response = await fetch(`/data/game/` + targetGame.name, { method: `GET` })
+      const json = await response.json()
+      targetGame.data = json.data
+      console.log(targetGame)
+    } catch (e) {
+      console.log('uhhh')
+    }
+  }
+}
+
+function handleChangeGameSelection(event) {
+  gameLoaded = false
+  console.log(event)
+}
 
 async function handleCheckboxChange(target){
   target.checked = !target.checked
@@ -68,8 +88,32 @@ async function updateGfxOptionsPreviewEntries(inputEl){
   }
 }
 
-async function removeGfxOption(t){
-  console.log(t)
+async function removeGfxOption(t, targetId){
+  let newGfxOpts = JSON.parse(JSON.stringify(targetGame.data.gfxOptions))
+
+  // console.dir(targetGame.data.gfxOptions)
+  console.log(`Sending PATCH to remove #${targetId} - '${t.nextElementSibling.innerText}'`)
+
+  const i = targetId.split('-').slice(-2)
+  const gfxidx = i[0]
+  const optidx = i[1]
+
+  newGfxOpts[gfxidx].options = newGfxOpts[gfxidx].options.splice(optidx, 1)
+
+  const response = await fetch(`/data/game/${targetGame.name}/gfx-options`,
+    {
+      method: "PATCH",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      },
+      body: newGfxOpts
+    })
+
+  console.log(response)
+  if (response.status === 200) {
+    targetGame.data.gfxOptions = newGfxOpts
+    htmx.trigger('#gfx-options-list', 'update-gfx-options')
+  }
 }
 
 //--- helper functions
@@ -82,9 +126,4 @@ async function postUrl(url, body) {
     },
     body: body? body : {}
   })
-}
-
-function removeChildren(el){
-  while (el.firstChild) { el.removeChild(el.lastChild) }
-  return el
 }
