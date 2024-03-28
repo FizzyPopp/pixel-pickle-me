@@ -1,12 +1,23 @@
 {{#each list }}
-  <span id="gfx-options-0">
+  <span id="{{../idPrefix}}-{{@index}}">
     <h3>{{name}}</h3>
-    <ul>
+    <ul id="{{../idPrefix}}-{{@index}}-list">
       {{#each options}}
-      <li optionName={{this}} >
-        {{this}}
+      <li
+        optionName={{slug this}}
+        id="{{../../idPrefix}}-{{@../index}}-{{@index}}"
+      >
+        <button onclick="removeGfxOption(this,'{{../../idPrefix}}-{{@../index}}-{{@index}}')">x</button>
+        <span>{{this}}</span>
       </li>
       {{/each}}
-    </ul><button onclick="removeGfxOption(this)">Remove Option</button>
+    </ul>
+    <label for="gfx-options-name-input">Option Name:</label>
+    <input
+      type="text"
+      name="gfx-options-name-input"
+      id="gfx-options-name-input"
+      oninput="updateGfxOptionsPreviewName(this)"
+    />
   </span>
 {{/each}}
