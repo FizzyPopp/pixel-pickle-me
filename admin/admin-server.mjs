@@ -89,7 +89,7 @@ class FileHandler {
       platformFeatures: [],
       image: { cover: "", background: "" },
       gfxOptions: [],
-      performanceRecordlist: [],
+      performanceRecords: [],
     }
     await writeFile(Path.join(this.gamesPath, gameName + '.json'),
       JSON.stringify(gameData, null, 2))
