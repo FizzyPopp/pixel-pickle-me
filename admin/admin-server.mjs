@@ -13,6 +13,7 @@ import routesPlatforms from './routes/data/platforms.mjs'
 import routesPlatformId from './routes/data/game/platform-id.mjs'
 import routesPlatformFeatures from './routes/data/game/platform-features.mjs'
 import routesGfxOptions from './routes/data/game/gfx-options.mjs'
+import routesPerformanceRecords from './routes/data/game/performance-records.mjs'
 
 import { URL } from 'node:url'
 import { readFileSync, readdirSync } from 'fs'
@@ -129,6 +130,7 @@ fastify.register(routesPlatforms, fileHandler)
 fastify.register(routesPlatformId, fileHandler)
 fastify.register(routesPlatformFeatures, fileHandler)
 fastify.register(routesGfxOptions, fileHandler)
+fastify.register(routesPerformanceRecords, fileHandler)
 fastify.register(fastifyStatic, { root: [fileHandler.adminPath, fileHandler.htmxPath] })
 
 fastify.decorate('gameNameExists', (request, reply) => {
