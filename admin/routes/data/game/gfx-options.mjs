@@ -65,7 +65,7 @@ async function routes(fastify, options) {
         .send(request.body.old + " replaced with " + request.body.new)
     })
 
-  fastify.delete('/data/game/:gameName/gfx-options/',
+  fastify.delete('/data/game/:gameName/gfx-options',
     {
       config: {
         gameNameExists: true,
