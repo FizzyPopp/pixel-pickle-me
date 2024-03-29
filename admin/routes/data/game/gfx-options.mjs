@@ -9,7 +9,7 @@ async function routes(fastify, options) {
       const { gameName } = request.params
 
       const gfxOption = {
-        name: request.body,
+        name: request.body.name,
         values: []
       }
 
