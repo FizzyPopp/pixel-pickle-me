@@ -34,14 +34,14 @@
   "gfxOptions": [
     {
       "name": "Graphics Mode",
-      "options": [
+      "values": [
         "Prioritize Quality",
         "Prioritize Frame-Rate"
       ]
     },
     {
       "name": "Ray Tracing",
-      "options": [
+      "values": [
         "on",
         "off"
       ]
@@ -55,11 +55,11 @@
         "gfxOptionsSet": [
           {
             "name": "Graphics Mode",
-            "setOption": "Prioritize Quality"
+            "setValue": "Prioritize Quality"
           },
           {
             "name": "Ray Tracing",
-            "setOption": "off"
+            "setValue": "off"
           }
         ]
       },
@@ -80,11 +80,11 @@
         "gfxOptionsSet": [
           {
             "name": "Graphics Mode",
-            "setOption": "Prioritize Quality"
+            "setValue": "Prioritize Quality"
           },
           {
             "name": "Ray Tracing",
-            "setOption": "on"
+            "setValue": "on"
           }
         ]
       },
@@ -105,11 +105,11 @@
         "gfxOptionsSet": [
           {
             "name": "Graphics Mode",
-            "setOption": "Prioritize Frame-Rate"
+            "setValue": "Prioritize Frame-Rate"
           },
           {
             "name": "Ray Tracing",
-            "setOption": "off"
+            "setValue": "off"
           }
         ]
       },
@@ -130,11 +130,11 @@
         "gfxOptionsSet": [
           {
             "name": "Graphics Mode",
-            "setOption": "Prioritize Quality"
+            "setValue": "Prioritize Quality"
           },
           {
             "name": "Ray Tracing",
-            "setOption": "off"
+            "setValue": "off"
           }
         ]
       },
@@ -155,11 +155,11 @@
         "gfxOptionsSet": [
           {
             "name": "Graphics Mode",
-            "setOption": "Prioritize Quality"
+            "setValue": "Prioritize Quality"
           },
           {
             "name": "Ray Tracing",
-            "setOption": "on"
+            "setValue": "on"
           }
         ]
       },
@@ -180,11 +180,11 @@
         "gfxOptionsSet": [
           {
             "name": "Graphics Mode",
-            "setOption": "Prioritize Frame-Rate"
+            "setValue": "Prioritize Frame-Rate"
           },
           {
             "name": "Ray Tracing",
-            "setOption": "off"
+            "setValue": "off"
           }
         ]
       },
@@ -207,11 +207,11 @@
         "gfxOptionsSet": [
           {
             "name": "Graphics Mode",
-            "setOption": "Prioritize Quality"
+            "setValue": "Prioritize Quality"
           },
           {
             "name": "Ray Tracing",
-            "setOption": "off"
+            "setValue": "off"
           }
         ]
       },
@@ -232,11 +232,11 @@
         "gfxOptionsSet": [
           {
             "name": "Graphics Mode",
-            "setOption": "Prioritize Frame-Rate"
+            "setValue": "Prioritize Frame-Rate"
           },
           {
             "name": "Ray Tracing",
-            "setOption": "off"
+            "setValue": "off"
           }
         ]
       },
