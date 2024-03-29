@@ -154,9 +154,9 @@ export default async function routePage(pageApi, options) {
     'gfx-options': (gameData) => {
       sectionData['gfx-options'].list = gameData.gfxOptions
     },
-    'performance-record-list': (gameData) => {
-      sectionData['performance-record-list'].resolutionTypes = ['full', 'dynamic', 'checkerboard']
-      sectionData['performance-record-list'].list = gameData.performanceRecordList.map((record, idx) => {
+    'performance-records': (gameData) => {
+      sectionData['performance-records'].resolutionTypes = ['full', 'dynamic', 'checkerboard']
+      sectionData['performance-records'].list = gameData.performanceRecords.map((record, idx) => {
         return {
           index: idx,
           ...record
