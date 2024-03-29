@@ -127,7 +127,7 @@ export default async function routePage(pageApi, options) {
     const gameData = options.gamesDb[targetGameName].data
     for (const key in sectionData) {
       sectionData[key].gameName = targetGameName
-      sectionData[key].idPrefix = key
+      sectionData[key].endpoint = key
     }
   }
 
