@@ -16,6 +16,10 @@ async function routes(fastify, options) {
       options.gamesDb[gameName].data.gfxOptions.push(gfxOption)
 
       options.updateGameFile(gameName)
+
+      reply
+        .code(200)
+        .send(request.body.name + " added to " + gameName)
     })
 
   fastify.post('/data/game/:gameName/gfx-options/value',
@@ -61,7 +65,7 @@ async function routes(fastify, options) {
         .send(request.body.old + " replaced with " + request.body.new)
     })
 
-  fastify.delete('/data/game/:gameName/gfx-options/',
+  fastify.delete('/data/game/:gameName/gfx-options',
     {
       config: {
         gameNameExists: true,
