@@ -95,7 +95,7 @@ class FileHandler {
     this.log.info(gameName + " added")
   }
 
-  async updateGameFile() {
+  async updateGameFile(gameName) {
     await writeFile(Path.join(this.gamesPath, gameName + '.json'),
       JSON.stringify(this.gamesDb[gameName].data))
   }
