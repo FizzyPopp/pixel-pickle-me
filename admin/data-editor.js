@@ -16,6 +16,11 @@ fetch('/data/platforms', {
 })
 
 //--- event handlers
+async function update(requestEv, targetId, eventName){
+  if (requestEv.detail.successful){
+    htmx.trigger(targetId, eventName)
+  }
+}
 async function getGameData(event) {
   if (gameLoaded === false) {
     gameLoaded = true
@@ -88,7 +93,12 @@ async function updateGfxOptionsPreviewEntries(inputEl){
   }
 }
 
-async function removeGfxOption(t, targetId){
+async function poop(e){
+  console.log(e.detail)
+
+}
+
+async function updateGfxOptValue(t, targetId){
   let newGfxOpts = JSON.parse(JSON.stringify(targetGame.data.gfxOptions))
 
   // console.dir(targetGame.data.gfxOptions)

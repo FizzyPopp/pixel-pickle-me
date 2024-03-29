@@ -62,17 +62,20 @@ export default async function routePage(pageApi, options) {
       .type('text/html')
       .send(templates['game-select']({ gamesList: gamesList }))
   })
-
-  pageApi.get(baseUrl + '/test', async (request, reply) => {
-    Log.info(targetGameName)
-    Log.info(options.gamesDb[targetGameName].data.title)
-    // options.gamesDb[targetGameName].data.title = "poop"
-    // options.updateGameFile(targetGameName)
+  async function test(request, reply) {
+    const body = {...request.body}
+    Log.info(`name: ${body.name} | value: ${body.value}`)
+    Log.info(`body: ${Q(body)}`)
     reply
       .code(200)
       .type('application/json')
-      .send(JSON.stringify(options.gamesDb[targetGameName]))
-  })
+      .send(JSON.stringify(body))
+  }
+
+  pageApi.get(baseUrl + '/test', test)
+  pageApi.post(baseUrl + '/test', test)
+  pageApi.patch(baseUrl + '/test', test)
+  pageApi.delete(baseUrl + '/test', test)
 
   pageApi.post(baseUrl + '/data-editor', async (request, reply) => {
     targetGameName = request.body.gameName
@@ -80,12 +83,13 @@ export default async function routePage(pageApi, options) {
     let html = ''
     let code = 200
     try {
-      updateSectionData()
+      generateSectionData()
       html = templates['data-editor']({
         name: targetGameName,
         title: options.gamesDb[targetGameName].data.title
       })
     } catch (e) {
+      Log.error(e)
       code = 200
       html = `<p>${targetGameName} not found to be a valid game :(</p>`
     }
@@ -102,6 +106,8 @@ export default async function routePage(pageApi, options) {
     Log.debug(`gameName: ${gameName}`)
     Log.debug(`section: ${section}`)
 
+    update[section]?.(options.gamesDb[gameName].data)
+
     const htmlRender = templates[section](sectionData[section])
     Log.debug(htmlRender)
 
@@ -114,42 +120,50 @@ export default async function routePage(pageApi, options) {
 
   //--- helper functions
 
-  function updateSectionData() {
-    const gameData = options.gamesDb[targetGameName].data
+  function generateSectionData() {
     Log.debug(sectionData)
+    const gameData = options.gamesDb[targetGameName].data
     for (const key in sectionData) {
       sectionData[key].gameName = targetGameName
       sectionData[key].idPrefix = key
     }
+  }
 
-    sectionData['images'].types = ['cover', 'background'].map((t) => { return { name: t } })
+  const update = {
+    images: (gameData) => {
+      sectionData['images'].types = ['cover', 'background'].map((t) => { return { name: t } })
+    },
+    'platform-features': (gameData) => {
+      sectionData['platform-features'].list = platformData.map((plat) => {
+        plat.active = gameData.platforms.includes(plat.platformID)
+        if (plat.active) {
+          const featuresActive = gameData.platformFeatures.find((pf) => {
+            return pf.platformId === plat.platformID
+          }).featuresActive
 
-    sectionData['platform-features'].list = platformData.map((plat) => {
-      plat.active = gameData.platforms.includes(plat.platformID)
-      if (plat.active) {
-        const featuresActive = gameData.platformFeatures.find((pf) => {
-          return pf.platformId === plat.platformID
-        }).featuresActive
-
-        plat.featureList = plat.featureList.map((feature) => {
-          feature.active = featuresActive.includes(feature.name)
-          return feature
-        })
-      }
-      return plat
-    })
-
-    sectionData['gfx-options'].list = gameData.gfxOptions
-
-    sectionData['performance-record-list'].resolutionTypes = ['full', 'dynamic', 'checkerboard']
-    sectionData['performance-record-list'].list = gameData.performanceRecordList.map((record, idx) => {
-      return {
-        index: idx,
-        ...record
-      }
-    })
+          plat.featureList = plat.featureList.map((feature) => {
+            feature.active = featuresActive.includes(feature.name)
+            return feature
+          })
+        }
+        return plat
+      })
+    },
+    'gfx-options': (gameData) => {
+      sectionData['gfx-options'].list = gameData.gfxOptions
+    },
+    'performance-record-list': (gameData) => {
+      sectionData['performance-record-list'].resolutionTypes = ['full', 'dynamic', 'checkerboard']
+      sectionData['performance-record-list'].list = gameData.performanceRecordList.map((record, idx) => {
+        return {
+          index: idx,
+          ...record
+        }
+      })
+    }
   }
 }
+
 
 function capitalize(str){
   let Str = ''

@@ -23,7 +23,7 @@
       hx-get="/page/{{name}}/platform-features"
       hx-trigger="load"
     ></ul>
-    <input type="submit" name="submit-platform-option" value="Add Platform"/>
+    <input type="button" name="submit-platform-option" value="Add Platform"/>
   </fieldset>
   <fieldset id="gfx-options">
     <legend id="gfx-options-legend">
@@ -32,7 +32,8 @@
     <ul
       id="gfx-options-list"
       hx-get="/page/{{name}}/gfx-options"
-      hx-trigger="load, update-gfx-options"
+      hx-trigger="load, reload"
+      hx-on:htmx:before-request="console.log('GET /page/{{name}}/gfx-options')"
     >
     </ul>
     <fieldset draggable="false">
@@ -40,27 +41,22 @@
         <h3>New Option</h3>
       </legend>
       <div>
-        <label for="gfx-options-name-input">Option Name:</label>
+        <label for="gfx-options-add-name-input">Option Name:</label>
         <input
           type="text"
-          name="gfx-options-name-input"
-          id="gfx-options-name-input"
-          oninput="updateGfxOptionsPreviewName(this)"
+          name="gfx-options-add-name-input"
+          id="gfx-options-add-name-input"
         />
-      </div>
-      <br/>
-      <div>
-        <label for="gfx-options-entries-input">Option Entries (comma separated):</label>
-        <input
-          type="text"
-          name="gfx-options-entries-input"
-          id="gfx-options-entries-input"
-          onchange="updateGfxOptionsPreviewEntries(this)"
-        />
+        <button
+          hx-post="/page/test"
+          hx-vals='js:{name: document.getElementById("gfx-options-add-name-input").value}'
+          hx-swap="none"
+          hx-on:htmx:after-request="update(event, '#gfx-options-list', 'load')"
+        >
+          Add Option
+        </button>
       </div>
       <h3 id="gfx-options-preview-name"></h3>
-      <ul id="gfx-options-preview-entries"></ul>
-      <input type="submit" name="submit-gfx-option" value="Add Option"/>
     </fieldset>
   </fieldset>
   <fieldset id="performance-record-list">
