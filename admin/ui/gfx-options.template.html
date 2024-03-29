@@ -1,23 +1,70 @@
 {{#each list }}
-  <span id="{{../idPrefix}}-{{@index}}">
-    <h3>{{name}}</h3>
-    <ul id="{{../idPrefix}}-{{@index}}-list">
-      {{#each options}}
-      <li
-        optionName={{slug this}}
-        id="{{../../idPrefix}}-{{@../index}}-{{@index}}"
+<span id="{{@root.endpoint}}-{{@index}}">
+  <h3>
+    <button
+      id="{{@root.endpoint}}-{{slug name}}-delete-input"
+      hx-delete="/data/game/{{@root.gameName}}/{{@root.endpoint}}"
+      hx-vals='{"name": "{{name}}"}'
+      hx-swap="none"
+      hx-on:htmx:after-request="update(event, '#{{@root.endpoint}}-list', 'reload')"
+    >x</button>
+    {{name}}
+  </h3>
+  <ul id="{{@root.endpoint}}-{{@index}}-list">
+    {{#each values}}
+    <li
+      optionName={{slug this}}
+      id="{{@root.endpoint}}-{{@../index}}-{{@index}}"
+    >
+      <button
+        id="-{{slug ../name}}-{{slug this}}-delete-input"
+        hx-delete="/page/test"
+        hx-vals='{"name": "{{../name}}", "value": "{{this}}"}'
+        hx-swap="none"
+        hx-on:htmx:after-request="update(event, '#{{@root.endpoint}}-list', 'reload')"
       >
-        <button onclick="removeGfxOption(this,'{{../../idPrefix}}-{{@../index}}-{{@index}}')">x</button>
-        <span>{{this}}</span>
-      </li>
-      {{/each}}
-    </ul>
-    <label for="gfx-options-name-input">Option Name:</label>
+        x
+      </button>
+      <span>{{this}}</span>
+      <input
+        type="text"
+        name="{{@root.endpoint}}-name-input"
+        id="{{@root.endpoint}}-{{slug ../name}}-{{slug this}}-update-input"
+        oninput="updateGfxOptionsPreviewName(this)"
+      />
+      <button
+        hx-patch="/page/test"
+        hx-vals='js:{
+                  name: "{{../name}}",
+                  old: "{{this}}",
+                  new: document.getElementById("{{@root.endpoint}}-{{slug ../name}}-{{slug this}}-update-input").value
+                  }'
+        hx-swap="none"
+        hx-on:htmx:after-request="update(event, '#{{@root.endpoint}}-list', 'reload')"
+      >
+        Update
+      </button>
+    </li>
+    {{/each}}
+  </ul>
+  <div>
+    <label for="{{@root.endpoint}}-{{slug name}}-add-value-input">New value:</label>
     <input
       type="text"
-      name="gfx-options-name-input"
-      id="gfx-options-name-input"
-      oninput="updateGfxOptionsPreviewName(this)"
+      name="{{@root.endpoint}}-{{slug name}}-add-value-input"
+      id="{{@root.endpoint}}-{{slug name}}-add-value-input"
     />
-  </span>
+    <button
+      hx-post="/page/test"
+      hx-vals='js:{
+               name: "{{name}}",
+               value: document.getElementById("{{@root.endpoint}}-{{slug name}}-add-value-input").value
+               }'
+      hx-swap="none"
+      hx-on:htmx:after-request="update(event, '#{{@root.endpoint}}-list', 'reload')"
+    >
+      Add
+    </button>
+  </div>
+</span>
 {{/each}}
