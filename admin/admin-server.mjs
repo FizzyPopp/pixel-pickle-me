@@ -12,7 +12,7 @@ import routesImage from './routes/data/game/image.mjs'
 import routesPlatforms from './routes/data/platforms.mjs'
 import routesPlatformId from './routes/data/game/platform-id.mjs'
 import routesPlatformFeatures from './routes/data/game/platform-features.mjs'
-import routesGfxOptions from './routes/data/game/gfx-options.mjs';
+import routesGfxOptions from './routes/data/game/gfx-options.mjs'
 
 import { URL } from 'node:url'
 import { readFileSync, readdirSync } from 'fs'
