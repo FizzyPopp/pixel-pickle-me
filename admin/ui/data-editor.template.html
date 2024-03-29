@@ -40,7 +40,7 @@
       <legend>
         <h3>New Option</h3>
       </legend>
-      <div>
+      <form>
         <label for="gfx-options-add-name-input">Option Name:</label>
         <input
           type="text"
@@ -48,24 +48,27 @@
           id="gfx-options-add-name-input"
         />
         <button
-          hx-post="/page/test"
-          hx-vals='js:{name: document.getElementById("gfx-options-add-name-input").value}'
+          hx-post="/data/game/{{name}}/gfx-options"
           hx-swap="none"
-          hx-on:htmx:after-request="update(event, '#gfx-options-list', 'load')"
+          hx-on:htmx:after-request="update(event, '#gfx-options-list', 'reload')"
+          hx-on:htmx:config-request="
+                   event.detail.parameters.name = event.detail.parameters['gfx-options-add-name-input'];
+                   delete event.detail.parameters['gfx-options-add-name-input'];
+                   "
         >
           Add Option
         </button>
-      </div>
+      </form>
       <h3 id="gfx-options-preview-name"></h3>
     </fieldset>
   </fieldset>
-  <fieldset id="performance-record-list">
-    <legend id="performance-record-list-legend">
+  <fieldset id="performance-records">
+    <legend id="performance-records-legend">
       <h2>Performance Records</h2>
     </legend>
     <ul
-      id="performance-record-list-list"
-      hx-get="/page/{{name}}/performance-record-list"
+      id="performance-records-list"
+      hx-get="/page/{{name}}/performance-records"
       hx-trigger="load"
     ></ul>
   </fieldset>

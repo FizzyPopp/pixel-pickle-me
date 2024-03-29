@@ -5,7 +5,7 @@
     {{name}}
   </h3>
   <ul id="{{../idPrefix}}-{{@index}}-list">
-    {{#each options}}
+    {{#each values}}
     <li
       optionName={{slug this}}
       id="{{../../idPrefix}}-{{@../index}}-{{@index}}"
@@ -42,7 +42,7 @@
     {{/each}}
   </ul>
   <div>
-    <label for="gfx-options-{{slug name}}-add-input">New value:</label>
+    <label for="gfx-options-{{slug name}}-add-value-input">New value:</label>
     <input
       type="text"
       name="gfx-options-{{slug name}}-add-value-input"

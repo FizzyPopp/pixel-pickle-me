@@ -18,13 +18,14 @@ export default async function routePage(pageApi, options) {
   const Log = pageApi.log
   const baseUrl = '/page'
 
+
   const templates = {}
   const sectionData = [
     'title',
     'images',
     'platform-features',
     'gfx-options',
-    'performance-record-list'
+    'performance-records'
   ].reduce((accumulator, currValue) => {
     accumulator[currValue] = {}
     return accumulator
@@ -64,6 +65,7 @@ export default async function routePage(pageApi, options) {
   })
   async function test(request, reply) {
     const body = {...request.body}
+    Log.info(request)
     Log.info(`name: ${body.name} | value: ${body.value}`)
     Log.info(`body: ${Q(body)}`)
     reply
