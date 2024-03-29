@@ -58,6 +58,14 @@ async function routes(fastify, options) {
 
       targetOptions.values[targetOptions.values.indexOf(request.body.old)] = request.body.new
 
+      options.gamesDb[gameName].data.performanceRecords.forEach((element) => {
+        element.context.gfxOptionsSet.forEach((element) => {
+          if (element.name == request.body.name && element.setValue == request.body.old) {
+            element.setValue = request.body.new
+          }
+        })
+      })
+
       options.updateGameFile(gameName)
 
       reply
