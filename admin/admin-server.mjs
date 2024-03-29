@@ -154,7 +154,7 @@ fastify.decorate('platformIdExistsFail', (request, reply) => {
   if (fileHandler.gamesDb[gameName].data.platforms.includes(Number(platformId))) {
     reply
       .code(400)
-      .send("Platform already on list")
+      .send("Platform ID already exists in " + gameName)
   }
 })
 
@@ -163,7 +163,7 @@ fastify.decorate('platformIdExistsPass', (request, reply) => {
   if (!fileHandler.gamesDb[gameName].data.platforms.includes(Number(platformId))) {
     reply
       .code(400)
-      .send("Platform already on list")
+      .send("Platform ID does not exist in " + gameName)
   }
 })
 
