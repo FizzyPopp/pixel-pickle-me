@@ -92,13 +92,13 @@ class FileHandler {
       performanceRecordlist: [],
     }
     await writeFile(Path.join(this.gamesPath, gameName + '.json'),
-      JSON.stringify(gameData))
+      JSON.stringify(gameData, null, 2))
     this.log.info(gameName + " added")
   }
 
   async updateGameFile(gameName) {
     await writeFile(Path.join(this.gamesPath, gameName + '.json'),
-      JSON.stringify(this.gamesDb[gameName].data))
+      JSON.stringify(this.gamesDb[gameName].data, null, 2))
   }
 }
 
