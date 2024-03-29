@@ -3,7 +3,7 @@
   <h3>
     <button
       id="{{@root.endpoint}}-{{slug name}}-delete-input"
-      hx-delete="/data/game/{{@root.gameName}}/{{@root.endpoint}}/"
+      hx-delete="/data/game/{{@root.gameName}}/{{@root.endpoint}}"
       hx-vals='{"name": "{{name}}"}'
       hx-swap="none"
       hx-on:htmx:after-request="update(event, '#{{@root.endpoint}}-list', 'reload')"
