@@ -70,6 +70,17 @@ async function routes(fastify, options) {
     async function handler(request, reply) {
       const { gameName } = request.params
 
+      let targetOptions = options.gamesDb[gameName].data.gfxOptions.find(
+        (element) => element.name == request.body.name)
+
+      options.gamesDb[gameName].data.gfxOptions
+        .splice(options.gamesDb[gameName].data.gfxOptions.indexOf(targetOptions), 1)
+
+      options.updateGameFile(gameName)
+
+      reply
+        .code(200)
+        .send(request.body.name + " deleted from " + gameName)
     })
 
   fastify.delete('/data/game/:gameName/gfx-options/value',
