@@ -47,13 +47,42 @@ function handleChangeGameSelection(event) {
   gameLoaded = false
 }
 
-async function handleCheckboxChange(target){
+async function changePlatformId(target){
   target.checked = !target.checked
   const url = target.getAttribute('endpoint')
 
   const response = await fetch(url, {
     method: target.checked ? 'DELETE' : 'POST',
     body: target.name
+  })
+
+  if (response.status === 200) {
+    target.checked = !target.checked
+    for (const c of target.parentNode.nextElementSibling.children) {
+      console.log(c.firstElementChild)
+
+      c.firstElementChild.disabled = (target.checked === false)
+      if (target.checked === false) {
+        c.firstElementChild.checked = false
+      }
+    }
+  }
+  return target.checked
+}
+async function changePlatformFeature(target){
+  target.checked = !target.checked
+  const url = target.getAttribute('endpoint')
+
+  const bod = {
+    value: target.name
+  }
+
+  console.log(bod)
+
+  const response = await fetch(url, {
+    method: target.checked ? 'DELETE' : 'POST',
+    headers: { "Content-type": "application/json; charset=UTF-8" },
+    body: JSON.stringify(bod)
   })
 
   if (response.status === 200) {

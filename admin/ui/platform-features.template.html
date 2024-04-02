@@ -4,7 +4,7 @@
     <input
       type="checkbox" name="{{name}}" {{#if active}}checked{{/if}}
       endpoint="/data/game/{{../gameName}}/platforms/{{platformId}}"
-      onchange="handleCheckboxChange(this)"
+      onchange="changePlatformId(this)"
     >
     <label>{{name}}</label>
   </div>
@@ -14,7 +14,7 @@
       <input
         type="checkbox" name="{{name}}" {{#if active}}checked{{/if}}
         endpoint="/data/game/{{../../gameName}}/platform-features/{{../platformId}}"
-        onchange="handleCheckboxChange(this)"
+        onchange="changePlatformFeature(this)"
       >
       <label>{{name}}</label>
     </div>

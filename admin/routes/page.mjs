@@ -2,17 +2,8 @@ import * as util from 'util'
 
 import Handlebars from 'handlebars'
 
-const Q = (obj, depth = 2) => {
-  return util.inspect(obj, { depth: depth, colors: true })
-}
-
 Handlebars.logger.level = 0
 
-Handlebars.registerHelper('slug', (context) => {
-  return context.toLowerCase().replace(/ /g, '-')
-})
-
-Handlebars.registerHelper('cap', capitalize)
 
 export default async function routePage(pageApi, options) {
   const Log = pageApi.log
@@ -46,7 +37,17 @@ export default async function routePage(pageApi, options) {
     templates[name] = Handlebars.compile(templatesRaw[name])
   }
 
-  pageApi.get(baseUrl + '/game-select', async (request, reply) => {
+  pageApi.post(baseUrl + '/test', testHandler)
+
+  function testHandler(request, reply){
+    console.log(request.body)
+    reply
+      .code(200)
+      .type('text/html')
+      .send('<p> okay! </p>')
+  }
+
+  pageApi.get(baseUrl + '/game-select', async function (request, reply) {
     const gamesList = Object.keys(options.gamesDb).map((key) => {
       return {
         name: key,
@@ -59,7 +60,7 @@ export default async function routePage(pageApi, options) {
       .send(templates['game-select']({ gamesList: gamesList }))
   })
 
-  pageApi.get(baseUrl + '/data-editor', async (request, reply) => {
+  pageApi.get(baseUrl + '/data-editor', async function (request, reply) {
     targetGameName = request.query.gameName
     Log.info(`targetGameName: ${targetGameName}`)
     let html = ''
@@ -107,6 +108,18 @@ export default async function routePage(pageApi, options) {
 
   //--- helper functions
 
+  Handlebars.registerHelper('slug', (context) => {
+    return context.toLowerCase().replace(/ /g, '-')
+  })
+
+  Handlebars.registerHelper('plat-name', (platformId) => {
+    if (platformId >= 0 && platformId <= platformData.length) {
+      return platformData[platformId].name
+    } else { return platformId }
+  })
+
+  Handlebars.registerHelper('cap', capitalize)
+
   function generateSectionData() {
     for (const key in sectionData) {
       sectionData[key].gameName = targetGameName
@@ -120,10 +133,10 @@ export default async function routePage(pageApi, options) {
     },
     'platform-features': (gameData) => {
       sectionData['platform-features'].list = platformData.map((plat) => {
-        plat.active = gameData.platforms.includes(plat.platformID)
+        plat.active = gameData.platforms.includes(plat.platformId)
         if (plat.active) {
           const featuresActive = gameData.platformFeatures.find((pf) => {
-            return pf.platformId === plat.platformID
+            return pf.platformId === plat.platformId
           }).featuresActive
 
           plat.featureList = plat.featureList.map((feature) => {
@@ -140,6 +153,7 @@ export default async function routePage(pageApi, options) {
     'performance-records': (gameData) => {
       sectionData['performance-records'].resolutionTypes = ['full', 'dynamic', 'checkerboard']
       sectionData['performance-records'].list = gameData.performanceRecords.map((record, idx) => {
+        console.log(record)
         return {
           index: idx,
           ...record
@@ -147,19 +161,22 @@ export default async function routePage(pageApi, options) {
       })
     }
   }
-}
 
+  const Q = (obj, depth = 2) => {
+    return util.inspect(obj, { depth: depth, colors: true })
+  }
 
-function capitalize(str){
-  let Str = ''
-  str.split(' ').forEach((word) => {
-    Str += word.charAt(0).toUpperCase() + word.toLowerCase().slice(1) + ' '
-  })
-  Str = Str.trim()
-  return Str
-}
+  function capitalize(str) {
+    let Str = ''
+    str.split(' ').forEach((word) => {
+      Str += word.charAt(0).toUpperCase() + word.toLowerCase().slice(1) + ' '
+    })
+    Str = Str.trim()
+    return Str
+  }
 
-function camelify(slug){
-  let words = slug.split('-')
-  return [words[0], ...words.slice(1).map(capitalize)].join('')
+  function camelify(slug) {
+    let words = slug.split('-')
+    return [words[0], ...words.slice(1).map(capitalize)].join('')
+  }
 }
