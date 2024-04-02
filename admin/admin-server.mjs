@@ -45,7 +45,7 @@ class FileHandler {
     this.gameFiles = readdirSync(this.gamesPath)
 
     for (let i = 0; i < this.platformsJSON.PlatformEnum.length; i++) {
-      this.platformEnum.push(this.platformsJSON.PlatformEnum[i].platformID)
+      this.platformEnum.push(this.platformsJSON.PlatformEnum[i].platformId)
     }
 
     for (let idx = 0; idx < this.gameFiles.length; idx++) {

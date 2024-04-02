@@ -3,7 +3,7 @@
   <div id="input-checkbox-{{slug name}}">
     <input
       type="checkbox" name="{{name}}" {{#if active}}checked{{/if}}
-      endpoint="/data/game/{{../gameName}}/platforms/{{platformID}}"
+      endpoint="/data/game/{{../gameName}}/platforms/{{platformId}}"
       onchange="handleCheckboxChange(this)"
     >
     <label>{{name}}</label>
@@ -13,7 +13,7 @@
     <div id="input-checkbox-{{slug name}}">
       <input
         type="checkbox" name="{{name}}" {{#if active}}checked{{/if}}
-        endpoint="/data/game/{{../../gameName}}/platform-features/{{../platformID}}"
+        endpoint="/data/game/{{../../gameName}}/platform-features/{{../platformId}}"
         onchange="handleCheckboxChange(this)"
       >
       <label>{{name}}</label>

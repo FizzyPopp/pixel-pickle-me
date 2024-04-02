@@ -35,7 +35,7 @@ export default async function routePage(pageApi, options) {
   const platformData = options.platformsJSON.PlatformEnum.map((plat) => {
     return {
       ...plat,
-      featureList: options.platformsJSON.PlatformFeatures[plat.platformID].featureList
+      featureList: options.platformsJSON.PlatformFeatures[plat.platformId].featureList
     }
   })
 
