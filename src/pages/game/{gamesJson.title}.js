@@ -8,9 +8,9 @@ import "../../styles/common.css"
 
 function GamePage({ data }) {
   const gameData = data.allGamesJson.nodes[0]
-  const parsedDataTree = generateDataTree(gameData.performanceRecordList, gameData.gfxOptions)
+  const parsedDataTree = generateDataTree(gameData.performanceRecords, gameData.gfxOptions)
   gameData.performanceRecordTree = parsedDataTree
-  delete gameData.performanceRecordList
+  delete gameData.performanceRecords
 
   // console.log(gameData)
   return (
@@ -38,7 +38,7 @@ query ($id: String) {
       }
       title
       id
-      performanceRecordList {
+      performanceRecords {
         context {
           gfxOptionsSet {
             name
