@@ -40,7 +40,7 @@ export default async function routePage(pageApi, options) {
   pageApi.post(baseUrl + '/test', testHandler)
 
   function testHandler(request, reply){
-    console.log(request.body)
+    Log.info(request.body)
     reply
       .code(200)
       .type('text/html')
@@ -153,7 +153,6 @@ export default async function routePage(pageApi, options) {
     'performance-records': (gameData) => {
       sectionData['performance-records'].resolutionTypes = ['full', 'dynamic', 'checkerboard']
       sectionData['performance-records'].list = gameData.performanceRecords.map((record, idx) => {
-        console.log(record)
         return {
           index: idx,
           ...record
