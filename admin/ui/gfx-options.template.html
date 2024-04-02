@@ -18,7 +18,7 @@
     >
       <button
         id="-{{slug ../name}}-{{slug this}}-delete-input"
-        hx-delete="/page/test"
+        hx-delete="/data/game/{{@root.gameName}}/{{@root.endpoint}}/value"
         hx-vals='{"name": "{{../name}}", "value": "{{this}}"}'
         hx-swap="none"
         hx-on:htmx:after-request="update(event, '#{{@root.endpoint}}-list', 'reload')"
@@ -33,12 +33,9 @@
         oninput="updateGfxOptionsPreviewName(this)"
       />
       <button
-        hx-patch="/page/test"
-        hx-vals='js:{
-                  name: "{{../name}}",
-                  old: "{{this}}",
-                  new: document.getElementById("{{@root.endpoint}}-{{slug ../name}}-{{slug this}}-update-input").value
-                  }'
+        hx-patch="/data/game/{{@root.gameName}}/{{@root.endpoint}}/value"
+        hx-vals='js:{name: "{{../name}}", old: "{{this}}",
+                 new: document.getElementById("{{@root.endpoint}}-{{slug ../name}}-{{slug this}}-update-input").value}'
         hx-swap="none"
         hx-on:htmx:after-request="update(event, '#{{@root.endpoint}}-list', 'reload')"
       >
@@ -55,14 +52,12 @@
       id="{{@root.endpoint}}-{{slug name}}-add-value-input"
     />
     <button
-      hx-post="/page/test"
-      hx-vals='js:{
-               name: "{{name}}",
-               value: document.getElementById("{{@root.endpoint}}-{{slug name}}-add-value-input").value
-               }'
+      hx-post="/data/game/{{@root.gameName}}/{{@root.endpoint}}/value"
       hx-swap="none"
+      hx-vals='js:{ name: "{{name}}",
+               value: document.getElementById("{{@root.endpoint}}-{{slug name}}-add-value-input").value}'
       hx-on:htmx:after-request="update(event, '#{{@root.endpoint}}-list', 'reload')"
-    >
+      >
       Add
     </button>
   </div>

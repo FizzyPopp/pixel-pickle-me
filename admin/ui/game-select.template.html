@@ -1,10 +1,11 @@
 <select
   name="gameName" id="game-select"
-  hx-post="/page/data-editor"
+  hx-get="/page/data-editor"
   hx-trigger="load, change"
   hx-target="#game-data-editor"
   hx-swap="innerHTML"
-  onchange="handleChangeGameSelection(this)"
+  onchange="gameLoaded = false"
+  hx-on:htmx:after-request="getSelectedGameData(event)"
 >
   {{#each gamesList}}
   <option value="{{name}}">

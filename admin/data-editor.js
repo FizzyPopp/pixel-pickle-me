@@ -15,16 +15,23 @@ fetch('/data/platforms', {
   console.log(platformData)
 })
 
+function formatGfxRequest(ev, inputId) {
+  console.log(inputId, ev.detail.parameters)
+  ev.detail.parameters.name = ev.detail.parameters[inputId];
+  delete ev.detail.parameters[inputId];
+}
+
 //--- event handlers
 async function update(requestEv, targetId, eventName){
   if (requestEv.detail.successful){
+    console.log(targetId, eventName, requestEv.detail)
     htmx.trigger(targetId, eventName)
   }
 }
-async function getGameData(event) {
+async function getSelectedGameData(event) {
   if (gameLoaded === false) {
     gameLoaded = true
-    targetGame.name = event.detail.elt.getAttribute(`game-name`)
+    targetGame.name = event.detail.elt.value
     try {
       const response = await fetch(`/data/game/` + targetGame.name, { method: `GET` })
       const json = await response.json()
@@ -38,7 +45,6 @@ async function getGameData(event) {
 
 function handleChangeGameSelection(event) {
   gameLoaded = false
-  console.log(event)
 }
 
 async function handleCheckboxChange(target){

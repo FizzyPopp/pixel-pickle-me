@@ -21,7 +21,6 @@ export default async function routePage(pageApi, options) {
 
   const templates = {}
   const sectionData = [
-    'title',
     'images',
     'platform-features',
     'gfx-options',
@@ -47,10 +46,6 @@ export default async function routePage(pageApi, options) {
     templates[name] = Handlebars.compile(templatesRaw[name])
   }
 
-  Log.debug(camelify('toaster-butt'))
-
-  // Log.info(platformDataList)
-
   pageApi.get(baseUrl + '/game-select', async (request, reply) => {
     const gamesList = Object.keys(options.gamesDb).map((key) => {
       return {
@@ -63,25 +58,10 @@ export default async function routePage(pageApi, options) {
       .type('text/html')
       .send(templates['game-select']({ gamesList: gamesList }))
   })
-  async function test(request, reply) {
-    const body = {...request.body}
-    Log.info(request)
-    Log.info(`name: ${body.name} | value: ${body.value}`)
-    Log.info(`body: ${Q(body)}`)
-    reply
-      .code(200)
-      .type('application/json')
-      .send(JSON.stringify(body))
-  }
 
-  pageApi.get(baseUrl + '/test', test)
-  pageApi.post(baseUrl + '/test', test)
-  pageApi.patch(baseUrl + '/test', test)
-  pageApi.delete(baseUrl + '/test', test)
-
-  pageApi.post(baseUrl + '/data-editor', async (request, reply) => {
-    targetGameName = request.body.gameName
-    Log.debug(`targetGameName: ${Q(options.gamesDb[targetGameName].data)}`)
+  pageApi.get(baseUrl + '/data-editor', async (request, reply) => {
+    targetGameName = request.query.gameName
+    Log.info(`targetGameName: ${targetGameName}`)
     let html = ''
     let code = 200
     try {
@@ -108,11 +88,16 @@ export default async function routePage(pageApi, options) {
     Log.debug(`gameName: ${gameName}`)
     Log.debug(`section: ${section}`)
 
-    update[section]?.(options.gamesDb[gameName].data)
+    let htmlRender = `<div>No data found for ${section} section of ${gameName}</div>`
+    try {
+      update[section]?.(options.gamesDb[gameName].data)
+      htmlRender = templates[section](sectionData[section])
+    } catch (e) {
+      Log.error(e)
+    }
 
-    const htmlRender = templates[section](sectionData[section])
+
     Log.debug(htmlRender)
-
     reply
       .code(200)
       .type('text/html')
@@ -123,8 +108,6 @@ export default async function routePage(pageApi, options) {
   //--- helper functions
 
   function generateSectionData() {
-    Log.debug(sectionData)
-    const gameData = options.gamesDb[targetGameName].data
     for (const key in sectionData) {
       sectionData[key].gameName = targetGameName
       sectionData[key].endpoint = key

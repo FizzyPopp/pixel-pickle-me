@@ -1,7 +1,6 @@
 <div
   id="game-data"
   game-name="{{name}}"
-  hx-on:htmx:load="getGameData(event)"
 >
   <h1 id="title">{{title}}</h1>
   <fieldset id="images">
@@ -51,10 +50,7 @@
           hx-post="/data/game/{{name}}/gfx-options"
           hx-swap="none"
           hx-on:htmx:after-request="update(event, '#gfx-options-list', 'reload')"
-          hx-on:htmx:config-request="
-                   event.detail.parameters.name = event.detail.parameters['gfx-options-add-name-input'];
-                   delete event.detail.parameters['gfx-options-add-name-input'];
-                   "
+          hx-on:htmx:config-request="formatGfxRequest(event, 'gfx-options-add-name-input')"
         >
           Add Option
         </button>
