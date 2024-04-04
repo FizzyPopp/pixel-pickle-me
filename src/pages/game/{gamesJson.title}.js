@@ -42,7 +42,7 @@ query ($id: String) {
         context {
           gfxOptionsSet {
             name
-            setOption
+            setValue
           }
           platform
           rt
@@ -62,7 +62,7 @@ query ($id: String) {
       platforms
       gfxOptions {
         name
-        options
+        values
       }
     }
   }
