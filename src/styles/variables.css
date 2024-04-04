@@ -1,1 +1,4 @@
-:root {--content-max-width: 720px}
+:root {
+  --content-max-width: 720px;
+  --shadow-card: 0px 4px 20px 0px rgba(0,0,0,0.30);
+}
