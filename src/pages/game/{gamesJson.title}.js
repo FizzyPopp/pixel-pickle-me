@@ -75,10 +75,10 @@ function generateDataTree(r, gfxOptions) {
 
   // create groups according to major gfx mode
   let mainOptNames = []
-  for (let i = 0 ; i < gfxOptions[0].options.length ; i++){
-    mainOptNames[i] = gfxOptions[0].options[i]
+  for (let i = 0 ; i < gfxOptions[0].values.length ; i++){
+    mainOptNames[i] = gfxOptions[0].values[i]
     recordGroups[i] = {
-      title: gfxOptions[0].options[i],
+      title: gfxOptions[0].values[i],
       list: []
     }
   }
@@ -86,7 +86,7 @@ function generateDataTree(r, gfxOptions) {
   // sort records according to major gfx mode
   records.forEach((record) => {
     const idx = recordGroups.findIndex((group) => {
-      return group.title === record.context.gfxOptionsSet[0].setOption
+      return group.title === record.context.gfxOptionsSet[0].setValue
     })
     recordGroups[idx].list.push(record)
   })
@@ -115,7 +115,7 @@ function generateDataTree(r, gfxOptions) {
         if (optsMatch) {
           for (let i = 0; i < targetOptions.length; i++) {
             optsMatch = targetOptions[i].name === record.context.gfxOptionsSet[i].name
-            optsMatch = optsMatch && (targetOptions[i].setOption === record.context.gfxOptionsSet[i].setOption)
+            optsMatch = optsMatch && (targetOptions[i].setValue === record.context.gfxOptionsSet[i].setValue)
           }
         }
         if (optsMatch) { matchedRecords.push(record) }
@@ -129,7 +129,7 @@ function generateDataTree(r, gfxOptions) {
       let slTitle = ''
       if (gfxSubOpts.length > 0) {
         slTitle = gfxSubOpts.map((opt) => {
-          return opt.name + ": " + opt.setOption.charAt(0).toUpperCase() + opt.setOption.slice(1)
+          return opt.name + ": " + opt.setValue.charAt(0).toUpperCase() + opt.setValue.slice(1)
         }).join(', ')
       }
 
