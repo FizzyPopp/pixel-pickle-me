@@ -2,6 +2,7 @@ import * as React from "react"
 
 import GameLayout from "../../components/game-layout"
 import NavBar from "../../components/navbar";
+import Footer from "../../components/footer";
 
 import { graphql } from "gatsby"
 
@@ -18,6 +19,7 @@ function GamePage({ data }) {
     <>
       <NavBar />
       <GameLayout data={gameData} />
+      <Footer />
     </>
   )
 }
