@@ -62,10 +62,11 @@
     <legend id="performance-records-legend">
       <h2>Performance Records</h2>
     </legend>
-    <ul
+    <div
       id="performance-records-list"
       hx-get="/page/{{name}}/performance-records"
-      hx-trigger="load"
-    ></ul>
+      hx-trigger="load, reload"
+      hx-on:htmx:before-request="console.log('GET /page/{{name}}/performance-records')"
+    ></div>
   </fieldset>
 </div>

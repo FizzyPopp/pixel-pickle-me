@@ -22,12 +22,82 @@ function formatGfxRequest(ev, inputId) {
 }
 
 //--- event handlers
-async function update(requestEv, targetId, eventName){
+async function update(requestEv, targetSelector, eventName){
   if (requestEv.detail.successful){
-    console.log(targetId, eventName, requestEv.detail)
-    htmx.trigger(targetId, eventName)
+    console.log(targetSelector, eventName, requestEv.detail)
+    htmx.trigger(targetSelector, eventName)
   }
 }
+
+async function postPerformanceRecord(recordIdBase, endpoint){
+  function q(elType,idFrag){
+    return `${elType}[name="${recordIdBase}-${idFrag}"]`
+  }
+
+  const platform = document.querySelector(q('select', 'context-platform')).value
+  const rt = document.querySelector(q('input', 'context-rt')).checked
+  const gfxOptionsSet = targetGame.data.gfxOptions.map((opt) => {
+    return {
+      name: opt.name,
+      setValue: document.querySelector(q('select', 'context-gfx-option-' + opt.name.toLowerCase().replace(/ /g, '-'))).value,
+    }
+  })
+
+  const fpsTargVal = Number(document.querySelector(q('input', 'fps-target')).value)
+  const resTargVal = Number(document.querySelector(q('input', 'resolution-target')).value)
+  const resTypeVal = document.querySelector(q('input','resolution-type') + ":checked")?.value
+
+  if (fpsTargVal === 0
+    || resTargVal === 0
+    || Number.isNaN(fpsTargVal)
+    || Number.isNaN(resTargVal)
+    || typeof resTypeVal === 'undefined') {
+    alert('Please fill out all fields')
+    return
+  }
+  const body = {
+    gfxOptionsSet: gfxOptionsSet,
+    fps: {
+      target: fpsTargVal,
+      unlocked: document.querySelector(q('input','fps-unlocked')).checked
+    },
+    resolution: {
+      target: resTargVal,
+      dynamic: resTypeVal === 'dynamic',
+      checkerboard: resTypeVal === 'checkerboard'
+    }
+  }
+
+  const url = endpoint + `/${platform}/${rt}`
+  console.log(url)
+  console.log(body)
+
+  const response = await fetch(endpoint + `/${platform}/${rt}`, {
+    method: "POST",
+    headers: { "Content-type": "application/json; charset=UTF-8" },
+    body: JSON.stringify(body)
+  })
+
+  if (response.status === 200) {
+    try {
+      htmx.trigger('#performance-records-list', 'reload')
+    } catch (e) { console.log(e) }
+  }
+}
+async function deletePerformanceRecordByIndex(idx, endpoint){
+  const index = Number(idx)
+  const url = endpoint + `/${targetGame.data.performanceRecords[index].context.platform}/${targetGame.data.performanceRecords[index].context.rt}}`
+  const response = await fetch(url, {
+    method: 'DELETE',
+    body: JSON.stringify({
+      gfxOptionsSet: targetGame.data.performanceRecords[index].context.gfxOptionsSet
+    })
+  })
+  if (response.status === 200) {
+    htmx.trigger('#performance-records-list', 'reload')
+  }
+}
+
 async function getSelectedGameData(event) {
   if (gameLoaded === false) {
     gameLoaded = true
@@ -46,6 +116,7 @@ async function getSelectedGameData(event) {
 function handleChangeGameSelection(event) {
   gameLoaded = false
 }
+
 
 async function changePlatformId(target){
   target.checked = !target.checked
@@ -105,9 +176,6 @@ async function loadImagePreview(event) {
   }
 }
 
-async function removeRecordByIndex(index){
-  console.log(`Removing record with index ${index}`)
-}
 
 async function updateGfxOptionsPreviewName(inputEl){
   document.getElementById('gfx-options-preview-name').innerText = inputEl.value

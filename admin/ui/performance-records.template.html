@@ -1,66 +1,91 @@
-{{#each list}}
-<li id="platform-record-{{@index}}"
-    record-index="{{index}}"
->
-  <fieldset>
-    <button
-      onclick="removeRecordByIndex({{index}})"
-    >X</button>
-    <span>
-      <div id="platform-record-{{index}}-context">
-        <h3>Context</h3>
-        {{#each context.gfxOptionsSet}}
-        <p>
-          {{name}}: {{setOption}}
-        </p>
-        {{/each}}
-      </div>
-      <div id="platform-record-{{index}}-fps">
-        <label
-          for="platform-record-{{index}}-fps-target"
-        >FPS:</label>
-        <input
-          type="text"
-          id="platform-record-{{index}}-fps-target"
-          value="{{fps.target}}"
-          pattern="\d{2,}"
-        />
-        <label
-          for="platform-record-{{index}}-fps-unlocked"
-        >
-          unlocked:
-        </label>
-        <input
-          type="checkbox"
-          id="platform-record-{{index}}-fps-unlocked"
-          name="platform-record-{{index}}-fps-unlocked"
-          {{#if fps.isUnlocked}}
-          checked
-          {{/if}}
-        />
-      </div>
+<fieldset>
+  <legend>
+    <h3>New Record</h3>
+  </legend>
+  <h4>Context</h4>
+  <label>Platform:</label>
+  <select id="{{@root.endpoint}}-new-context-platform-input" name="{{@root.endpoint}}-new-context-platform">
+    {{#each platforms}}
+    <option value="{{this}}">
+      {{plat-name this}}
+    </option>
+    {{/each}}
+  </select>
+  <br />
+  <label for="{{@root.endpoint}}-new-context-rt-input"> Ray Tracing </label>
+  <input type="checkbox" id="{{@root.endpoint}}-new-context-rt-input" name="{{@root.endpoint}}-new-context-rt" />
+  <h4>In-game Options</h4>
+  {{#each gfxOptions}}
+  <label>{{name}}</label>
+  <select id="{{@root.endpoint}}-new-context-gfx-option-{{slug name}}-input"
+    name="{{@root.endpoint}}-new-context-gfx-option-{{slug name}}">
+    {{#each values}}
+    <option value="{{this}}">
+      {{this}}
+    </option>
+    {{/each}}
+  </select>
+  <br />
+  {{/each}}
+  <h4>FPS</h4>
+  <label for="{{@root.endpoint}}-new-fps-target-input">target: </label>
+  <input type="text" id="{{@root.endpoint}}-new-fps-target-input" name="{{@root.endpoint}}-new-fps-target"
+    pattern="\d{2,}" />
+  <br />
+  <label for="{{@root.endpoint}}-new-fps-unlocked-input"> unlocked: </label>
+  <input type="checkbox" id="{{@root.endpoint}}-new-fps-unlocked-input" name="{{@root.endpoint}}-new-fps-unlocked" />
+  <h4>Resolution</h4>
+  <label for="{{@root.endpoint}}-new-resolution-target-input">target : </label>
+  <input type="text" id="{{@root.endpoint}}-new-resolution-target-input" name="{{@root.endpoint}}-new-resolution-target"
+    pattern="\d{3,}" />
+  <br />
 
-      <div id="platform-record-{{index}}-resolution">
-        <label
-          for="platform-record-{{index}}-resolution-target"
-        >Resolution:</label>
-        <input
-          type="text"
-          id="platform-record-{{index}}-resolution-target"
-          value="{{resolution.target}}"
-          pattern="\d{3,}"
-        />
-        {{#each ../resolutionTypes}}
-        <input
-          type="radio"
-          name="platform-record-{{index}}-resolution-type"
-          id="platform-record-{{index}}-resolution-{{this}}"
-          value="{{this}}"
-        />
-        <label for="platform-record-{{index}}-resolution-{{this}}">{{this}}</label>
-        {{/each}}
-      </div>
-    </span>
-  </fieldset>
-</li>
+  <span>resolution type</span>
+  {{#each resolutionTypes}}
+  <input type="radio" id="{{@root.endpoint}}-new-resolution-type-{{this}}"
+    name="{{@root.endpoint}}-new-resolution-type" />
+  <label for="{{@root.endpoint}}-new-resolution-type-{{this}}">{{this}}</label>
+  {{/each}}
+
+  <br />
+  <button id="{{@root.endpoint}}-update-record" onclick='postPerformanceRecord(
+                     "{{@root.endpoint}}-new",
+                     "/data/game/{{@root.gameName}}/{{@root.endpoint}}")'>
+    New Record
+  </button>
+</fieldset>
+{{#each list}}
+<fieldset id="{{@root.endpoint}}-{{@index}}" record-index="{{index}}">
+  <legend>
+    <h3>
+      <button onclick='deletePerformanceRecordByIndex({{index}},
+                 "/data/game/{{@root.gameName}}/{{@root.endpoint}}")'>X</button>
+      {{plat-name context.platform}}
+      {{#if context.rt}}
+      RT
+      {{/if}}
+      [{{#each context.gfxOptionsSet}}
+      {{name}}: {{setValue}}
+      {{#unless @end}} | {{/unless}}
+      {{/each}}]
+    </h3>
+  </legend>
+  <h4>FPS</h4>
+  <p>
+    target: {{fps.target}} fps
+    {{#if fps.isUnlocked}}
+    unlocked
+    {{/if}}
+  </p>
+  <h4>Resolution</h4>
+  <p>
+    target: {{resolution.target}}
+    {{#if resolution.dynamic}}
+    dynamic
+    {{/if}}
+    {{#if resolution.checkerboard}}
+    checkerboard
+    {{/if}}
+  </p>
+</fieldset>
 {{/each}}

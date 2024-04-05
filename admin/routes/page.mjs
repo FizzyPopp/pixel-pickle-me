@@ -40,7 +40,7 @@ export default async function routePage(pageApi, options) {
   pageApi.post(baseUrl + '/test', testHandler)
 
   function testHandler(request, reply){
-    Log.info(request.body)
+    Log.info(request.body.gfxOptionsSet)
     reply
       .code(200)
       .type('text/html')
@@ -127,6 +127,19 @@ export default async function routePage(pageApi, options) {
     }
   }
 
+  Handlebars.registerHelper('perf-record-radio-check', function (text, dyn, chk) {
+    console.log('handlebaarrr', text, dyn, chk)
+    if (text === 'full') {
+      return !(dyn || chk) ? 'checked' : ''
+    }
+    if (text === 'dynamic') {
+      return dyn ? 'checked' : ''
+    }
+    if (text === 'checkerboard') {
+      return chk ? 'checked' : ''
+    }
+    return ''
+  })
   const update = {
     images: (gameData) => {
       sectionData['images'].types = ['cover', 'background'].map((t) => { return { name: t } })
@@ -151,13 +164,15 @@ export default async function routePage(pageApi, options) {
       sectionData['gfx-options'].list = gameData.gfxOptions
     },
     'performance-records': (gameData) => {
+      sectionData['performance-records'].gfxOptions = gameData.gfxOptions
+      sectionData['performance-records'].platforms = gameData.platforms
       sectionData['performance-records'].resolutionTypes = ['full', 'dynamic', 'checkerboard']
       sectionData['performance-records'].list = gameData.performanceRecords.map((record, idx) => {
         return {
           index: idx,
           ...record
         }
-      })
+      }).reverse()
     }
   }
 
