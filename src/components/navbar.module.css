@@ -1,0 +1,19 @@
+@import url("../styles/variables.css");
+
+.nav-bar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background-color: #262626;
+  height: 72px;
+  box-shadow: var(--shadow-card);
+}
+
+.nav-bar-inner-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+  width: var(--content-max-width);
+}

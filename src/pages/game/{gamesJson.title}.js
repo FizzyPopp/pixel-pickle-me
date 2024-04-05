@@ -1,6 +1,7 @@
 import * as React from "react"
 
 import GameLayout from "../../components/game-layout"
+import NavBar from "../../components/navbar";
 
 import { graphql } from "gatsby"
 
@@ -14,7 +15,10 @@ function GamePage({ data }) {
 
   // console.log(gameData)
   return (
-    <GameLayout data={gameData} />
+    <>
+      <NavBar />
+      <GameLayout data={gameData} />
+    </>
   )
 }
 
