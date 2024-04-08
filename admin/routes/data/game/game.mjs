@@ -14,16 +14,24 @@ async function routes (fastify, options) {
       .send(options.gamesDb[gameName])
   })
 
-  fastify.post('/data/game/:gameName', async function handler(request, reply) {
-    const { gameName } = request.params
-  
-    console.dir(request.body)
+  fastify.post('/data/game/', async function handler(request, reply) {
+    const { gameTitle } = request.body
 
-    options.createGameFile(gameName)
+    // console.dir(request.params)
+    // console.dir(request.body)
 
-    reply
-      .code(200)
-      .send(gameName + " created")
+    try {
+      const gameName = await options.createGameFile(gameTitle)
+
+      reply
+        .code(200)
+        .send(gameName)
+
+    } catch (e) {
+      reply
+        .code(400)
+        .send(e.message)
+    }
   })
 }
 

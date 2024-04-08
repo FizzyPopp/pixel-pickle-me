@@ -1,4 +1,13 @@
+import fastifyMultipart from "@fastify/multipart"
 async function routes(fastify, options) {
+
+  fastify.register(fastifyMultipart, {
+    limits: {
+      fileSize: 10000000,
+      files:1,
+    }
+  })
+
   fastify.get('/data/game/:gameName/image/:imgType',
     {
       config: {
@@ -35,20 +44,27 @@ async function routes(fastify, options) {
     async function handler(request, reply) {
       const { gameName, imageType } = request.params
 
-      if (options.gamesDb[gameName].data.image[imageType] === undefined
-        || typeof request.body !== 'string') {
-        reply
-          .code(400)
-          .send(options.gamesDb[gameName].data.image[imageType])
-      } else {
-        options.gamesDb[gameName].data.image[imageType] = request.body
+      const data = await request.file()
+      const buffer = await data.toBuffer()
 
-        options.updateGameFile(gameName)
+      console.log(buffer)
+      await options.setImage(gameName, imageType, buffer)
+      reply
+        .code(200)
+        .send(options.gamesDb[gameName].data.image[imageType])
+      // if (options.gamesDb[gameName].data.image[imageType] === undefined
+      //   || typeof request.body !== 'string') {
+      //   reply
+      //     .code(400)
+      //     .send(options.gamesDb[gameName].data.image[imageType])
+      // } else {
 
-        reply
-          .code(200)
-          .send(options.gamesDb[gameName].data.image[imageType])
-      }
+      //   // options.updateGameFile(gameName)
+
+      //   reply
+      //     .code(200)
+      //     .send(options.gamesDb[gameName].data.image[imageType])
+      // }
     })
 }
 

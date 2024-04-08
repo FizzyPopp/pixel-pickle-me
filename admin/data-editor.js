@@ -22,10 +22,10 @@ function formatGfxRequest(ev, inputId) {
 }
 
 //--- event handlers
-async function update(requestEv, targetSelector, eventName){
+async function update(requestEv, targetSelector, eventName, detail){
   if (requestEv.detail.successful){
-    console.log(targetSelector, eventName, requestEv.detail)
-    htmx.trigger(targetSelector, eventName)
+    console.log(targetSelector, eventName, detail, requestEv.detail)
+    htmx.trigger(targetSelector, eventName, detail)
   }
 }
 
