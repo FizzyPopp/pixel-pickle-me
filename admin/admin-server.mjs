@@ -28,12 +28,15 @@ class FileHandler {
   adminPath = Path.join(this.root, 'admin')
   htmxPath = Path.join(this.root, 'node_modules/htmx.org/dist')
 
+  #srcImagePath = Path.join(this.root, 'src', 'images')
+
   gamesPath = Path.join(this.#dataPath, 'games')
   #templatePath = Path.join(this.adminPath, 'ui')
 
   platformEnum = []
 
   gamesDb = {}
+  targetGameName = ''
 
   constructor(log) {
     this.log = log
@@ -83,18 +86,30 @@ class FileHandler {
   async getImage(gameName, imgType) {
     return readFile(Path.join(this.gamesPath, this.gamesDb[gameName].data.image[imgType]))
   }
+  async setImage(gameName, imgType, blob){
+    const filePath = this.#srcImagePath +`/${imgType}s/`
+    await writeFile(Path.join(filePath, `${imgType}-${gameName}.jpg`), blob)
+  }
 
-  async createGameFile(gameName) {
-    const gameData = {
-      platforms: [],
-      platformFeatures: [],
-      image: { cover: "", background: "" },
-      gfxOptions: [],
-      performanceRecords: [],
+  async createGameFile(gameTitle) {
+    const gameName = gameTitle.toLowerCase().replace(/ /g, '-')
+    if (typeof this.gamesDb[gameName] === 'undefined') {
+      const gameData = {
+        title: gameTitle,
+        platforms: [],
+        platformFeatures: [],
+        image: { cover: "", background: "" },
+        gfxOptions: [],
+        performanceRecords: [],
+      }
+      const gamePath = Path.join(this.gamesPath, gameName + '.json')
+      this.log.info(gamePath)
+      await writeFile(Path.join(gamePath),
+        JSON.stringify(gameData, null, 2))
+      this.log.info(gameName + " added at " + gamePath)
     }
-    await writeFile(Path.join(this.gamesPath, gameName + '.json'),
-      JSON.stringify(gameData, null, 2))
-    this.log.info(gameName + " added")
+    this.targetGameName = gameName
+    return gameName
   }
 
   async updateGameFile(gameName) {
@@ -105,6 +120,7 @@ class FileHandler {
 
 const fastify = Fastify({
   logger: {
+    // level:"debug",
     transport: {
       target: 'pino-pretty',
       options: {

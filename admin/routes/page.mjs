@@ -20,8 +20,6 @@ export default async function routePage(pageApi, options) {
     accumulator[currValue] = {}
     return accumulator
   }, {})
-  let targetGameName = ''
-
 
   const platformData = options.platformsJSON.PlatformEnum.map((plat) => {
     return {
@@ -51,7 +49,8 @@ export default async function routePage(pageApi, options) {
     const gamesList = Object.keys(options.gamesDb).map((key) => {
       return {
         name: key,
-        title: options.gamesDb[key].data.title
+        title: options.gamesDb[key].data.title,
+        isTarget: key === options.targetGameName
       }
     })
     reply
@@ -61,20 +60,20 @@ export default async function routePage(pageApi, options) {
   })
 
   pageApi.get(baseUrl + '/data-editor', async function (request, reply) {
-    targetGameName = request.query.gameName
-    Log.info(`targetGameName: ${targetGameName}`)
+    options.targetGameName = request.query.gameName
+    Log.info(`options.targetGameName: ${options.targetGameName}`)
     let html = ''
     let code = 200
     try {
       generateSectionData()
       html = templates['data-editor']({
-        name: targetGameName,
-        title: options.gamesDb[targetGameName].data.title
+        name: options.targetGameName,
+        title: options.gamesDb[options.targetGameName].data.title
       })
     } catch (e) {
       Log.error(e)
       code = 200
-      html = `<p>${targetGameName} not found to be a valid game :(</p>`
+      html = `<p>${options.targetGameName} not found to be a valid game :(</p>`
     }
 
     reply
@@ -122,7 +121,7 @@ export default async function routePage(pageApi, options) {
 
   function generateSectionData() {
     for (const key in sectionData) {
-      sectionData[key].gameName = targetGameName
+      sectionData[key].gameName = options.targetGameName
       sectionData[key].endpoint = key
     }
   }

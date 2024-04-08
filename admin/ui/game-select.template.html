@@ -8,7 +8,12 @@
   hx-on:htmx:after-request="getSelectedGameData(event)"
 >
   {{#each gamesList}}
-  <option value="{{name}}">
+  <option
+    value="{{name}}"
+    {{#if isTarget}}
+    selected
+    {{/if}}
+  >
     {{#if title}}
     {{title}}
     {{else}}
@@ -17,3 +22,19 @@
   </option>
   {{/each}}
 </select>
+
+<form
+  hx-post="/data/game/"
+  hx-swap="none"
+  hx-on:htmx:after-request="update(event, '#game-select-section', 'reload',{gameName:event.detail.xhr.responseText})"
+>
+<input
+  type="text"
+  name="gameTitle"
+  id="new-game-name-input"
+/>
+<button
+>
+  Add New Game
+</button>
+</form>
