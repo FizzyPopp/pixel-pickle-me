@@ -28,9 +28,9 @@
 .box-art {
   height: 160px;
   width: 120px;
-  border-radius: 8px;
+  border-radius: var(--border-radius-card);
   box-shadow: var(--shadow-card);
-  border: 1px solid rgba(157,157,157,0.3);
+  border: var(--border-cover);
 }
 
 .game-title {
