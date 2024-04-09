@@ -37,6 +37,13 @@ const GameList = () => {
   return (
     <div className={Style.gameList}>
       {gameList}
+      {gameList}
+      {gameList}
+      {gameList}
+      {gameList}
+      {gameList}
+      {gameList}
+      {gameList}
     </div>
   )
 }

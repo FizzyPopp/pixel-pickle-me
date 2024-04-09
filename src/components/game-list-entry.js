@@ -9,7 +9,7 @@ const GameListEntry = ({ title, image, slug, platforms }) => {
   const imageCover = getImage(image)
 
   return (
-    <div className={Style.gameListEntryMargin}>
+    <div className={Style.gameListEntryContainer}>
       <div className={Style.gameListEntry}>
         <a href={`/game/${slug}`}>
           <div className={Style.gameListEntryHeader}>{title}</div>
