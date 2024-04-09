@@ -1,12 +1,19 @@
 @import url("../styles/variables.css");
 
+.game-list-entry-margin {
+  margin-left: 2.5%;
+  margin-bottom: 20px;
+  margin-right: 2.5%;
+  flex-basis: 45%;
+  max-width: 250px;
+}
+
 .game-list-entry {
   position: relative;
   overflow: hidden;
   border-radius: var(--border-radius-card);
   border: var(--border-cover);
   box-shadow: var(--shadow-card);
-  width: 200px;
 }
 
 .game-list-entry-header {
