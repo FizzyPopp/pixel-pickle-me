@@ -2,7 +2,7 @@
 
 .game-list-entry-container {
   flex-basis: 50%;
-  max-width: 250px;
+  /* max-width: 250px; */
 }
 
 .game-list-entry {
