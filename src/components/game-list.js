@@ -4,6 +4,7 @@ import * as Style from "./game-list.module.css"
 import GameListEntry from "./game-list-entry"
 
 import { graphql, useStaticQuery } from "gatsby"
+import slugify from "@sindresorhus/slugify"
 
 const GameList = () => {
   const data = useStaticQuery(graphql`
@@ -24,11 +25,25 @@ const GameList = () => {
   }
   `)
 
+  const gameList = data.allGamesJson.nodes.map((game) => {
+    return <GameListEntry
+      image={game.image.cover}
+      title={game.title}
+      slug={slugify(game.title)}
+      platforms={game.platforms}
+    />
+  })
+
   return (
     <div className={Style.gameList}>
-      <GameListEntry
-        image={data.allGamesJson.nodes[0].image.cover}
-        title={"Elden Ring"} />
+      {gameList}
+      {gameList}
+      {gameList}
+      {gameList}
+      {gameList}
+      {gameList}
+      {gameList}
+      {gameList}
     </div>
   )
 }
