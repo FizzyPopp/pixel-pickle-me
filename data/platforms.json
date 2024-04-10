@@ -21,12 +21,12 @@
       "platformId": 0,
       "featureList": [
         {
-          "name":"Haptic Feedback",
-          "logo":""
+          "name": "Haptic Feedback",
+          "logo": "../src/images/icons/icon-feature-psfive-haptic.svg"
         },
         {
-          "name":"Adaptive Triggers",
-          "logo":""
+          "name": "Adaptive Triggers",
+          "logo": "../src/images/icons/icon-feature-psfive-triggers.svg"
         }
       ]
     },
@@ -35,15 +35,15 @@
       "featureList": [
         {
           "name": "Auto HDR",
-          "logo":""
+          "logo": "../src/images/icons/icon-feature-xbox-autohdr.svg"
         },
         {
-          "name":"Optimized for Series X",
-          "logo":""
+          "name": "Optimized for Series X",
+          "logo": "../src/images/icons/icon-feature-xbox-optimized.svg"
         },
         {
-          "name":"Smart Delivery",
-          "logo":""
+          "name": "Smart Delivery",
+          "logo": "../src/images/icons/icon-feature-xbox-delivery.svg"
         }
       ]
     },
@@ -51,12 +51,16 @@
       "platformId": 2,
       "featureList": [
         {
-          "name":"Optimized for Series S",
-          "logo":""
+          "name": "Auto HDR",
+          "logo": "../src/images/icons/icon-feature-xbox-autohdr.svg"
         },
         {
-          "name":"Smart Delivery",
-          "logo":""
+          "name": "Optimized for Series S",
+          "logo": "../src/images/icons/icon-feature-xbox-optimized.svg"
+        },
+        {
+          "name": "Smart Delivery",
+          "logo": "../src/images/icons/icon-feature-xbox-delivery.svg"
         }
       ]
     }
