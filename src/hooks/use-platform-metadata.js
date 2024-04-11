@@ -12,18 +12,27 @@ export const usePlatformMetadata = () => {
               }
               name
             }
+            PlatformFeatures {
+              featureList {
+                logo {
+                  publicURL
+                }
+                name
+              }
+              platformId
+            }
           }
         }
       }
     `
   )
-  const PlatformEnum = allDataJson.nodes[0].PlatformEnum
   let idCount = 0
-  return PlatformEnum.map((node) => {
+  return allDataJson.nodes[0].PlatformEnum.map((node) => {
     return{
+      features: allDataJson.nodes[0].PlatformFeatures[idCount].featureList,
       id: idCount++,
       name: node.name,
-      url: node.logo.publicURL,
+      url: node.logo.publicURL
     }
   })
 }
