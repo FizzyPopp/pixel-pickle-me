@@ -44,6 +44,7 @@ const GameLayout = ({ data }) => {
   return (
     <main>
       <GameHeader
+        title={data.title}
         cover={data.image.cover}
         background={data.image.background} />
       <div className={Style.gameLayout}> {/* Game Data Section */}
