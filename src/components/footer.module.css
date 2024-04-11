@@ -14,6 +14,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: end;
-  gap: 16px;
+  padding-left: var(--padding-page);
+  padding-right: var(--padding-page);
   width: var(--content-max-width);
 }

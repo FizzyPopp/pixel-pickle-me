@@ -1,6 +1,39 @@
 :root {
-  --content-max-width: 720px;
   --shadow-card: 0px 4px 20px 0px rgba(0,0,0,0.30);
   --border-cover: 1px solid rgba(157,157,157,0.3);
   --border-radius-card: 8px;
+}
+
+/* XSmall */
+@media only screen and (max-width: 360px) {
+  :root {
+    --grid-gap: 8px;
+    --grid-basis: 50%;
+    --padding-page: 8px;
+  }
+}
+
+/* Small */
+@media only screen and (min-width: 360px) {
+  :root {
+    --grid-gap: 16px;
+    --grid-basis: 50%;
+    --padding-page: 16px;
+  }
+}
+
+/* Medium */
+@media only screen and (min-width: 560px) {
+  :root {
+    --grid-basis: 33.33%;
+  }
+}
+
+/* Large */
+@media only screen and (min-width: 760px) {
+  :root {
+    --content-max-width: 970px;
+    --grid-basis: 25%;
+    
+  }
 }
