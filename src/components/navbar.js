@@ -7,8 +7,12 @@ const NavBar = () => {
   return (
     <header className={Style.navBar}>
       <div className={Style.navBarInnerContainer}>
+        <a href="/" className={Style.navBarLink}>
         <LogoPixelPickle size={48}/>
+        </a>
+        <a href="/" className={Style.navBarLink}>
         <LogoPixelPickleText size={36} />
+        </a>
       </div>
     </header>
   )

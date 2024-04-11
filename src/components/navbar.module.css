@@ -17,3 +17,7 @@
   gap: 16px;
   width: var(--content-max-width);
 }
+
+a.nav-bar-link {
+  display: flex;
+}
