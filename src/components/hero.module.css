@@ -1,21 +1,14 @@
 .hero {
-  /* background-color: #464646; */
-  /* color: #FFF; */
   position: relative;
-  margin-left: auto;
-  margin-right: auto;
-  /* padding-left: 16px; */
-  /* padding-right: 16px; */
   width: 100%;
   min-height: 250px;
   max-height: 350px;
-  color: #E2FFDD;
-  /* display: flex; */
 }
 
 .hero-image {
   min-height: 250px;
   max-height: 350px;
+  z-index: -1000;
 }
 
 .hero-content-container {
@@ -42,6 +35,7 @@
   padding-right: 24px;
   padding-top: 24px;
   max-width: var(--content-max-width);
+  color: #E2FFDD;
 }
 
 h.hero-Header {
