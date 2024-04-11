@@ -21,9 +21,6 @@ const Hero = () => {
   }
   `)
   const imageHero = getImage(data.allFile.nodes[0])
-//   const copy = `
-// Compare game performance and features across console platforms
-// `
   return (
     <div className={Style.hero}>
       <GatsbyImage
@@ -31,15 +28,13 @@ const Hero = () => {
         className={Style.heroImage}
         alt=""
       />
-      <div className={Style.heroContentContainer}>
-        <div className={Style.heroContent}>
-          <h className={Style.heroHeader}>
-            Can't choose what console to play on?
-          </h>
-          <h2 className={Style.heroText}>
-            Compare game performance and features across console platforms
-          </h2>
-        </div>
+      <div className={Style.heroContent}>
+        <h1 className={Style.heroHeader}>
+          Can't choose what console to play on?
+        </h1>
+        <h2 className={Style.heroText}>
+          Compare game performance and features across console platforms
+        </h2>
       </div>
     </div>
   )

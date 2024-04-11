@@ -36,14 +36,17 @@ const GameList = () => {
 
   return (
     <div className={Style.gameList}>
-      {gameList}
-      {gameList}
-      {gameList}
-      {gameList}
-      {gameList}
-      {gameList}
-      {gameList}
-      {gameList}
+      <h1>Complete Database</h1>
+      <div className={Style.gameListContent}>
+        {gameList}
+        {gameList}
+        {gameList}
+        {gameList}
+        {gameList}
+        {gameList}
+        {gameList}
+        {gameList}
+      </div>
     </div>
   )
 }

@@ -1,14 +1,13 @@
 @import url("../styles/variables.css");
 
 .game-list-entry-container {
-  flex-basis: 50%;
-  /* max-width: 250px; */
+  flex-basis: var(--grid-basis);
 }
 
 .game-list-entry {
-  margin-left: 8px;
-  margin-bottom: 16px;
-  margin-right: 8px;
+  margin-left: calc(var(--grid-gap) / 2);
+  margin-right: calc(var(--grid-gap) / 2);
+  margin-bottom: var(--grid-gap);
   position: relative;
   overflow: hidden;
   border-radius: var(--border-radius-card);
