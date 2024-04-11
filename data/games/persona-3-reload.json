@@ -1,0 +1,81 @@
+{
+  "title": "Persona 3 Reload",
+  "platforms": [
+    0,
+    1,
+    2
+  ],
+  "platformFeatures": [
+    {
+      "platformId": 0,
+      "featuresActive": []
+    },
+    {
+      "platformId": 1,
+      "featuresActive": [
+        "Smart Delivery"
+      ]
+    },
+    {
+      "platformId": 2,
+      "featuresActive": [
+        "Optimized for Series S"
+      ]
+    }
+  ],
+  "image": {
+    "cover": "../../src/images/covers/cover-persona-3-reload.jpg",
+    "background": "../../src/images/backgrounds/background-persona-3-reload.jpg"
+  },
+  "gfxOptions": [],
+  "performanceRecords": [
+    {
+      "context": {
+        "platform": 0,
+        "rt": true,
+        "gfxOptionsSet": []
+      },
+      "fps": {
+        "target": 60,
+        "unlocked": false
+      },
+      "resolution": {
+        "target": 2160,
+        "dynamic": false,
+        "checkerboard": false
+      }
+    },
+    {
+      "context": {
+        "platform": 1,
+        "rt": true,
+        "gfxOptionsSet": []
+      },
+      "fps": {
+        "target": 60,
+        "unlocked": false
+      },
+      "resolution": {
+        "target": 2160,
+        "dynamic": false,
+        "checkerboard": false
+      }
+    },
+    {
+      "context": {
+        "platform": 2,
+        "rt": false,
+        "gfxOptionsSet": []
+      },
+      "fps": {
+        "target": 60,
+        "unlocked": false
+      },
+      "resolution": {
+        "target": 1080,
+        "dynamic": false,
+        "checkerboard": false
+      }
+    }
+  ]
+}
