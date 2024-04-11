@@ -18,7 +18,7 @@ h3 {
   position: relative;
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: start;
   gap: 16px;
   margin: 0 16px;
 }

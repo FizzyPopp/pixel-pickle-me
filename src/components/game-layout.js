@@ -4,11 +4,13 @@ import * as Style from "./game-layout.module.css"
 import GameHeader from "./game-header"
 import GameDataRow from "./game-data-row"
 import GameDataCard from "./game-data-card"
+import PlatformDataCard from "./platform-data-card"
 import CollapsableSection from "./collapsable-section"
 
 import { usePlatformMetadata } from "../hooks/use-platform-metadata"
 
 const GameLayout = ({ data }) => {
+  console.log(data)
 
   const platforms = usePlatformMetadata().map((node) => {
     return {
@@ -19,8 +21,17 @@ const GameLayout = ({ data }) => {
         alt={node.name + " logo"}
         height={64}
       />,
-      cards: false
+      cards: false,
+      features: node.features
     }
+  })
+
+  const platformCards = data.platforms.map((node) => {
+    return (
+      <PlatformDataCard
+        platformLogo={platforms[node].content}
+        features={platforms[node].features} />
+    )
   })
 
   const majorGroups = data.performanceRecordTree.map((branch) => {
@@ -36,7 +47,7 @@ const GameLayout = ({ data }) => {
         cover={data.image.cover}
         background={data.image.background} />
       <div className={Style.gameLayout}> {/* Game Data Section */}
-        <GameDataRow children={platforms} isDivided={true} />
+        <GameDataRow children={platformCards} />
         <br />
         {majorGroups}
       </div>
@@ -50,9 +61,8 @@ function rowFromData(rowData) {
   let idx = 0
   // console.log(rowData)
   const childCards = rowData.list.map((record) => {
-    return {
-      id: record.platform,
-      content: <GameDataCard
+    return (
+      <GameDataCard
         key={idx++}
         resolutionData={
           {
@@ -68,19 +78,19 @@ function rowFromData(rowData) {
         }
         rayTracing={record.isRayTraced}
       />
-    }
+    )
   })
   childCards.sort((cardA, cardB) => { return cardA.id > cardB.id })
 
   return (
-    <GameDataRow 
-      key={keyify(rowData.title)} 
+    <GameDataRow
+      key={keyify(rowData.title)}
       title={rowData.title}
       children={childCards} />
   )
 }
 
 
-function keyify(str){
+function keyify(str) {
   return str.toLowerCase().split(' ').join('-')
 }

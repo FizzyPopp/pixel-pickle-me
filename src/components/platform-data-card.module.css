@@ -1,0 +1,50 @@
+@import url("../styles/variables.css");
+
+.platform-data-card {
+  display: flex;
+  flex-direction: column;
+  width: 120px;
+  border-radius: 8px;
+  box-shadow: var(--shadow-card);
+  background-color: #fff;
+  text-align: center;
+  font-size: 0.75rem;
+  overflow: hidden;
+  padding-top: 8px;
+}
+
+.platform-data-card-feature {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 32px;
+  gap: 8px;
+  text-align: left;
+}
+
+.platform-data-card-feature-container {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding: 0 8px;
+  margin: 12px 0 8px 0;
+  gap: 8px;
+}
+
+.divider-container {
+  position: absolute;
+  top: -7px;
+  bottom: -7px;
+  left: 8px;
+  right: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: space-evenly;
+  z-index: 100;
+}
+
+.divider {
+  height: 1px;
+  background-color: #C4C4C4;
+}

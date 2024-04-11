@@ -28,7 +28,7 @@ export const usePlatformMetadata = () => {
   )
   let idCount = 0
   return allDataJson.nodes[0].PlatformEnum.map((node) => {
-    return{
+    return {
       features: allDataJson.nodes[0].PlatformFeatures[idCount].featureList,
       id: idCount++,
       name: node.name,
