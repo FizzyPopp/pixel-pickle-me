@@ -52,19 +52,6 @@ async function routes(fastify, options) {
       reply
         .code(200)
         .send(options.gamesDb[gameName].data.image[imageType])
-      // if (options.gamesDb[gameName].data.image[imageType] === undefined
-      //   || typeof request.body !== 'string') {
-      //   reply
-      //     .code(400)
-      //     .send(options.gamesDb[gameName].data.image[imageType])
-      // } else {
-
-      //   // options.updateGameFile(gameName)
-
-      //   reply
-      //     .code(200)
-      //     .send(options.gamesDb[gameName].data.image[imageType])
-      // }
     })
 }
 

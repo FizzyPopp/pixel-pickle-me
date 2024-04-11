@@ -86,9 +86,14 @@ class FileHandler {
   async getImage(gameName, imgType) {
     return readFile(Path.join(this.gamesPath, this.gamesDb[gameName].data.image[imgType]))
   }
+
   async setImage(gameName, imgType, blob){
-    const filePath = this.#srcImagePath +`/${imgType}s/`
-    await writeFile(Path.join(filePath, `${imgType}-${gameName}.jpg`), blob)
+    const absolutePath = Path.join(this.#srcImagePath, `${imgType}s`, `${imgType}-${gameName}.jpg`)
+    const relativePath = `../../src/images/${imgType}s/${imgType}-${gameName}.jpg`
+
+    this.gamesDb[gameName].data.image[imgType] = relativePath
+    await this.updateGameFile(gameName)
+    await writeFile(absolutePath, blob)
   }
 
   async createGameFile(gameTitle) {
