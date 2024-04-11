@@ -81,6 +81,28 @@ function generateDataTree(r, gfxOptions) {
 
   // create groups according to major gfx mode
   let mainOptNames = []
+
+  if (gfxOptions.length === 0) {
+    recordGroups.push({
+      title: "Default Settings",
+      list: [
+        {
+          title: '',
+          list: records.map((record) => {
+            return {
+              platform: record.context.platform,
+              isRayTraced: record.context.rt,
+              fpsData: record.fps,
+              resolutionData: record.resolution
+            }
+          })
+        }
+      ]
+    })
+    console.log(recordGroups)
+    return recordGroups
+  }
+
   for (let i = 0 ; i < gfxOptions[0].values.length ; i++){
     mainOptNames[i] = gfxOptions[0].values[i]
     recordGroups[i] = {
