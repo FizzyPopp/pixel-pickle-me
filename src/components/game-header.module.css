@@ -16,7 +16,7 @@
 }
 
 .background {
-  filter: brightness(60%);
+  filter: brightness(40%);
   position: absolute;
   z-index: -1000;
   top: 0;

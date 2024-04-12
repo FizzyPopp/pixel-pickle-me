@@ -5,7 +5,7 @@ import { GatsbyImage, getImage } from "gatsby-plugin-image"
 
 import { IoLogoPlaystation, IoLogoXbox } from "react-icons/io5";
 
-const GameHeader = ({ cover, background }) => {
+const GameHeader = ({ title, cover, background }) => {
   const imageCover = getImage(cover)
   const imageBackground = getImage(background)
 
@@ -19,7 +19,7 @@ const GameHeader = ({ cover, background }) => {
         <div>
           <div className={Style.gameInfoContainer}>
             <div className={Style.gameDate}>Released Feb 24, 2022</div>
-            <div className={Style.gameTitle}>Elden Ring</div>
+            <div className={Style.gameTitle}>{title}</div>
           </div>
           <div className={Style.availabilityContainer}>
             Available on

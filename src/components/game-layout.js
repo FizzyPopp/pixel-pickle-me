@@ -7,30 +7,13 @@ import GameDataCard from "./game-data-card"
 import PlatformDataCard from "./platform-data-card"
 import CollapsableSection from "./collapsable-section"
 
-import { usePlatformMetadata } from "../hooks/use-platform-metadata"
-
 const GameLayout = ({ data }) => {
-  console.log(data)
-
-  const platforms = usePlatformMetadata().map((node) => {
-    return {
-      id: node.id,
-      content: <img
-        key={keyify(node.name) + "-logo"}
-        src={node.url}
-        alt={node.name + " logo"}
-        height={64}
-      />,
-      cards: false,
-      features: node.features
-    }
-  })
-
-  const platformCards = data.platforms.map((node) => {
+  const platformCards = data.amendedPlatformFeatures.map((platform) => {
     return (
       <PlatformDataCard
-        platformLogo={platforms[node].content}
-        features={platforms[node].features} />
+        name={platform.name}
+        logoUrl={platform.url}
+        features={platform.features} />
     )
   })
 
@@ -44,6 +27,7 @@ const GameLayout = ({ data }) => {
   return (
     <main>
       <GameHeader
+        title={data.title}
         cover={data.image.cover}
         background={data.image.background} />
       <div className={Style.gameLayout}> {/* Game Data Section */}

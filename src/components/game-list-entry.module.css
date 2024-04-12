@@ -25,7 +25,7 @@
   color: #FFF;
   font-weight: 700;
   font-size: 0.875;
-  background: linear-gradient(to bottom, #000000 0%, #00000000 100%);
+  background: linear-gradient(to bottom, #000000 0%, #00000084 60%, #00000000 100%);
 }
 
 .game-list-entry-platforms {
@@ -38,5 +38,6 @@
   color: #FFF;
   z-index: 1;
   padding: 8px 16px;
-  filter: drop-shadow(0px 1px 3px #000)
+  filter: drop-shadow(0px 1px 3px #000);
+  background: radial-gradient(at left 50% bottom 0%, #000000 1%, #00000000 80%);
 }

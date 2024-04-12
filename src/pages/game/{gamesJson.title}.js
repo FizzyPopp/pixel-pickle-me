@@ -7,11 +7,13 @@ import Footer from "../../components/footer";
 import { graphql } from "gatsby"
 
 import "../../styles/common.css"
+import { usePlatformMetadata } from "../../hooks/use-platform-metadata";
 
 function GamePage({ data }) {
   const gameData = data.allGamesJson.nodes[0]
   const parsedDataTree = generateDataTree(gameData.performanceRecords, gameData.gfxOptions)
   gameData.performanceRecordTree = parsedDataTree
+  gameData.amendedPlatformFeatures = usePlatformMetadata(gameData.platformFeatures)
   delete gameData.performanceRecords
 
   // console.log(gameData)
@@ -66,6 +68,10 @@ query ($id: String) {
         }
       }
       platforms
+      platformFeatures {
+        platformId
+        featuresActive
+      }
       gfxOptions {
         name
         values
@@ -81,6 +87,27 @@ function generateDataTree(r, gfxOptions) {
 
   // create groups according to major gfx mode
   let mainOptNames = []
+
+  if (gfxOptions.length === 0) {
+    recordGroups.push({
+      title: "Default Settings",
+      list: [
+        {
+          title: '',
+          list: records.map((record) => {
+            return {
+              platform: record.context.platform,
+              isRayTraced: record.context.rt,
+              fpsData: record.fps,
+              resolutionData: record.resolution
+            }
+          })
+        }
+      ]
+    })
+    return recordGroups
+  }
+
   for (let i = 0 ; i < gfxOptions[0].values.length ; i++){
     mainOptNames[i] = gfxOptions[0].values[i]
     recordGroups[i] = {
