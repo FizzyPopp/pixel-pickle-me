@@ -4,7 +4,8 @@
   --border-radius-card: 8px;
   --height-data-card: 120px;
   --width-data-card: 120px;
-  --overflow-x-game-layout: auto
+  --overflow-x-game-layout: auto;
+  --padding-game-header-bg: 64px;
 }
 
 /* XSmall */
@@ -29,6 +30,7 @@
 @media only screen and (min-width: 560px) {
   :root {
     --grid-basis: 33.33%;
+    --padding-game-header-bg: 120px;
   }
 }
 
@@ -40,5 +42,6 @@
     --height-data-card: 120px;
     --width-data-card: 200px;
     --overflow-x-game-layout: visible;
+    --padding-game-header-bg: 160px;
   }
 }
