@@ -4,16 +4,16 @@ import GameLayout from "../../components/game-layout"
 import NavBar from "../../components/navbar";
 import Footer from "../../components/footer";
 
-import { graphql } from "gatsby"
+import { graphql, useStaticQuery } from "gatsby"
 
 import "../../styles/common.css"
-import { usePlatformMetadata } from "../../hooks/use-platform-metadata";
 
 function GamePage({ data }) {
+  const platformData = data.allDataJson.nodes[0]
   const gameData = data.allGamesJson.nodes[0]
   const parsedDataTree = generateDataTree(gameData.performanceRecords, gameData.gfxOptions)
   gameData.performanceRecordTree = parsedDataTree
-  gameData.amendedPlatformFeatures = usePlatformMetadata(gameData.platformFeatures)
+  gameData.amendedPlatformFeatures = formatPlatformMetadata(platformData, gameData.platformFeatures)
   delete gameData.performanceRecords
 
   // console.log(gameData)
@@ -30,17 +30,37 @@ export default GamePage
 
 export const query = graphql`
 query ($id: String) {
+  allDataJson {
+    nodes {
+      PlatformEnum {
+        logo {
+          publicURL
+        }
+        name
+        platformId
+      }
+      PlatformFeatures {
+        featureList {
+          logo {
+            publicURL
+          }
+          name
+        }
+        platformId
+      }
+    }
+  }
   allGamesJson(filter: {id: {eq: $id}}) {
     nodes {
       image {
         background {
           childImageSharp {
-            gatsbyImageData
+            gatsbyImageData(placeholder: TRACED_SVG)
           }
         }
         cover {
           childImageSharp {
-            gatsbyImageData
+            gatsbyImageData(placeholder: TRACED_SVG, width: 256)
           }
         }
       }
@@ -180,4 +200,56 @@ function generateDataTree(r, gfxOptions) {
     }// while()
     return groupedSubList
   }// fn matchSubOpts
+}
+
+function formatPlatformMetadata(platJson, platformFeatures){
+  let platformMetadata
+
+  if (Array.isArray(platformFeatures)) {
+    const pl = platformFeatures.map((gpf) => gpf.platformId)
+    const filteredPlatformEnum = platJson.PlatformEnum.filter((node) => {
+      return pl.includes(node.platformId)
+    })
+
+    const filteredPlatformFeatures = platJson.PlatformFeatures.filter((node) => {
+      return pl.includes(node.platformId)
+    })
+    // console.log('0')
+    // console.log(filteredPlatformEnum)
+    // console.log('1')
+    // console.log(platJson.PlatformFeatures)
+    // console.log(filteredPlatformFeatures)
+
+    platformMetadata = filteredPlatformFeatures.map((plat) => {
+      const fl = plat.featureList.filter((feat) => {
+        return platformFeatures[plat.platformId].featuresActive.includes(feat.name)
+      })
+      delete plat.featureList
+      return {
+        name: filteredPlatformEnum[plat.platformId].name,
+        logo: filteredPlatformEnum[plat.platformId].logo,
+        ...plat,
+        featureList: fl
+      }
+    })
+
+    return platformMetadata.map((node) => {
+      return {
+        features: node.featureList,
+        id: node.platformId,
+        name: node.name,
+        url: node.logo.publicURL
+      }
+    })
+  } else {
+    return platJson.PlatformEnum.map((node) => {
+      return {
+        features: platJson.PlatformFeatures[node.platformId].featureList,
+        id: node.platformId,
+        name: node.name,
+        url: node.logo.publicURL
+      }
+    })
+
+  }
 }
