@@ -1,7 +1,10 @@
 :root {
-  --shadow-card: 0px 4px 20px 0px rgba(0,0,0,0.30);
-  --border-cover: 1px solid rgba(157,157,157,0.3);
+  --shadow-card: 0px 4px 20px 0px rgba(0, 0, 0, 0.30);
+  --border-cover: 1px solid rgba(157, 157, 157, 0.3);
   --border-radius-card: 8px;
+  --height-data-card: 120px;
+  --width-data-card: 120px;
+  --overflow-x-game-layout: auto
 }
 
 /* XSmall */
@@ -34,6 +37,8 @@
   :root {
     --content-max-width: 970px;
     --grid-basis: 25%;
-    
+    --height-data-card: 120px;
+    --width-data-card: 200px;
+    --overflow-x-game-layout: visible;
   }
 }

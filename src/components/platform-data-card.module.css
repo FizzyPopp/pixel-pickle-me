@@ -3,7 +3,7 @@
 .platform-data-card {
   display: flex;
   flex-direction: column;
-  width: 120px;
+  width: var(--width-data-card);
   border-radius: 8px;
   box-shadow: var(--shadow-card);
   background-color: #fff;

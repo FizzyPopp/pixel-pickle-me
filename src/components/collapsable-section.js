@@ -14,12 +14,12 @@ const CollapsableSection = ({ children, title }) => {
 
   return (
     <div className={Style.collapsableSection}>
-      <button className={Style.collapsableSectionHeaderContainer} 
+      <button className={Style.collapsableSectionHeaderContainer}
         onClick={handleCollapseClick}>
         <div className={Style.collapsableSectionHeader}>
           <h2>{title}</h2>
-          {isCollapsed && <IoChevronDown/>}
-          {!isCollapsed && <IoChevronUp/>}
+          {isCollapsed && <IoChevronDown />}
+          {!isCollapsed && <IoChevronUp />}
         </div>
       </button>
       {!isCollapsed && children}

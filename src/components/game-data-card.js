@@ -1,7 +1,7 @@
 import * as React from "react"
 import * as Style from "./game-data-card.module.css"
 
-const GameDataCard = ({ resolutionData, fpsData, rayTracing=false }) => {
+const GameDataCard = ({ resolutionData, fpsData, rayTracing = false }) => {
   return (
     <div className={Style.gameDataCard}>
       <Banner rayTracing={rayTracing} />

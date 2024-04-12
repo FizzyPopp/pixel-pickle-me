@@ -7,6 +7,7 @@ h2 {
   margin: 16px 0;
   display: flex;
   flex-direction: column;
+  min-width: 100%;
 }
 
 .collapsable-section-header-container {
@@ -16,7 +17,7 @@ h2 {
   border: none;
   background-color: transparent;
   padding: 0;
-  max-width: 100vw;
+  max-width: calc(100vw - var(--padding-page) * 2);
 }
 
 .collapsable-section-header {
@@ -25,6 +26,5 @@ h2 {
   justify-content: space-between;
   align-self: stretch;
   border-bottom: 1px solid #DADADA;
-  margin: 0 16px;
   padding: 8px 0;
 }

@@ -3,8 +3,8 @@
 .game-data-card {
   display: flex;
   flex-direction: column;
-  height: 120px;
-  width: 120px;
+  height: var(--height-data-card);
+  width: var(--width-data-card);
   border-radius: 8px;
   box-shadow: var(--shadow-card);
   background-color: #fff;

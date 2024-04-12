@@ -8,7 +8,7 @@
   display: flex;
   flex-direction: row;
   align-items: flex-end;
-  padding: 64px 16px 0 16px;
+  padding: 64px var(--padding-page) 0 var(--padding-page);
   gap: 16px;
   margin-left: auto;
   margin-right: auto;
