@@ -1,13 +1,13 @@
 import * as React from "react"
 import * as Style from "./platform-data-card.module.css"
 
-const PlatformDataCard = ({ platformLogo, features }) => {
+const PlatformDataCard = ({name, logoUrl, features }) => {
   let id = 0
-  const items = features.map((item) =>
+  const featureCards = features.map((item) =>
     <div key={id++} className={Style.platformDataCardFeature}>
       <img
         src={item.logo.publicURL}
-        alt=""
+        alt={item.name + " logo"}
         height={24}
         width={24} />
       {item.name}
@@ -17,10 +17,14 @@ const PlatformDataCard = ({ platformLogo, features }) => {
   return (
 
     <div className={Style.platformDataCard}>
-      {platformLogo}
+      <img
+        src={logoUrl}
+        alt={name + " logo"}
+        height={64}
+      />
       <div className={Style.platformDataCardFeatureContainer}>
         <DividerContainer length={features.length} />
-        {items}
+        {featureCards}
       </div>
     </div>
   )

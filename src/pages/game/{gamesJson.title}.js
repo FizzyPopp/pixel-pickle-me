@@ -7,11 +7,13 @@ import Footer from "../../components/footer";
 import { graphql } from "gatsby"
 
 import "../../styles/common.css"
+import { usePlatformMetadata } from "../../hooks/use-platform-metadata";
 
 function GamePage({ data }) {
   const gameData = data.allGamesJson.nodes[0]
   const parsedDataTree = generateDataTree(gameData.performanceRecords, gameData.gfxOptions)
   gameData.performanceRecordTree = parsedDataTree
+  gameData.amendedPlatformFeatures = usePlatformMetadata(gameData.platformFeatures)
   delete gameData.performanceRecords
 
   // console.log(gameData)
@@ -66,6 +68,10 @@ query ($id: String) {
         }
       }
       platforms
+      platformFeatures {
+        platformId
+        featuresActive
+      }
       gfxOptions {
         name
         values
@@ -99,7 +105,6 @@ function generateDataTree(r, gfxOptions) {
         }
       ]
     })
-    console.log(recordGroups)
     return recordGroups
   }
 
