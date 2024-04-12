@@ -1,0 +1,151 @@
+{
+  "title": "Prince of Persia: The Lost Crown",
+  "platforms": [
+    0,
+    1,
+    2
+  ],
+  "platformFeatures": [
+    {
+      "platformId": 0,
+      "featuresActive": [
+        "Haptic Feedback",
+        "Adaptive Triggers"
+      ]
+    },
+    {
+      "platformId": 1,
+      "featuresActive": [
+        "Smart Delivery",
+        "Optimized for Series X"
+      ]
+    },
+    {
+      "platformId": 2,
+      "featuresActive": [
+        "Smart Delivery",
+        "Optimized for Series S"
+      ]
+    }
+  ],
+  "image": {
+    "cover": "../../src/images/covers/cover-prince-of-persia:-the-lost-crown.jpg",
+    "background": "../../src/images/backgrounds/background-prince-of-persia:-the-lost-crown.jpg"
+  },
+  "gfxOptions": [
+    {
+      "name": "120hz Mode",
+      "values": [
+        "On",
+        "Off"
+      ]
+    }
+  ],
+  "performanceRecords": [
+    {
+      "context": {
+        "platform": 0,
+        "rt": false,
+        "gfxOptionsSet": [
+          {
+            "name": "120hz Mode",
+            "setValue": "Off"
+          }
+        ]
+      },
+      "fps": {
+        "target": 60,
+        "unlocked": false
+      },
+      "resolution": {
+        "target": 2160,
+        "dynamic": false,
+        "checkerboard": false
+      }
+    },
+    {
+      "context": {
+        "platform": 1,
+        "rt": false,
+        "gfxOptionsSet": [
+          {
+            "name": "120hz Mode",
+            "setValue": "Off"
+          }
+        ]
+      },
+      "fps": {
+        "target": 60,
+        "unlocked": false
+      },
+      "resolution": {
+        "target": 2160,
+        "dynamic": false,
+        "checkerboard": false
+      }
+    },
+    {
+      "context": {
+        "platform": 2,
+        "rt": false,
+        "gfxOptionsSet": [
+          {
+            "name": "120hz Mode",
+            "setValue": "Off"
+          }
+        ]
+      },
+      "fps": {
+        "target": 60,
+        "unlocked": false
+      },
+      "resolution": {
+        "target": 1440,
+        "dynamic": false,
+        "checkerboard": false
+      }
+    },
+    {
+      "context": {
+        "platform": 0,
+        "rt": false,
+        "gfxOptionsSet": [
+          {
+            "name": "120hz Mode",
+            "setValue": "On"
+          }
+        ]
+      },
+      "fps": {
+        "target": 120,
+        "unlocked": false
+      },
+      "resolution": {
+        "target": 2160,
+        "dynamic": false,
+        "checkerboard": false
+      }
+    },
+    {
+      "context": {
+        "platform": 1,
+        "rt": false,
+        "gfxOptionsSet": [
+          {
+            "name": "120hz Mode",
+            "setValue": "On"
+          }
+        ]
+      },
+      "fps": {
+        "target": 120,
+        "unlocked": false
+      },
+      "resolution": {
+        "target": 2160,
+        "dynamic": false,
+        "checkerboard": false
+      }
+    }
+  ]
+}
