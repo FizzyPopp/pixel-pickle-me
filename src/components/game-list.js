@@ -37,7 +37,7 @@ const GameList = () => {
 
   return (
     <div className={Style.gameList}>
-      <h1>Complete Database</h1>
+      <h1>Library</h1>
       <div className={Style.gameListContent}>
         {gameList}
       </div>
