@@ -39,13 +39,6 @@ const GameList = () => {
       <h1>Complete Database</h1>
       <div className={Style.gameListContent}>
         {gameList}
-        {gameList}
-        {gameList}
-        {gameList}
-        {gameList}
-        {gameList}
-        {gameList}
-        {gameList}
       </div>
     </div>
   )
