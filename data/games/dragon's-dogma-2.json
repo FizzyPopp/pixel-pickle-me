@@ -15,11 +15,15 @@
     },
     {
       "platformId": 1,
-      "featuresActive": []
+      "featuresActive": [
+        "Optimized for Series X"
+      ]
     },
     {
       "platformId": 2,
-      "featuresActive": []
+      "featuresActive": [
+        "Optimized for Series S"
+      ]
     }
   ],
   "image": {
