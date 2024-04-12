@@ -31,6 +31,7 @@ const GameList = () => {
       title={game.title}
       slug={slugify(game.title)}
       platforms={game.platforms}
+      key={slugify(game.title)}
     />
   })
 
