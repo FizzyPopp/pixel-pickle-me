@@ -43,7 +43,7 @@
   <span>resolution type</span>
   {{#each resolutionTypes}}
   <input type="radio" id="{{@root.endpoint}}-new-resolution-type-{{this}}"
-    name="{{@root.endpoint}}-new-resolution-type" />
+    name="{{@root.endpoint}}-new-resolution-type" value="{{this}}" />
   <label for="{{@root.endpoint}}-new-resolution-type-{{this}}">{{this}}</label>
   {{/each}}
 
