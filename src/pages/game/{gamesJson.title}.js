@@ -131,7 +131,8 @@ function generateDataTree(r, gfxOptions) {
   for (let i = 0 ; i < gfxOptions[0].values.length ; i++){
     mainOptNames[i] = gfxOptions[0].values[i]
     recordGroups[i] = {
-      title: gfxOptions[0].values[i],
+      title: gfxOptions[0].name + ': ' + gfxOptions[0].values[i],
+      name: gfxOptions[0].values[i],
       list: []
     }
   }
@@ -139,9 +140,11 @@ function generateDataTree(r, gfxOptions) {
   // sort records according to major gfx mode
   records.forEach((record) => {
     const idx = recordGroups.findIndex((group) => {
-      return group.title === record.context.gfxOptionsSet[0].setValue
+      return group.name === record.context.gfxOptionsSet[0].setValue
     })
-    recordGroups[idx].list.push(record)
+    if (idx >= 0) {
+      recordGroups[idx].list.push(record)
+    }
   })
 
   for (let i = 0; i < recordGroups.length; i++) {
