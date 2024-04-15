@@ -4,7 +4,7 @@ import GameLayout from "../../components/game-layout"
 import NavBar from "../../components/navbar";
 import Footer from "../../components/footer";
 
-import { graphql, useStaticQuery } from "gatsby"
+import { graphql } from "gatsby"
 
 import "../../styles/common.css"
 
