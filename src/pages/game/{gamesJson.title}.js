@@ -26,81 +26,6 @@ function GamePage({ data }) {
   )
 }
 
-export default GamePage
-
-export const query = graphql`
-query ($id: String) {
-  allDataJson {
-    nodes {
-      PlatformEnum {
-        logo {
-          publicURL
-        }
-        name
-        platformId
-      }
-      PlatformFeatures {
-        featureList {
-          logo {
-            publicURL
-          }
-          name
-        }
-        platformId
-      }
-    }
-  }
-  allGamesJson(filter: {id: {eq: $id}}) {
-    nodes {
-      image {
-        background {
-          childImageSharp {
-            gatsbyImageData(placeholder: TRACED_SVG)
-          }
-        }
-        cover {
-          childImageSharp {
-            gatsbyImageData(placeholder: TRACED_SVG, width: 256)
-          }
-        }
-      }
-      title
-      id
-      performanceRecords {
-        context {
-          gfxOptionsSet {
-            name
-            setValue
-          }
-          platform
-          rt
-        }
-        fps {
-          note
-          isUnlocked
-          target
-        }
-        resolution {
-          checkerboard
-          dynamic
-          note
-          target
-        }
-      }
-      platforms
-      platformFeatures {
-        platformId
-        featuresActive
-      }
-      gfxOptions {
-        name
-        values
-      }
-    }
-  }
-}
-`
-
 function generateDataTree(r, gfxOptions) {
   let records = r
   let recordGroups = []
@@ -256,3 +181,78 @@ function formatPlatformMetadata(platJson, platformFeatures){
 
   }
 }
+
+export const query = graphql`
+query ($id: String) {
+  allDataJson {
+    nodes {
+      PlatformEnum {
+        logo {
+          publicURL
+        }
+        name
+        platformId
+      }
+      PlatformFeatures {
+        featureList {
+          logo {
+            publicURL
+          }
+          name
+        }
+        platformId
+      }
+    }
+  }
+  allGamesJson(filter: {id: {eq: $id}}) {
+    nodes {
+      image {
+        background {
+          childImageSharp {
+            gatsbyImageData(placeholder: TRACED_SVG)
+          }
+        }
+        cover {
+          childImageSharp {
+            gatsbyImageData(placeholder: TRACED_SVG, width: 256)
+          }
+        }
+      }
+      title
+      id
+      performanceRecords {
+        context {
+          gfxOptionsSet {
+            name
+            setValue
+          }
+          platform
+          rt
+        }
+        fps {
+          note
+          isUnlocked
+          target
+        }
+        resolution {
+          checkerboard
+          dynamic
+          note
+          target
+        }
+      }
+      platforms
+      platformFeatures {
+        platformId
+        featuresActive
+      }
+      gfxOptions {
+        name
+        values
+      }
+    }
+  }
+}
+`
+
+export default GamePage
