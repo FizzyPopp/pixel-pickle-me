@@ -1,18 +1,20 @@
 import * as React from "react"
 import * as Style from "./navbar.module.css"
 
+import { Link } from "gatsby"
+
 import { LogoPixelPickle, LogoPixelPickleText } from "./logos"
 
 const NavBar = () => {
   return (
     <header className={Style.navBar}>
       <div className={Style.navBarInnerContainer}>
-        <a href="/" className={Style.navBarLink}>
+        <Link to="/" className={Style.navBarLink}>
         <LogoPixelPickle size={48}/>
-        </a>
-        <a href="/" className={Style.navBarLink}>
+        </Link>
+        <Link to="/" className={Style.navBarLink}>
         <LogoPixelPickleText size={36} />
-        </a>
+        </Link>
       </div>
     </header>
   )
