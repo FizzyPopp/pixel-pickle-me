@@ -44,6 +44,7 @@ export default GameLayout
 function rowFromData(rowData) {
   let idx = 0
   // console.log(rowData)
+  rowData.list.sort((cardA, cardB) => { return cardA.platform - cardB.platform })
   const childCards = rowData.list.map((record) => {
     return (
       <GameDataCard
@@ -64,7 +65,6 @@ function rowFromData(rowData) {
       />
     )
   })
-  childCards.sort((cardA, cardB) => { return cardA.id > cardB.id })
 
   return (
     <GameDataRow
