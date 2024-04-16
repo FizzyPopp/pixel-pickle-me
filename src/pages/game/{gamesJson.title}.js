@@ -11,10 +11,13 @@ import "../../styles/common.css"
 function GamePage({ data }) {
   const platformData = data.allDataJson.nodes[0]
   const gameData = data.allGamesJson.nodes[0]
-  const parsedDataTree = generateDataTree(gameData.performanceRecords, gameData.gfxOptions)
-  gameData.performanceRecordTree = parsedDataTree
-  gameData.amendedPlatformFeatures = formatPlatformMetadata(platformData, gameData.platformFeatures)
-  delete gameData.performanceRecords
+
+  if (typeof gameData.performanceRecordTree === 'undefined'){
+    const parsedDataTree = generateDataTree(gameData.performanceRecords, gameData.gfxOptions)
+    gameData.performanceRecordTree = parsedDataTree
+    gameData.amendedPlatformFeatures = formatPlatformMetadata(platformData, gameData.platformFeatures)
+    delete gameData.performanceRecords
+  }
 
   // console.log(gameData)
   return (
