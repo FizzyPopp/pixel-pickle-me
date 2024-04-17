@@ -1,0 +1,86 @@
+{
+  "title": "MLB The Show 24",
+  "platforms": [
+    0,
+    1,
+    2
+  ],
+  "platformFeatures": [
+    {
+      "platformId": 0,
+      "featuresActive": [
+        "Haptic Feedback",
+        "Adaptive Triggers"
+      ]
+    },
+    {
+      "platformId": 1,
+      "featuresActive": [
+        "Smart Delivery",
+        "Optimized for Series X"
+      ]
+    },
+    {
+      "platformId": 2,
+      "featuresActive": [
+        "Smart Delivery",
+        "Optimized for Series S"
+      ]
+    }
+  ],
+  "image": {
+    "cover": "../../src/images/covers/cover-mlb-the-show-24.jpg",
+    "background": "../../src/images/backgrounds/background-mlb-the-show-24.jpg"
+  },
+  "gfxOptions": [],
+  "performanceRecords": [
+    {
+      "context": {
+        "platform": 1,
+        "rt": false,
+        "gfxOptionsSet": []
+      },
+      "fps": {
+        "target": 60,
+        "unlocked": true
+      },
+      "resolution": {
+        "target": 2160,
+        "dynamic": false,
+        "checkerboard": false
+      }
+    },
+    {
+      "context": {
+        "platform": 2,
+        "rt": false,
+        "gfxOptionsSet": []
+      },
+      "fps": {
+        "target": 60,
+        "unlocked": true
+      },
+      "resolution": {
+        "target": 1080,
+        "dynamic": false,
+        "checkerboard": false
+      }
+    },
+    {
+      "context": {
+        "platform": 0,
+        "rt": false,
+        "gfxOptionsSet": []
+      },
+      "fps": {
+        "target": 60,
+        "unlocked": true
+      },
+      "resolution": {
+        "target": 2160,
+        "dynamic": false,
+        "checkerboard": false
+      }
+    }
+  ]
+}
