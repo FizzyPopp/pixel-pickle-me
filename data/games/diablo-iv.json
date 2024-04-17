@@ -1,0 +1,86 @@
+{
+  "title": "Diablo IV",
+  "platforms": [
+    0,
+    1,
+    2
+  ],
+  "platformFeatures": [
+    {
+      "platformId": 0,
+      "featuresActive": [
+        "Adaptive Triggers",
+        "Haptic Feedback"
+      ]
+    },
+    {
+      "platformId": 1,
+      "featuresActive": [
+        "Smart Delivery",
+        "Optimized for Series X"
+      ]
+    },
+    {
+      "platformId": 2,
+      "featuresActive": [
+        "Smart Delivery",
+        "Optimized for Series S"
+      ]
+    }
+  ],
+  "image": {
+    "cover": "../../src/images/covers/cover-diablo-iv.jpg",
+    "background": "../../src/images/backgrounds/background-diablo-iv.jpg"
+  },
+  "gfxOptions": [],
+  "performanceRecords": [
+    {
+      "context": {
+        "platform": 0,
+        "rt": false,
+        "gfxOptionsSet": []
+      },
+      "fps": {
+        "target": 60,
+        "unlocked": false
+      },
+      "resolution": {
+        "target": 2160,
+        "dynamic": false,
+        "checkerboard": true
+      }
+    },
+    {
+      "context": {
+        "platform": 1,
+        "rt": false,
+        "gfxOptionsSet": []
+      },
+      "fps": {
+        "target": 60,
+        "unlocked": false
+      },
+      "resolution": {
+        "target": 2160,
+        "dynamic": false,
+        "checkerboard": true
+      }
+    },
+    {
+      "context": {
+        "platform": 2,
+        "rt": false,
+        "gfxOptionsSet": []
+      },
+      "fps": {
+        "target": 60,
+        "unlocked": false
+      },
+      "resolution": {
+        "target": 1080,
+        "dynamic": false,
+        "checkerboard": true
+      }
+    }
+  ]
+}
