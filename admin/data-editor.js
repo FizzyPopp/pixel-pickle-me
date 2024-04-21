@@ -45,13 +45,13 @@ async function postPerformanceRecord(recordIdBase, endpoint){
 
   const fpsTargVal = Number(document.querySelector(q('input', 'fps-target')).value)
   const resTargVal = Number(document.querySelector(q('input', 'resolution-target')).value)
-  const resTypeVal = document.querySelector(q('input','resolution-type') + ":checked")?.value
+  const resScalingVal = document.querySelector(q('input','resolution-scaling') + ":checked")?.value
 
   if (fpsTargVal === 0
     || resTargVal === 0
     || Number.isNaN(fpsTargVal)
     || Number.isNaN(resTargVal)
-    || typeof resTypeVal === 'undefined') {
+    || typeof resScalingVal === 'undefined') {
     alert('Please fill out all fields')
     return
   }
@@ -63,8 +63,7 @@ async function postPerformanceRecord(recordIdBase, endpoint){
     },
     resolution: {
       target: resTargVal,
-      dynamic: resTypeVal === 'dynamic',
-      checkerboard: resTypeVal === 'checkerboard'
+      scaling: resScalingVal
     }
   }
 
@@ -80,6 +79,7 @@ async function postPerformanceRecord(recordIdBase, endpoint){
 
   if (response.status === 200) {
     try {
+      await getSelectedGameData(targetGame.name)
       htmx.trigger('#performance-records-list', 'reload')
     } catch (e) { console.log(e) }
   }
@@ -98,10 +98,11 @@ async function deletePerformanceRecordByIndex(idx, endpoint){
   }
 }
 
-async function getSelectedGameData(event) {
+async function getSelectedGameData(name) {
+  console.log('getgamedata',name)
   if (gameLoaded === false) {
     gameLoaded = true
-    targetGame.name = event.detail.elt.value
+    targetGame.name = name
     try {
       const response = await fetch(`/data/game/` + targetGame.name, { method: `GET` })
       const json = await response.json()

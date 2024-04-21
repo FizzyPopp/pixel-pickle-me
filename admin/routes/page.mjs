@@ -1,5 +1,3 @@
-import * as util from 'util'
-
 import Handlebars from 'handlebars'
 
 Handlebars.logger.level = 0
@@ -165,7 +163,7 @@ export default async function routePage(pageApi, options) {
     'performance-records': (gameData) => {
       sectionData['performance-records'].gfxOptions = gameData.gfxOptions
       sectionData['performance-records'].platforms = gameData.platforms
-      sectionData['performance-records'].resolutionTypes = ['full', 'dynamic', 'checkerboard']
+      sectionData['performance-records'].resolutionScalingOpts = ['full', 'dynamic', 'upscaled']
       sectionData['performance-records'].list = gameData.performanceRecords.map((record, idx) => {
         return {
           index: idx,
@@ -175,9 +173,9 @@ export default async function routePage(pageApi, options) {
     }
   }
 
-  const Q = (obj, depth = 2) => {
-    return util.inspect(obj, { depth: depth, colors: true })
-  }
+  // const Q = (obj, depth = 2) => {
+  //   return util.inspect(obj, { depth: depth, colors: true })
+  // }
 
   function capitalize(str) {
     let Str = ''

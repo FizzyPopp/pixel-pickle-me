@@ -40,11 +40,11 @@
     pattern="\d{3,}" />
   <br />
 
-  <span>resolution type</span>
-  {{#each resolutionTypes}}
-  <input type="radio" id="{{@root.endpoint}}-new-resolution-type-{{this}}"
-    name="{{@root.endpoint}}-new-resolution-type" value="{{this}}" />
-  <label for="{{@root.endpoint}}-new-resolution-type-{{this}}">{{this}}</label>
+  <span>resolution scaling</span>
+  {{#each resolutionScalingOpts}}
+  <input type="radio" id="{{@root.endpoint}}-new-resolution-scaling-{{this}}"
+    name="{{@root.endpoint}}-new-resolution-scaling" value="{{this}}" />
+  <label for="{{@root.endpoint}}-new-resolution-scaling-{{this}}">{{this}}</label>
   {{/each}}
 
   <br />
@@ -80,12 +80,7 @@
   <h4>Resolution</h4>
   <p>
     target: {{resolution.target}}
-    {{#if resolution.dynamic}}
-    dynamic
-    {{/if}}
-    {{#if resolution.checkerboard}}
-    checkerboard
-    {{/if}}
+    {{resolution.scaling}}
   </p>
 </fieldset>
 {{/each}}
