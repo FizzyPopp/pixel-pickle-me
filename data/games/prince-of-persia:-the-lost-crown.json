@@ -59,8 +59,7 @@
       },
       "resolution": {
         "target": 2160,
-        "dynamic": false,
-        "checkerboard": false
+        "scaling": "full"
       }
     },
     {
@@ -80,8 +79,7 @@
       },
       "resolution": {
         "target": 2160,
-        "dynamic": false,
-        "checkerboard": false
+        "scaling": "full"
       }
     },
     {
@@ -101,8 +99,7 @@
       },
       "resolution": {
         "target": 1440,
-        "dynamic": false,
-        "checkerboard": false
+        "scaling": "full"
       }
     },
     {
@@ -122,8 +119,7 @@
       },
       "resolution": {
         "target": 2160,
-        "dynamic": false,
-        "checkerboard": false
+        "scaling": "full"
       }
     },
     {
@@ -143,8 +139,7 @@
       },
       "resolution": {
         "target": 2160,
-        "dynamic": false,
-        "checkerboard": false
+        "scaling": "full"
       }
     }
   ]
