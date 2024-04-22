@@ -52,7 +52,7 @@ function rowFromData(rowData) {
         resolutionData={
           {
             value: record.resolutionData.target,
-            type: record.resolutionData.dynamic ? "dynamic" : "full"
+            scaling: record.resolutionData.scaling
           }
         }
         fpsData={

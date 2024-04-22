@@ -8,7 +8,7 @@ const GameDataCard = ({ resolutionData, fpsData, rayTracing = false }) => {
       <div className={Style.gameDataCardMain}>
         <div>
           <b>{resolutionData.value}p</b><br />
-          {resolutionData.type}
+          {resolutionData.scaling}
         </div>
         <div>
           <b>{fpsData.value} fps</b><br />

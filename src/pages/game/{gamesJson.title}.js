@@ -238,10 +238,9 @@ query ($id: String) {
           target
         }
         resolution {
-          checkerboard
-          dynamic
           note
           target
+          scaling
         }
       }
       platforms

@@ -5,7 +5,7 @@
   hx-target="#game-data-editor"
   hx-swap="innerHTML"
   onchange="gameLoaded = false"
-  hx-on:htmx:after-request="getSelectedGameData(event)"
+  hx-on:htmx:after-request="getSelectedGameData(event.detail.elt.value)"
 >
   {{#each gamesList}}
   <option

@@ -45,8 +45,7 @@
       },
       "resolution": {
         "target": 1440,
-        "dynamic": true,
-        "checkerboard": false
+        "scaling": "dynamic"
       }
     },
     {
@@ -61,8 +60,7 @@
       },
       "resolution": {
         "target": 1440,
-        "dynamic": true,
-        "checkerboard": false
+        "scaling": "dynamic"
       }
     },
     {
@@ -77,8 +75,7 @@
       },
       "resolution": {
         "target": 900,
-        "dynamic": true,
-        "checkerboard": false
+        "scaling": "dynamic"
       }
     }
   ]
