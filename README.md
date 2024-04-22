@@ -1,49 +1,47 @@
-<p align="center">
-  <a href="https://www.gatsbyjs.com/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter">
-    <img alt="Gatsby" src="https://www.gatsbyjs.com/Gatsby-Monogram.svg" width="60" />
-  </a>
-</p>
-<h1 align="center">
-  Gatsby Minimal Starter
-</h1>
+# Pixel Pickle Me
 
-## 🚀 Quick start
+Comparing game performance across consoles, helping you choose which console to play on.
 
-1.  **Create a Gatsby site.**
+## Developing site
 
-    Use the Gatsby CLI to create a new site, specifying the minimal starter.
+Clone repo and install dependencies:
 
-    ```shell
-    # create a new Gatsby site using the minimal starter
-    npm init gatsby
-    ```
+```bash
+npm install
+```
 
-2.  **Start developing.**
+Run gatsby preview server:
 
-    Navigate into your new site’s directory and start it up.
+```bash
+npm run develop
+```
 
-    ```shell
-    cd my-gatsby-site/
-    npm run develop
-    ```
+Visit `localhost:8000` to see the preview in action.
 
-3.  **Open the code and start customizing!**
+From here, you can start editing the codebase and gatsby will handle the live-reloading.
 
-    Your site is now running at http://localhost:8000!
+### Folder structure
 
-    Edit `src/pages/index.js` to see your site update in real-time!
+```
+pixel-pickle-me/
+  ├── admin/  --- admin tool root
+  ├── data/   --- json file database
+  └── src/    --- site code
+      ├── components/
+      ├── images/
+      ├── pages/
+      │   └── game/
+      └── styles/
+```
 
-4.  **Learn more**
 
-    - [Documentation](https://www.gatsbyjs.com/docs/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
-    - [Tutorials](https://www.gatsbyjs.com/docs/tutorial/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
-    - [Guides](https://www.gatsbyjs.com/docs/how-to/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
-    - [API Reference](https://www.gatsbyjs.com/docs/api-reference/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
-    - [Plugin Library](https://www.gatsbyjs.com/plugins?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
-    - [Cheat Sheet](https://www.gatsbyjs.com/docs/cheat-sheet/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
+## Adding new database entries
 
-## 🚀 Quick start (Netlify)
+> **Warning**
+Do not manually edit any json in `data/` unless you know what you are doing.
 
-Deploy this starter with one click on [Netlify](https://app.netlify.com/signup):
+```bash
+npm run admin
+```
 
-[<img src="https://www.netlify.com/img/deploy/button.svg" alt="Deploy to Netlify" />](https://app.netlify.com/start/deploy?repository=https://github.com/gatsbyjs/gatsby-starter-minimal)
+Visit `localhost:6969` to add entries to the database.
